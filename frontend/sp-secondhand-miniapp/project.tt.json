@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "sp-secondhand-miniapp",
+  "description": "小土豆科技: 二手闲置交易平台小程序",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
