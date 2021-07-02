@@ -1,0 +1,31 @@
+.container {
+  width: 20%;
+  float: left;
+  margin-bottom: 10px;
+}
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fee16c;
+
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  margin: 0 auto;
+  margin-bottom: 5px;
+
+  box-shadow: 10px 10px 10px 0px #c0c0c0;
+}
+.image {
+  width: 100px;
+  height: 100px;
+}
+.text {
+  font-size: 20px;
+  color: #808080;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 2px;
+}

@@ -1,0 +1,66 @@
+:global(.price-yellow) {
+  font-size: 30px;
+  line-height: 50px;
+  color: #ff8601;
+}
+
+page {
+  font-family: "PingFangSC";
+  font-size: 32px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+:global(.flex) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  box-sizing: border-box;
+}
+:global(.flex-align-center) {
+  /*元素垂直居中*/
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+:global(.flex-pack-center) {
+  /*层水平居中*/
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -moz-box-pack: center;
+}
+:global(.flex-space-between) {
+  /*两侧布局*/
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+:global(.flex-wrap) {
+  /*换行*/
+  -webkit-flex-wrap: wrap;
+  -webkit-box-lines: multiple;
+  -moz-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+:global(.flex-direction-column) {
+  /*垂直*/
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -moz-box-orient: vertical;
+  -moz-box-direction: normal;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+}

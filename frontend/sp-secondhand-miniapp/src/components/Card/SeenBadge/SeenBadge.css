@@ -1,0 +1,23 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-right: 5%;
+  background-color: #f8e5b7;
+}
+
+.icon {
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.count {
+  font-size: 30rpx;
+  line-height: 50rpx;
+  color: #c58f00;
+}

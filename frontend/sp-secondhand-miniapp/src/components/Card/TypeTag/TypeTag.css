@@ -1,0 +1,26 @@
+.container {
+  padding: 4rpx;
+  border-radius: 10rpx;
+  width: 92rpx;
+  text-align: center;
+  font-size: 26rpx;
+  border-style: solid;
+  border-width: thin;
+}
+
+.shop {
+  composes: container;
+  color: #ff4f4f;
+  background-color: #ffe8e8;
+}
+
+.new {
+  composes: container;
+  color: #07bc71;
+  background-color: #e0f6ed;
+}
+.used {
+  composes: container;
+  color: #fa6f19;
+  background-color: #feede3;
+}

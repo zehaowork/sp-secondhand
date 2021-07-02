@@ -3,8 +3,12 @@ import { connect } from 'react-redux'
 import { View, Button, Text } from '@tarojs/components'
 
 import { add, minus, asyncAdd } from '../../actions/counter'
+import Card from '../../components/Card/Card'
+import s from './index.css'
+import GoodsList from '../../components/GoodsList/GoodsList'
+import CategoryList from '../../components/CategoryList/CategoryList'
 
-import './index.css'
+
 
 // #region 书写注意
 //
@@ -16,63 +20,20 @@ import './index.css'
 //
 // #endregion
 
-type PageStateProps = {
-  counter: {
-    num: number
-  }
+export enum GoodType {
+  New = 0,
+  Used = 1,
+  Shop = 2,
 }
 
-type PageDispatchProps = {
-  add: () => void
-  dec: () => void
-  asyncAdd: () => any
-}
-
-type PageOwnProps = {}
-
-type PageState = {}
-
-type IProps = PageStateProps & PageDispatchProps & PageOwnProps
-
-interface Index {
-  props: IProps;
-}
-
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
-  add () {
-    dispatch(add())
-  },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
-  }
-}))
-class Index extends Component {
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
-  }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  render () {
-    return (
-      <View className='index'>
-        <Button className='add_btn' onClick={this.props.add}>+</Button>
-        <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View>
-        <View><Text>Hello, World</Text></View>
-      </View>
-    )
-  }
+interface Props {}
+const Index: React.FC<Props> = ()=>{
+  return <View className={s.container}>
+  
+  <CategoryList />
+  <GoodsList />
+  
+</View>
 }
 
 export default Index

@@ -1,3 +1,5 @@
+
+
 declare module "*.png";
 declare module "*.gif";
 declare module "*.jpg";
@@ -16,3 +18,13 @@ declare const process: {
     [key: string]: any;
   }
 }
+
+
+
+// export namespace common {
+//   export enum GoodType {
+//       New = 0,
+//       Used = 1,
+//       Shop = 2,
+//   }
+// }

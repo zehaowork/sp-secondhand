@@ -7,7 +7,31 @@ import './app.css'
 
 const store = configStore()
 
+export interface AppData {
+  appId: string;
+  projectId: string|number;
+  cityId:number;
+  userId:number | string;
+  imgUrl:string
+  BASE_URL:string
+
+} 
 class App extends Component {
+  AppData: AppData;
+
+
+  constructor(){
+    super();
+    this.AppData = {
+    appId: 'wx10d7986d55886da6',
+    projectId:1,
+    cityId:0,
+    userId: 0,
+    imgUrl: 'http://120.79.59.51:8087/',
+    BASE_URL: 'https://www.smallpotatoestech.com/'
+    }
+  }
+
   componentDidMount () {}
 
   componentDidShow () {}
