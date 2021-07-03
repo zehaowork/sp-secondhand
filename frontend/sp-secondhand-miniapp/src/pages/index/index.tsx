@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+
 import { View, Button, Text } from '@tarojs/components'
 
-import { add, minus, asyncAdd } from '../../actions/counter'
-import Card from '../../components/Card/Card'
+
+
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
 import CategoryList from '../../components/CategoryList/CategoryList'
+import BannerSwiper from '../../components/BannerSwiper/BannerSwiper'
 
 
 
@@ -29,10 +30,10 @@ export enum GoodType {
 interface Props {}
 const Index: React.FC<Props> = ()=>{
   return <View className={s.container}>
-  
+  <BannerSwiper />
   <CategoryList />
   <GoodsList />
-  
+
 </View>
 }
 

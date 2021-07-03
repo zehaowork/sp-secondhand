@@ -1,0 +1,41 @@
+.container {
+  padding: 30px;
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 40px;
+  line-height: 100px;
+  width: 100%;
+  font-size: 28px;
+  background: #e0f6ed;
+  border-radius: 40px;
+  border-style: solid;
+  border-width: 4px;
+  font-weight: bold;
+}
+
+.button_orange {
+  composes: button;
+  background: #feede3;
+  color: #fa6f19;
+}
+
+.button_green {
+  composes: button;
+  color: #07bc71;
+}
+
+.image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 0;
+  margin-left: 20px;
+  padding: 0;
+}
