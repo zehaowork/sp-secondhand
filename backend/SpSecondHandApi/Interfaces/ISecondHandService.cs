@@ -8,9 +8,9 @@ namespace SpSecondHandApi.Interfaces
     {
         Task<List<SecondHandDto>> GetSecondHandByPage(int page, int size);
 
-        Task<List<SecondHandDto>> GetSecondHandByUser(int userId);
+        Task<List<SecondHandDto>> GetSecondHandByUser(int userId, int page, int size);
 
-        Task<List<SecondHandDto>> GetSecondHandByCity(int cityId);
+        Task<List<SecondHandDto>> GetSecondHandByCity(int cityId, int page, int size);
 
         Task<SecondHandDto> PublishSecondHand(SecondHandDto shDto);
 
