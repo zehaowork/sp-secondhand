@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using SpSecondHandDb.Interfaces;
 
 namespace SpSecondHandDb.Repositories
 {
-    public class BaseRepository<T> where T : class
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         public BaseRepository(SpShDbContext context)
         {

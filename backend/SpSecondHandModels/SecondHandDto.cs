@@ -1,9 +1,31 @@
 ﻿using System;
+using SpSecondHandDb.Entities;
 
 namespace SpSecondHandModels
 {
     public class SecondHandDto
     {
+        public SecondHandDto(SecondHand sh)
+        {
+            Id = sh.Id;
+            Title = sh.Title;
+            ImgUrl = sh.ImgUrl;
+            ImgsUrl = sh.ImgsUrl;
+            Description = sh.Description;
+            WeChatId = sh.WeChatId;
+            Telephone = sh.Telephone;
+            Price = sh.Price;
+            GoodType = sh.GoodType;
+            Address = sh.Address;
+            UserId = sh.UserId;
+            ItemsId = sh.ItemsId;
+            ProjectId = sh.ProjectId;
+            CreateTime = sh.CreateTime;
+            RegionId = sh.RegionId;
+            IsSale = sh.IsSale;
+            Popularity = sh.Popularity;
+        }
+
         public int Id { get; set; }
         public string Title { get; set; }
         public string ImgUrl { get; set; }

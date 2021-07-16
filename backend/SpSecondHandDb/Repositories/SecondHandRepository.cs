@@ -18,16 +18,21 @@ namespace SpSecondHandDb.Repositories
             return await Task.FromResult(Context.SecondHand);
         }
 
-        public async Task<IEnumerable<SecondHand>> FindAll(Func<SecondHand, bool> predicate)
-        {
-            return await Task.FromResult(Context.SecondHand.Where(predicate).ToList());
-
-        }
-
-        public async Task<IEnumerable<SecondHand>> GetSecondHandByPage(Func<SecondHand, bool> predicate, int page, int size)
+        public async Task<IEnumerable<SecondHand>> FindAll(Func<SecondHand, bool> predicate, int page, int size)
         {
             var secondHands = Context.SecondHand
                 .Where(predicate)
+                .OrderByDescending(o => o.CreateTime)
+                .Skip(page * size)
+                .Take(size)
+                .ToList();
+
+            return await Task.FromResult(secondHands);
+        }
+
+        public async Task<IEnumerable<SecondHand>> GetSecondHandByPage(int page, int size)
+        {
+            var secondHands = Context.SecondHand
                 .OrderByDescending(o => o.CreateTime)
                 .Skip(page * size)
                 .Take(size)

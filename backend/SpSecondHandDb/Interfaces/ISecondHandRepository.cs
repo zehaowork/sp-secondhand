@@ -5,12 +5,12 @@ using SpSecondHandDb.Entities;
 
 namespace SpSecondHandDb.Interfaces
 {
-    public interface ISecondHandRepository
+    public interface ISecondHandRepository : IBaseRepository<SecondHand>
     {
         Task<IEnumerable<SecondHand>> GetAll();
 
-        Task<IEnumerable<SecondHand>> FindAll(Func<SecondHand, bool> predicate);
+        Task<IEnumerable<SecondHand>> FindAll(Func<SecondHand, bool> predicate, int page, int size);
 
-        Task<IEnumerable<SecondHand>> GetSecondHandByPage(Func<SecondHand, bool> predicate, int page, int size);
+        Task<IEnumerable<SecondHand>> GetSecondHandByPage(int page, int size);
     }
 }
