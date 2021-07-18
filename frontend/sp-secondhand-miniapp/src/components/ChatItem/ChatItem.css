@@ -1,0 +1,117 @@
+.area{
+	width: 750rpx;
+	position: relative;
+    height: 150rpx;
+}
+
+.line{
+    position: absolute;
+    width: 690rpx;
+    height: 1px;
+    background: #ededed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+}
+
+.chatArea{
+    width: 900rpx;
+    height: 150rpx;
+    display: flex;
+    align-items: center;
+}
+
+.chatbox{
+    width: 750rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.contactDetails{
+    display: flex;
+}
+
+.chatboxLeft{
+    position: relative;
+    margin-right: 10rpx;
+}
+
+.nameAndMsg{
+    display: flex;
+    flex-direction: column;
+}
+
+.contactName{
+    margin-top: 10rpx;
+    margin-left: 20rpx;
+}
+
+.time{
+    color: #9D9D9D;
+    font-size: 28rpx;
+    margin-top: 14rpx;
+    margin-right: 20rpx;
+}
+
+
+.lastMsg{
+    margin-top: 10rpx;
+    margin-left: 20rpx;
+    color: #9D9D9D;
+    font-size: 28rpx;
+}
+
+
+
+.avatar{
+    margin-left: 20rpx;
+    height: 110rpx;
+    width: 110rpx;
+}
+
+.notifyBadge{
+    position: absolute;
+    right:-10rpx;
+    top:-5px;
+    background:red;
+    text-align: center;
+    border-radius:100rpx;
+    color:white;
+    padding:5rpx 10rpx;
+    font-size:20rpx;
+}
+
+.dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+
+.dialogTxt {
+    object-fit: cover;
+    width: 100%;
+    height: 250rpx;
+}
+
+.dialogImg {
+    object-fit: cover;
+    width: 100%;
+    height: 500rpx;
+}
+
+.flex {
+    display:flex; 
+    align-items:center;
+    justify-content:center; 
+    flex-direction:column;
+}
+
+
+
+
