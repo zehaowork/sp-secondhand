@@ -16,6 +16,6 @@ namespace SpSecondHandApi.Interfaces
 
         Task<SecondHandDto> ModifySecondHand(SecondHandDto shDto);
 
-        Task<SecondHandDto> DeleteSecondHand(int shId);
+        Task DeleteSecondHand(int shId);
     }
 }

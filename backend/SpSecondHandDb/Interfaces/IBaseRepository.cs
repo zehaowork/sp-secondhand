@@ -10,7 +10,6 @@ namespace SpSecondHandDb.Interfaces
 
         Task<T> Update(T entityToUpdate);
 
-
         Task Delete(T entityToDelete);
     }
 }

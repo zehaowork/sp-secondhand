@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SpSecondHandApi.Interfaces;
@@ -57,21 +58,47 @@ namespace SpSecondHandApi.Services
                 ProjectId = shDto.ProjectId,
                 CreateTime = shDto.CreateTime,
                 RegionId = shDto.RegionId,
-                IsSale = shDto.IsSale,
-                Popularity = shDto.Popularity,
+                IsSale = false,
+                Popularity = 0,
             };
 
             return new SecondHandDto(await _shRepo.Add(newSh));
         }
 
-        public Task<SecondHandDto> ModifySecondHand(SecondHandDto shDto)
+        public async Task<SecondHandDto> ModifySecondHand(SecondHandDto shDto)
         {
-            throw new System.NotImplementedException();
+            var sh = await _shRepo.Get(shDto.Id);
+            if (sh == null)
+            {
+                throw new ArgumentException($"Second hand item of id {shDto.Id} doesn't exist.");
+            }
+
+            sh.Title = shDto.Title;
+            sh.ImgUrl = shDto.ImgUrl;
+            sh.ImgsUrl = shDto.ImgsUrl;
+            sh.Description = shDto.Description;
+            sh.WeChatId = shDto.WeChatId;
+            sh.Telephone = shDto.Telephone;
+            sh.Price = shDto.Price;
+            sh.GoodType = shDto.GoodType;
+            sh.Address = shDto.Address;
+            sh.ItemsId = shDto.ItemsId;
+            sh.ProjectId = shDto.ProjectId;
+            sh.RegionId = shDto.RegionId;
+            sh.IsSale = shDto.IsSale;
+
+            return new SecondHandDto(await _shRepo.Update(sh));
         }
 
-        public Task<SecondHandDto> DeleteSecondHand(int shId)
+        public async Task DeleteSecondHand(int shId)
         {
-            throw new System.NotImplementedException();
+            var sh = await _shRepo.Get(shId);
+            if (sh == null)
+            {
+                throw new ArgumentException($"Second hand item of id {shId} doesn't exist.");
+            }
+
+            await _shRepo.Delete(sh);
         }
     }
 }

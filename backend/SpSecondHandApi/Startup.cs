@@ -6,7 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SpSecondHandApi.Interfaces;
+using SpSecondHandApi.Services;
 using SpSecondHandDb;
+using SpSecondHandDb.Interfaces;
+using SpSecondHandDb.Repositories;
 
 namespace SpSecondHandApi
 {
@@ -41,6 +45,7 @@ namespace SpSecondHandApi
             services.AddHttpContextAccessor();
 
             AddDbServices(services);
+            AddControllerServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +92,12 @@ namespace SpSecondHandApi
                 .UseLazyLoadingProxies()
                 .UseSqlServer(Configuration["ConnectionString"])
             );
+            services.AddScoped<ISecondHandRepository, SecondHandRepository>();
+        }
+
+        private void AddControllerServices(IServiceCollection services)
+        {
+            services.AddScoped<ISecondHandService, SecondHandService>();
         }
 
         #endregion
