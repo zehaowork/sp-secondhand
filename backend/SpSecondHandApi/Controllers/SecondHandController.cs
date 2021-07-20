@@ -22,6 +22,32 @@ namespace SpSecondHandApi.Controllers
         }
 
         [HttpGet]
+        [Route("id/{shId:int}")]
+        public async Task<RespondObject<SecondHandDto>> GetSecondHand(int shId)
+        {
+            try
+            {
+                _logger.LogInformation("GetSecondHand called.");
+
+                return new RespondObject<SecondHandDto>()
+                {
+                    Message = "Success",
+                    Data = await _shService.GetSecondHandById(shId)
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get second hand item by id: {e.Message}");
+
+                return new RespondObject<SecondHandDto>()
+                {
+                    Message = $"Failed to get second hand item by id: {e.Message}",
+                    Data = null
+                };
+            }
+        }
+
+        [HttpGet]
         public async Task<RespondObject<List<SecondHandDto>>> GetSecondList(int page, int size)
         {
             try

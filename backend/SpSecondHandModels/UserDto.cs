@@ -1,9 +1,25 @@
 ﻿using System;
+using SpSecondHandDb.Entities;
 
 namespace SpSecondHandModels
 {
     public class UserDto
     {
+        public UserDto(User user)
+        {
+            Id = user.Id;
+            OpenId = user.OpenId;
+            NickName = user.NickName;
+            City = user.City;
+            Province = user.Province;
+            Country = user.Country;
+            Sex = user.Sex;
+            HeadImgUrl = user.HeadImgUrl;
+            CreateTime = user.CreateTime;
+            Status = user.Status;
+            ProjectId = user.ProjectId;
+        }
+
         public long Id { get; set; }
         public string OpenId { get; set; }
         public string NickName { get; set; }

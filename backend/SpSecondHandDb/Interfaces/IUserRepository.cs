@@ -5,7 +5,7 @@ using SpSecondHandDb.Entities;
 
 namespace SpSecondHandDb.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
         /// <summary>
         /// Get all users from database.
@@ -18,13 +18,13 @@ namespace SpSecondHandDb.Interfaces
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        IEnumerable<User> FindAll(Func<User, bool> predicate);
+        Task<IEnumerable<User>> FindAll(Func<User, bool> predicate);
 
         /// <summary>
         /// Find first user that matches specified condition.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        User FindFirst(Func<User, bool> predicate);
+        Task<User> FindFirst(Func<User, bool> predicate);
     }
 }

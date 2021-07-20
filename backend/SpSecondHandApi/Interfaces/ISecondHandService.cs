@@ -6,6 +6,8 @@ namespace SpSecondHandApi.Interfaces
 {
     public interface ISecondHandService
     {
+        Task<SecondHandDto> GetSecondHandById(int id);
+
         Task<List<SecondHandDto>> GetSecondHandByPage(int page, int size);
 
         Task<List<SecondHandDto>> GetSecondHandByUser(int userId, int page, int size);

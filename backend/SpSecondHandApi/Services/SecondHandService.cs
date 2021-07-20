@@ -18,6 +18,21 @@ namespace SpSecondHandApi.Services
             _shRepo = shRepo;
         }
 
+        public async Task<SecondHandDto> GetSecondHandById(int id)
+        {
+            var shItem = await _shRepo.Get(id);
+
+            if (shItem == null)
+            {
+                throw new ArgumentException($"Second hand item {id} doesn't exist.");
+            }
+
+            shItem.Popularity++;
+            await _shRepo.Update(shItem);
+
+            return new SecondHandDto(shItem);
+        }
+
         public async Task<List<SecondHandDto>> GetSecondHandByPage(int page, int size)
         {
             var shList = await _shRepo.GetSecondHandByPage(page, size);
