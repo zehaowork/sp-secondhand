@@ -30,9 +30,9 @@ namespace SpSecondHandDb.Repositories
 
         public async Task<User> FindFirst(Func<User, bool> predicate)
         {
-            var secondHands = Context.User.FirstOrDefault(predicate);
+            var users = Context.User.FirstOrDefault(predicate);
 
-            return await Task.FromResult(secondHands);
+            return await Task.FromResult(users);
         }
     }
 }

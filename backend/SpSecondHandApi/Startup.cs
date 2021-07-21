@@ -93,11 +93,14 @@ namespace SpSecondHandApi
                 .UseSqlServer(Configuration["ConnectionString"])
             );
             services.AddScoped<ISecondHandRepository, SecondHandRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserContactRepository, UserContactRepository>();
         }
 
         private void AddControllerServices(IServiceCollection services)
         {
             services.AddScoped<ISecondHandService, SecondHandService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         #endregion

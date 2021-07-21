@@ -1,6 +1,7 @@
 ﻿using SpSecondHandModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace SpSecondHandApi.Interfaces
 {
@@ -19,5 +20,7 @@ namespace SpSecondHandApi.Interfaces
         Task<SecondHandDto> ModifySecondHand(SecondHandDto shDto);
 
         Task DeleteSecondHand(int shId);
+
+        Task<List<string>> UploadImg(List<IFormFile> images);
     }
 }

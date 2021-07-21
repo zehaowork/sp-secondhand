@@ -24,7 +24,6 @@ namespace SpSecondHandApi.Interfaces
         /// <summary>
         /// Get all user record of specified appID.
         /// </summary>
-        /// <param name="appGuid"></param>
         /// /// <returns></returns>
         Task<List<UserDto>> GetAllUsers();
 
@@ -33,42 +32,13 @@ namespace SpSecondHandApi.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<UserDto> GetByUserId(Guid id);
+        Task<UserDto> GetByUserId(long id);
 
         /// <summary>
         /// Update user.
         /// </summary>
         /// <param name="userInfo"></param>
         /// <returns></returns>
-        Task<UserDto> UpdateUserInfo(UserDto userInfo);
-
-        /// <summary>
-        /// Gets all user recipients of specified user.
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        Task<List<UserContactDto>> GetUserRecipients(Guid userId);
-
-        /// <summary>
-        /// Stores a new user recipient to the database.
-        /// </summary>
-        /// <param name="recipientDto">Details of the user recipient</param>
-        /// <returns></returns>
-        Task<UserContactDto> CreateUserRecipient(UserContactDto recipientDto);
-
-        /// <summary>
-        /// Updates the user recipient.
-        /// </summary>
-        /// <param name="recipientDto">Details of the user recipient</param>
-        /// <returns></returns>
-        Task<UserContactDto> UpdateUserRecipient(UserContactDto recipientDto);
-
-        /// <summary>
-        /// Deletes the user recipient from database.
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="recipientId"></param>
-        /// <returns></returns>
-        Task DeleteUserRecipient(Guid userId, int recipientId);
+        Task<UserDto> UpdateUser(UserDto userInfo);
     }
 }

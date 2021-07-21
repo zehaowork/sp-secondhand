@@ -4,7 +4,7 @@ namespace SpSecondHandDb.Interfaces
 {
     public interface IBaseRepository<T> where T : class 
     {
-        Task<T> Get(int id);
+        Task<T> Get(long id);
 
         Task<T> Add(T entityToAdd);
 

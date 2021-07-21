@@ -10,7 +10,7 @@ namespace SpSecondHandDb.Repositories
             Context = context;
         }
 
-        public async Task<T> Get(int id)
+        public async Task<T> Get(long id)
         {
             return await Context.FindAsync<T>(id);
         }

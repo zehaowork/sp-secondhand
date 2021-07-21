@@ -29,8 +29,8 @@ namespace SpSecondHandApi.Services
 
         public async Task<string> GetWxOpenId(string code)
         {
-            _wxServerUrl += "appid=" + _config["WxVerification:grant_type"];
-            _wxServerUrl += "&secret=" + _config["WxVerification:grant_type"];
+            _wxServerUrl += "appid=" + _config["WxVerification:appid"];
+            _wxServerUrl += "&secret=" + _config["WxVerification:secret"];
             _wxServerUrl += "&js_code=" + code;
             _wxServerUrl += "&grant_type" + _config["WxVerification:grant_type"];
 
@@ -94,34 +94,25 @@ namespace SpSecondHandApi.Services
             return userList.Select(u => new UserDto(u)).ToList();
         }
 
-        public Task<UserDto> GetByUserId(Guid id)
+        public async Task<UserDto> GetByUserId(long id)
         {
-            throw new NotImplementedException();
+            var userEntity = await _userRepo.Get(id);
+
+            if (userEntity == null)
+                throw new ArgumentException($"User with id {id} doesn't exist.");
+
+            return new UserDto(userEntity);
         }
 
-        public Task<UserDto> UpdateUserInfo(UserDto userInfo)
+        public async Task<UserDto> UpdateUser(UserDto user)
         {
-            throw new NotImplementedException();
-        }
+            var entityToUpdate = await _userRepo.Get(user.Id);
 
-        public Task<List<UserContactDto>> GetUserRecipients(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
+            entityToUpdate.NickName = user.NickName;
+            entityToUpdate.HeadImgUrl = user.HeadImgUrl;
+            entityToUpdate.Sex = user.Sex;
 
-        public Task<UserContactDto> CreateUserRecipient(UserContactDto recipientDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserContactDto> UpdateUserRecipient(UserContactDto recipientDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteUserRecipient(Guid userId, int recipientId)
-        {
-            throw new NotImplementedException();
+            return new UserDto(await _userRepo.Update(entityToUpdate));
         }
     }
 }
