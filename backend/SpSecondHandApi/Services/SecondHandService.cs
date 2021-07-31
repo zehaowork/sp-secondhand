@@ -64,6 +64,13 @@ namespace SpSecondHandApi.Services
             return shList.Select(sh => new SecondHandDto(sh)).ToList();
         }
 
+        public async Task<List<SecondHandDto>> SearchSecondHand(string keyword, int page, int size)
+        {
+            var shList = await _shRepo.FindAll(sh => sh.Title.Contains(keyword), page, size);
+
+            return shList.Select(sh => new SecondHandDto(sh)).ToList();
+        }
+
         public async Task<SecondHandDto> PublishSecondHand(SecondHandDto shDto)
         {
             var newSh = new SecondHand()

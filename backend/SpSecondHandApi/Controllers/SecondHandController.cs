@@ -142,6 +142,36 @@ namespace SpSecondHandApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("keyword/{keyword}")]
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondListByKeyword(string keyword, int page, int size)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetSecondListByKeyword)} called.");
+
+                return Ok(new RespondObject<List<SecondHandDto>>()
+                {
+                    Message = "Success",
+                    Data = await _shService.SearchSecondHand(keyword, page, size)
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get second hand items by keyword: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<List<SecondHandDto>>()
+                {
+                    Message = $"Failed to get second hand items by keyword: { e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(GetSecondListByKeyword)} complete");
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<RespondObject<SecondHandDto>>> PublishSecondHand(SecondHandDto secondHand)
         {

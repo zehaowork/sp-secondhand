@@ -15,6 +15,8 @@ namespace SpSecondHandApi.Interfaces
 
         Task<List<SecondHandDto>> GetSecondHandByCity(int cityId, int page, int size);
 
+        Task<List<SecondHandDto>> SearchSecondHand(string keyword, int page, int size);
+
         Task<SecondHandDto> PublishSecondHand(SecondHandDto shDto);
 
         Task<SecondHandDto> ModifySecondHand(SecondHandDto shDto);
