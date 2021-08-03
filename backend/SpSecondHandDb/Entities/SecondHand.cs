@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SpSecondHandDb.Entities
 {
@@ -21,5 +22,7 @@ namespace SpSecondHandDb.Entities
         public int? RegionId { get; set; }
         public bool? IsSale { get; set; }
         public long? Popularity { get; set; }
+
+        public virtual ICollection<Favorite> Favorites { get; set; }
     }
 }

@@ -261,6 +261,130 @@ namespace SpSecondHandApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("favorite/{userId:int}")]
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetFavorites(int userId, int page, int size)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetFavorites)} called.");
+
+                return Ok(new RespondObject<List<SecondHandDto>>()
+                {
+                    Message = "Success",
+                    Data = await _shService.GetFavorites(userId, page, size)
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get favorite second hand items: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<List<SecondHandDto>>()
+                {
+                    Message = $"Failed to get favorite second hand items: { e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(GetFavorites)} complete");
+            }
+        }
+
+        [HttpPost]
+        [Route("favorite")]
+        public async Task<ActionResult<RespondObject<string>>> AddFavorite(FavoriteDto fav)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(AddFavorite)} called.");
+
+                await _shService.AddFavorite(fav.SecondHandId, fav.UserId);
+
+                return Ok(new RespondObject<string>()
+                {
+                    Message = "Success",
+                    Data = "Successfully added to favorite"
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to add favorite second hand item: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<string>()
+                {
+                    Message = $"Failed to add favorite second hand item: { e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(AddFavorite)} complete");
+            }
+        }
+
+        [HttpDelete]
+        [Route("favorite")]
+        public async Task<ActionResult<RespondObject<string>>> DeleteFavorite(int secondHandId, int userId)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(DeleteFavorite)} called.");
+
+                await _shService.RemoveFavorite(secondHandId, userId);
+
+                return Ok(new RespondObject<string>()
+                {
+                    Message = "Success",
+                    Data = "Successfully removed from favorite"
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to remove favorite second hand item: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<string>()
+                {
+                    Message = $"Failed to remove favorite second hand item: { e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(DeleteFavorite)} complete");
+            }
+        }
+
+        [HttpPost]
+        [Route("isFavorite")]
+        public async Task<ActionResult<RespondObject<bool>>> IsFavorite(FavoriteDto fav)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(IsFavorite)} called.");
+
+                return Ok(new RespondObject<bool>()
+                {
+                    Message = "Success",
+                    Data = await _shService.IsFavorite(fav.SecondHandId, fav.UserId)
+            });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to check favorite: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<string>()
+                {
+                    Message = $"Failed to check favorite: { e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(IsFavorite)} complete");
+            }
+        }
+
         [HttpPost]
         [Route("uploadImage")]
         public async Task<ActionResult<RespondObject<List<ImgUrlDto>>>> UploadImages()

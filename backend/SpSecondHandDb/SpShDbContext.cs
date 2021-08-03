@@ -18,6 +18,7 @@ namespace SpSecondHandDb
         public virtual DbSet<SecondHand> SecondHand { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserContact> UserContact { get; set; }
+        public virtual DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -174,6 +175,18 @@ namespace SpSecondHandDb
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserContacts_User");
             });
+
+            modelBuilder.Entity<Favorite>().HasKey(f => new {f.UserId, f.SecondHandId});
+
+            modelBuilder.Entity<Favorite>()
+                .HasOne(f => f.User)
+                .WithMany(u => u.Favorites)
+                .HasForeignKey(f => f.UserId);
+
+            modelBuilder.Entity<Favorite>()
+                .HasOne(f => f.SecondHand)
+                .WithMany(sh => sh.Favorites)
+                .HasForeignKey(f => f.SecondHandId);
         }
     }
 }

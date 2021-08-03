@@ -133,6 +133,28 @@ namespace SpSecondHandApi.Services
             await _shRepo.Delete(sh);
         }
 
+        public async Task<List<SecondHandDto>> GetFavorites(int userId, int page, int size)
+        {
+            var fav = await _shRepo.GetFavoriteSecondHands(userId);
+
+            return fav.Skip(page * size).Take(size).Select(sh => new SecondHandDto(sh)).ToList();
+        }
+
+        public async Task AddFavorite(int secondHandId, int userId)
+        {
+            await _shRepo.AddFavorite(secondHandId, userId);
+        }
+
+        public async Task RemoveFavorite(int secondHandId, int userId)
+        {
+            await _shRepo.RemoveFavorite(secondHandId, userId);
+        }
+
+        public async Task<bool> IsFavorite(int secondHandId, int userId)
+        {
+            return await _shRepo.IsFavorite(secondHandId, userId);
+        }
+
         public async Task<List<string>> UploadImg(List<IFormFile> images)
         {
             const string fileTypes = "gif,jpg,jpeg,png,bmp";

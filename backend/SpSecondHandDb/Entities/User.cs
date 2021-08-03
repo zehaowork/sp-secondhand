@@ -26,5 +26,6 @@ namespace SpSecondHandDb.Entities
         public virtual UserContact UserContact { get; set; }
         public virtual ICollection<ChatHistory> ChatHistoryFromU { get; set; }
         public virtual ICollection<ChatHistory> ChatHistoryToU { get; set; }
+        public virtual ICollection<Favorite> Favorites { get; set; }
     }
 }

@@ -23,6 +23,14 @@ namespace SpSecondHandApi.Interfaces
 
         Task DeleteSecondHand(int shId);
 
+        Task<List<SecondHandDto>> GetFavorites(int userId, int page, int size);
+
+        Task AddFavorite(int secondHandId, int userId);
+
+        Task RemoveFavorite(int secondHandId, int userId);
+
+        Task<bool> IsFavorite(int secondHandId, int userId);
+
         Task<List<string>> UploadImg(List<IFormFile> images);
     }
 }
