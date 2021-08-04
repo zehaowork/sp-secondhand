@@ -10,10 +10,11 @@ declare interface Item  {
     GoodType:GoodType;
   }
 
-  declare interface Category{
-    ID:string;
-    ImgUrl:string;
-    Name:string;
+  declare interface Category {
+    id:string;
+    imgUrl:string;
+    name:string;
+    sort: number;
 }
   
 declare module "*.png";
