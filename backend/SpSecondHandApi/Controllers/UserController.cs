@@ -125,7 +125,7 @@ namespace SpSecondHandApi.Controllers
 
                 if (string.IsNullOrWhiteSpace(userToAdd.OpenId))
                     throw new ArgumentException("User's OpenId cannot be empty or whitespace.");
-                if (string.IsNullOrWhiteSpace(userToAdd.NickName))
+                if (string.IsNullOrWhiteSpace(userToAdd.UserName))
                     throw new ArgumentException("User's username cannot be empty or whitespace.");
 
                 var respObj = new RespondObject<UserDto>

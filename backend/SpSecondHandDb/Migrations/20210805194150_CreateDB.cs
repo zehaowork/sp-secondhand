@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SpSecondHandDb.Migrations
 {
-    public partial class AddFavoriteTable : Migration
+    public partial class CreateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,119 +11,89 @@ namespace SpSecondHandDb.Migrations
                 name: "Items",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 32, nullable: true),
-                    ImgUrl = table.Column<string>(maxLength: 128, nullable: true),
-                    Sort = table.Column<int>(nullable: true),
-                    ProjectID = table.Column<int>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    ImgUrl = table.Column<string>(nullable: true),
+                    Sort = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ManageUser",
-                columns: table => new
-                {
-                    ID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(maxLength: 32, nullable: true),
-                    UserPwd = table.Column<string>(maxLength: 32, nullable: true),
-                    SecretKey = table.Column<string>(maxLength: 6, nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime", nullable: true),
-                    RoleID = table.Column<int>(nullable: true),
-                    IsDelete = table.Column<bool>(nullable: true),
-                    IsLock = table.Column<bool>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ManageUser", x => x.ID);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Region",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ParentID = table.Column<int>(nullable: true),
-                    Grade = table.Column<byte>(nullable: true),
-                    Name = table.Column<string>(maxLength: 32, nullable: true),
-                    IsUsed = table.Column<bool>(nullable: true),
-                    IsDel = table.Column<bool>(nullable: true),
-                    FirstLetter = table.Column<string>(unicode: false, maxLength: 1, nullable: true),
-                    CountryID = table.Column<int>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    FirstLetter = table.Column<string>(nullable: true),
+                    CountryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Region", x => x.ID);
+                    table.PrimaryKey("PK_Region", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "RotationChart",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImgUrl = table.Column<string>(maxLength: 128, nullable: true),
+                    ImgUrl = table.Column<string>(nullable: true),
                     Sort = table.Column<int>(nullable: true),
-                    ProjectID = table.Column<int>(nullable: true)
+                    Link = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RotationChart", x => x.ID);
+                    table.PrimaryKey("PK_RotationChart", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Second-Hand",
+                name: "SecondHand",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 32, nullable: true),
-                    ImgUrl = table.Column<string>(maxLength: 128, nullable: true),
-                    ImgsUrl = table.Column<string>(maxLength: 256, nullable: true),
-                    Description = table.Column<string>(maxLength: 512, nullable: true),
-                    WeChatID = table.Column<string>(maxLength: 32, nullable: true),
-                    Telephone = table.Column<string>(maxLength: 16, nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18, 1)", nullable: true),
-                    GoodType = table.Column<int>(nullable: true),
-                    Address = table.Column<string>(maxLength: 64, nullable: true),
-                    UserID = table.Column<int>(nullable: true),
-                    ItemsID = table.Column<int>(nullable: true),
-                    ProjectID = table.Column<int>(nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime", nullable: true),
-                    RegionID = table.Column<int>(nullable: true),
-                    IsSale = table.Column<bool>(nullable: true),
-                    Popularity = table.Column<long>(nullable: true, defaultValueSql: "((0))")
+                    Title = table.Column<string>(nullable: true),
+                    ImgUrls = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    WeChatId = table.Column<string>(nullable: true),
+                    Telephone = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: true),
+                    Type = table.Column<int>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: true),
+                    PublishTime = table.Column<DateTime>(nullable: true),
+                    CityId = table.Column<int>(nullable: true),
+                    IsSold = table.Column<bool>(nullable: true),
+                    Popularity = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Second-Hand", x => x.ID);
+                    table.PrimaryKey("PK_SecondHand", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OpenId = table.Column<string>(maxLength: 32, nullable: true),
-                    NickName = table.Column<string>(maxLength: 16, nullable: true),
-                    City = table.Column<string>(maxLength: 64, nullable: true),
-                    Province = table.Column<string>(maxLength: 64, nullable: true),
-                    Country = table.Column<string>(maxLength: 64, nullable: true),
-                    Sex = table.Column<int>(nullable: true),
-                    HeadImgUrl = table.Column<string>(maxLength: 256, nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Status = table.Column<int>(nullable: true),
-                    ProjectID = table.Column<int>(nullable: true)
+                    OpenId = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Gender = table.Column<int>(nullable: true),
+                    ProfileImgUrl = table.Column<string>(nullable: true),
+                    JoinTime = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.ID);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,13 +115,13 @@ namespace SpSecondHandDb.Migrations
                         name: "FK_ChatHistory_User",
                         column: x => x.FromUId,
                         principalTable: "User",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ChatHistory_User1",
                         column: x => x.ToUId,
                         principalTable: "User",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -166,16 +136,16 @@ namespace SpSecondHandDb.Migrations
                 {
                     table.PrimaryKey("PK_Favorites", x => new { x.UserId, x.SecondHandId });
                     table.ForeignKey(
-                        name: "FK_Favorites_Second-Hand_SecondHandId",
+                        name: "FK_Favorites_SecondHand_SecondHandId",
                         column: x => x.SecondHandId,
-                        principalTable: "Second-Hand",
-                        principalColumn: "ID",
+                        principalTable: "SecondHand",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Favorites_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -185,21 +155,21 @@ namespace SpSecondHandDb.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Address1 = table.Column<string>(maxLength: 200, nullable: true),
-                    Address2 = table.Column<string>(maxLength: 200, nullable: true),
-                    Address3 = table.Column<string>(maxLength: 200, nullable: true),
+                    Address1 = table.Column<string>(nullable: true),
+                    Address2 = table.Column<string>(nullable: true),
+                    Address3 = table.Column<string>(nullable: true),
                     UserId = table.Column<long>(nullable: true),
-                    Telephone = table.Column<string>(maxLength: 50, nullable: true),
-                    WeChatId = table.Column<string>(maxLength: 100, nullable: true)
+                    Telephone = table.Column<string>(nullable: true),
+                    WeChatId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserContact", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserContacts_User",
-                        column: x => x.Id,
+                        name: "FK_UserContact_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -217,6 +187,13 @@ namespace SpSecondHandDb.Migrations
                 name: "IX_Favorites_SecondHandId",
                 table: "Favorites",
                 column: "SecondHandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserContact_UserId",
+                table: "UserContact",
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -231,9 +208,6 @@ namespace SpSecondHandDb.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "ManageUser");
-
-            migrationBuilder.DropTable(
                 name: "Region");
 
             migrationBuilder.DropTable(
@@ -243,7 +217,7 @@ namespace SpSecondHandDb.Migrations
                 name: "UserContact");
 
             migrationBuilder.DropTable(
-                name: "Second-Hand");
+                name: "SecondHand");
 
             migrationBuilder.DropTable(
                 name: "User");

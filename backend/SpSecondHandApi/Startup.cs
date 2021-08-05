@@ -43,6 +43,7 @@ namespace SpSecondHandApi
             services.AddHttpClient();
             services.AddMemoryCache();
             services.AddHttpContextAccessor();
+            services.AddAutoMapper(typeof(Startup));
 
             AddDbServices(services);
             AddControllerServices(services);
@@ -95,7 +96,7 @@ namespace SpSecondHandApi
             services.AddScoped<ISecondHandRepository, SecondHandRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserContactRepository, UserContactRepository>();
-            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
         }
 

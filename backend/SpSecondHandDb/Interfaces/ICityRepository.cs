@@ -4,10 +4,10 @@ using SpSecondHandDb.Entities;
 
 namespace SpSecondHandDb.Interfaces
 {
-    public interface ICityRepository : IBaseRepository<Region>
+    public interface ICityRepository : IBaseRepository<City>
     {
-        Task<IEnumerable<Region>> GetAll();
+        Task<IEnumerable<City>> GetAll();
 
-        Task<IEnumerable<Region>> GetCitiesByCountryId(int id);
+        Task<IEnumerable<City>> GetCitiesByCountryId(int id);
     }
 }

@@ -23,7 +23,7 @@ namespace SpSecondHandDb.Repositories
         {
             var secondHands = Context.SecondHand
                 .Where(predicate)
-                .OrderByDescending(o => o.CreateTime)
+                .OrderByDescending(o => o.PublishTime)
                 .Skip(page * size)
                 .Take(size)
                 .ToList();
@@ -34,7 +34,7 @@ namespace SpSecondHandDb.Repositories
         public async Task<IEnumerable<SecondHand>> GetSecondHandByPage(int page, int size)
         {
             var secondHands = Context.SecondHand
-                .OrderByDescending(o => o.CreateTime)
+                .OrderByDescending(o => o.PublishTime)
                 .Skip(page * size)
                 .Take(size)
                 .ToList();

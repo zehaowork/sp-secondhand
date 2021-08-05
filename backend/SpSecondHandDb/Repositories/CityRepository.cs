@@ -7,18 +7,18 @@ using SpSecondHandDb.Interfaces;
 
 namespace SpSecondHandDb.Repositories
 {
-    public class CityRepository : BaseRepository<Region>, ICityRepository
+    public class CityRepository : BaseRepository<City>, ICityRepository
     {
         public CityRepository(SpShDbContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<Region>> GetAll()
+        public async Task<IEnumerable<City>> GetAll()
         {
             return await Task.FromResult(Context.Region);
         }
 
-        public async Task<IEnumerable<Region>> GetCitiesByCountryId(int id)
+        public async Task<IEnumerable<City>> GetCitiesByCountryId(int id)
         {
             return await Context.Region.Where(c => c.CountryId == id).ToListAsync();
         }

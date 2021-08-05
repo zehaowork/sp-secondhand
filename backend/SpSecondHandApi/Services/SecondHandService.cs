@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -20,11 +21,12 @@ namespace SpSecondHandApi.Services
 {
     public class SecondHandService : ISecondHandService
     {
-        public SecondHandService(IHttpClientFactory httpClientFactory, IMemoryCache memoryCache, IConfiguration config, ISecondHandRepository shRepo)
+        public SecondHandService(IHttpClientFactory httpClientFactory, IMemoryCache memoryCache, IConfiguration config, ISecondHandRepository shRepo, IMapper mapper)
         {
             _memoryCache = memoryCache;
             _config = config;
             _shRepo = shRepo;
+            _mapper = mapper;
             _httpClient = httpClientFactory.CreateClient();
         }
 
@@ -40,61 +42,36 @@ namespace SpSecondHandApi.Services
             shItem.Popularity++;
             await _shRepo.Update(shItem);
 
-            return new SecondHandDto(shItem);
+            return _mapper.Map<SecondHandDto>(shItem);
         }
 
-        public async Task<List<SecondHandDto>> GetSecondHandByPage(int page, int size)
+        public async Task<List<SecondHandDto>> GetSecondHand(int catId, int cityId, string keyword, int page, int size)
         {
-            var shList = await _shRepo.GetSecondHandByPage(page, size);
+            Func<SecondHand, bool> predicate = sh =>
+            {
+                var match = catId == 0 || sh.CategoryId == catId;
+                match = match && (cityId == 0 || sh.CityId == cityId);
+                match = match && (string.IsNullOrWhiteSpace(keyword) || sh.Title.Contains(keyword));
 
-            return shList.Select(sh => new SecondHandDto(sh)).ToList();
+                return match;
+            };
+            var shList = await _shRepo.FindAll(predicate, page, size);
+
+            return shList.Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
 
         public async Task<List<SecondHandDto>> GetSecondHandByUser(int userId, int page, int size)
         {
             var shList = await _shRepo.FindAll(sh => sh.UserId == userId , page, size);
 
-            return shList.Select(sh => new SecondHandDto(sh)).ToList();
-        }
-
-        public async Task<List<SecondHandDto>> GetSecondHandByCity(int cityId, int page, int size)
-        {
-            var shList = await _shRepo.FindAll(sh => sh.RegionId == cityId, page, size);
-
-            return shList.Select(sh => new SecondHandDto(sh)).ToList();
-        }
-
-        public async Task<List<SecondHandDto>> SearchSecondHand(string keyword, int page, int size)
-        {
-            var shList = await _shRepo.FindAll(sh => sh.Title.Contains(keyword), page, size);
-
-            return shList.Select(sh => new SecondHandDto(sh)).ToList();
+            return shList.Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
 
         public async Task<SecondHandDto> PublishSecondHand(SecondHandDto shDto)
         {
-            var newSh = new SecondHand()
-            {
-                Id = shDto.Id,
-                Title = shDto.Title,
-                ImgUrl = shDto.ImgUrl,
-                ImgsUrl = shDto.ImgsUrl,
-                Description = shDto.Description,
-                WeChatId = shDto.WeChatId,
-                Telephone = shDto.Telephone,
-                Price = shDto.Price,
-                GoodType = shDto.GoodType,
-                Address = shDto.Address,
-                UserId = shDto.UserId,
-                ItemsId = shDto.ItemsId,
-                ProjectId = shDto.ProjectId,
-                CreateTime = shDto.CreateTime,
-                RegionId = shDto.RegionId,
-                IsSale = false,
-                Popularity = 0,
-            };
+            var newSh = _mapper.Map<SecondHand>(shDto);
 
-            return new SecondHandDto(await _shRepo.Add(newSh));
+            return _mapper.Map<SecondHandDto>(await _shRepo.Add(newSh));
         }
 
         public async Task<SecondHandDto> ModifySecondHand(SecondHandDto shDto)
@@ -106,20 +83,18 @@ namespace SpSecondHandApi.Services
             }
 
             sh.Title = shDto.Title;
-            sh.ImgUrl = shDto.ImgUrl;
-            sh.ImgsUrl = shDto.ImgsUrl;
+            sh.ImgUrls = shDto.ImgUrls;
             sh.Description = shDto.Description;
             sh.WeChatId = shDto.WeChatId;
             sh.Telephone = shDto.Telephone;
             sh.Price = shDto.Price;
-            sh.GoodType = shDto.GoodType;
+            sh.Type = shDto.Type;
             sh.Address = shDto.Address;
-            sh.ItemsId = shDto.ItemsId;
-            sh.ProjectId = shDto.ProjectId;
-            sh.RegionId = shDto.RegionId;
-            sh.IsSale = shDto.IsSale;
+            sh.CategoryId = shDto.CategoryId;
+            sh.CityId = shDto.CityId;
+            sh.IsSold = shDto.IsSold;
 
-            return new SecondHandDto(await _shRepo.Update(sh));
+            return _mapper.Map<SecondHandDto>(await _shRepo.Update(sh));
         }
 
         public async Task DeleteSecondHand(int shId)
@@ -137,7 +112,7 @@ namespace SpSecondHandApi.Services
         {
             var fav = await _shRepo.GetFavoriteSecondHands(userId);
 
-            return fav.Skip(page * size).Take(size).Select(sh => new SecondHandDto(sh)).ToList();
+            return fav.Skip(page * size).Take(size).Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
 
         public async Task AddFavorite(int secondHandId, int userId)
@@ -254,6 +229,7 @@ namespace SpSecondHandApi.Services
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient;
         private readonly ISecondHandRepository _shRepo;
+        private readonly IMapper _mapper;
         private string _wxImgSecCheckUrl = @"https://api.weixin.qq.com/wxa/img_sec_check?access_token=";
         private string _wxAccessTokenUrl = @"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential";
 

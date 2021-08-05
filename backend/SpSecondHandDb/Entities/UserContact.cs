@@ -10,6 +10,6 @@
         public string Telephone { get; set; }
         public string WeChatId { get; set; }
 
-        public virtual User IdNavigation { get; set; }
+        public virtual User User { get; set; }
     }
 }

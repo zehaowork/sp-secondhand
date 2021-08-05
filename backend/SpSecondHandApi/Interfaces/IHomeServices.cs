@@ -6,7 +6,7 @@ namespace SpSecondHandApi.Interfaces
 {
     public interface IHomeServices
     {
-        Task<List<ItemDto>> GetItems();
+        Task<List<CategoryDto>> GetCategories();
 
         Task<List<CityDto>> GetCities();
 

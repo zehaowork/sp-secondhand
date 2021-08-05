@@ -54,16 +54,16 @@ namespace SpSecondHandApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondList(int page, int size)
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandList(int catId, int cityId, string keyword, int page, int size)
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetSecondList)} called.");
+                _logger.LogInformation($"{nameof(GetSecondHandList)} called.");
 
                 return Ok(new RespondObject<List<SecondHandDto>>()
                 {
                     Message = "Success",
-                    Data = await _shService.GetSecondHandByPage(page, size)
+                    Data = await _shService.GetSecondHand(catId, cityId, keyword, page, size)
                 });
             }
             catch (Exception e)
@@ -78,17 +78,17 @@ namespace SpSecondHandApi.Controllers
             }
             finally
             {
-                _logger.LogInformation($"{nameof(GetSecondList)} complete");
+                _logger.LogInformation($"{nameof(GetSecondHandList)} complete");
             }
         }
 
         [HttpGet]
         [Route("user/{userId:int}")]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondListByUser(int userId, int page, int size)
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandListByUser(int userId, int page, int size)
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetSecondListByUser)} called.");
+                _logger.LogInformation($"{nameof(GetSecondHandListByUser)} called.");
 
                 return Ok(new RespondObject<List<SecondHandDto>>()
                 {
@@ -108,67 +108,7 @@ namespace SpSecondHandApi.Controllers
             }
             finally
             {
-                _logger.LogInformation($"{nameof(GetSecondListByUser)} complete");
-            }
-        }
-
-        [HttpGet]
-        [Route("city/{cityId:int}")]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondListByCity(int cityId, int page, int size)
-        {
-            try
-            {
-                _logger.LogInformation($"{nameof(GetSecondListByCity)} called.");
-
-                return Ok(new RespondObject<List<SecondHandDto>>()
-                {
-                    Message = "Success",
-                    Data = await _shService.GetSecondHandByCity(cityId, page, size)
-                });
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"Failed to get second hand items by city: {e.Message}");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<List<SecondHandDto>>()
-                {
-                    Message = $"Failed to get second hand items by city: { e.Message}",
-                    Data = null
-                });
-            }
-            finally
-            {
-                _logger.LogInformation($"{nameof(GetSecondListByCity)} complete");
-            }
-        }
-
-        [HttpGet]
-        [Route("keyword/{keyword}")]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondListByKeyword(string keyword, int page, int size)
-        {
-            try
-            {
-                _logger.LogInformation($"{nameof(GetSecondListByKeyword)} called.");
-
-                return Ok(new RespondObject<List<SecondHandDto>>()
-                {
-                    Message = "Success",
-                    Data = await _shService.SearchSecondHand(keyword, page, size)
-                });
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"Failed to get second hand items by keyword: {e.Message}");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<List<SecondHandDto>>()
-                {
-                    Message = $"Failed to get second hand items by keyword: { e.Message}",
-                    Data = null
-                });
-            }
-            finally
-            {
-                _logger.LogInformation($"{nameof(GetSecondListByKeyword)} complete");
+                _logger.LogInformation($"{nameof(GetSecondHandListByUser)} complete");
             }
         }
 

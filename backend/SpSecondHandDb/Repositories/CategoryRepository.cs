@@ -5,13 +5,13 @@ using SpSecondHandDb.Interfaces;
 
 namespace SpSecondHandDb.Repositories
 {
-    public class ItemRepository : BaseRepository<Items>, IItemRepository
+    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
-        public ItemRepository(SpShDbContext context) : base(context)
+        public CategoryRepository(SpShDbContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<Items>> GetAll()
+        public async Task<IEnumerable<Category>> GetAll()
         {
             return await Task.FromResult(Context.Items);
         }

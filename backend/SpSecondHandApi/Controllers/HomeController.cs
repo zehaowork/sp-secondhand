@@ -23,24 +23,24 @@ namespace SpSecondHandApi.Controllers
         }
 
         [HttpGet]
-        [Route("items")]
-        public async Task<ActionResult<RespondObject<List<ItemDto>>>> GetItems()
+        [Route("categories")]
+        public async Task<ActionResult<RespondObject<List<CategoryDto>>>> GetCategories()
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetItems)} called.");
+                _logger.LogInformation($"{nameof(GetCategories)} called.");
 
-                return Ok(new RespondObject<List<ItemDto>>()
+                return Ok(new RespondObject<List<CategoryDto>>()
                 {
                     Message = "Success",
-                    Data = await _homeService.GetItems()
+                    Data = await _homeService.GetCategories()
                 });
             }
             catch (Exception e)
             {
                 _logger.LogError($"Failed to get items: {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<List<ItemDto>>()
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<List<CategoryDto>>()
                 {
                     Message = $"Failed to get items: {e.Message}",
                     Data = null
@@ -48,7 +48,7 @@ namespace SpSecondHandApi.Controllers
             }
             finally
             {
-                _logger.LogInformation($"{nameof(GetItems)} complete");
+                _logger.LogInformation($"{nameof(GetCategories)} complete");
             }
         }
 

@@ -4,8 +4,8 @@ using SpSecondHandDb.Entities;
 
 namespace SpSecondHandDb.Interfaces
 {
-    public interface IItemRepository : IBaseRepository<Items>
+    public interface ICategoryRepository : IBaseRepository<Category>
     {
-        Task<IEnumerable<Items>> GetAll();
+        Task<IEnumerable<Category>> GetAll();
     }
 }

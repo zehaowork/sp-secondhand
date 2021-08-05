@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SpSecondHandApi.Interfaces;
@@ -18,13 +19,15 @@ namespace SpSecondHandApi.Services
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _config;
         private readonly IUserRepository _userRepo;
+        private readonly IMapper _mapper;
         private string _wxServerUrl = @"https://api.weixin.qq.com/sns/jscode2session?";
 
-        public UserService(IHttpClientFactory httpClientFactory, IConfiguration config, IUserRepository userRepository)
+        public UserService(IHttpClientFactory httpClientFactory, IConfiguration config, IUserRepository userRepository, IMapper mapper)
         {
             _httpClient = httpClientFactory.CreateClient();
             _config = config;
             _userRepo = userRepository;
+            _mapper = mapper;
         }
 
         public async Task<string> GetWxOpenId(string code)
@@ -62,36 +65,24 @@ namespace SpSecondHandApi.Services
             // If user already exists in database then update and return it directly
             if (userFromDb != null)
             {
-                userFromDb.NickName = user.NickName;
-                userFromDb.HeadImgUrl = user.HeadImgUrl;
-                userFromDb.Sex = user.Sex;
+                userFromDb.UserName = user.UserName;
+                userFromDb.ProfileImgUrl = user.ProfileImgUrl;
+                userFromDb.Gender = user.Gender;
 
-                return new UserDto(await _userRepo.Update(userFromDb));
+                return _mapper.Map<UserDto>(await _userRepo.Update(userFromDb));
             }
 
-            var userToAdd = new User()
-            {
-                OpenId = user.OpenId,
-                NickName = user.NickName,
-                City = user.City,
-                Province = user.Province,
-                Country = user.Country,
-                Sex = user.Sex,
-                HeadImgUrl = user.HeadImgUrl,
-                CreateTime = user.CreateTime,
-                Status = user.Status,
-                ProjectId = user.ProjectId,
-            };
+            var userToAdd = _mapper.Map<User>(user);
             var userAdded = await _userRepo.Add(userToAdd);
 
-            return new UserDto(userAdded);
+            return _mapper.Map<UserDto>(userAdded);
         }
 
         public async Task<List<UserDto>> GetAllUsers()
         {
             var userList = await _userRepo.GetAll();
 
-            return userList.Select(u => new UserDto(u)).ToList();
+            return userList.Select(u => _mapper.Map<UserDto>(u)).ToList();
         }
 
         public async Task<UserDto> GetByUserId(long id)
@@ -101,18 +92,18 @@ namespace SpSecondHandApi.Services
             if (userEntity == null)
                 throw new ArgumentException($"User with id {id} doesn't exist.");
 
-            return new UserDto(userEntity);
+            return _mapper.Map<UserDto>(userEntity);
         }
 
         public async Task<UserDto> UpdateUser(UserDto user)
         {
             var entityToUpdate = await _userRepo.Get(user.Id);
 
-            entityToUpdate.NickName = user.NickName;
-            entityToUpdate.HeadImgUrl = user.HeadImgUrl;
-            entityToUpdate.Sex = user.Sex;
+            entityToUpdate.UserName = user.UserName;
+            entityToUpdate.ProfileImgUrl = user.ProfileImgUrl;
+            entityToUpdate.Gender = user.Gender;
 
-            return new UserDto(await _userRepo.Update(entityToUpdate));
+            return _mapper.Map<UserDto>(await _userRepo.Update(entityToUpdate));
         }
     }
 }
