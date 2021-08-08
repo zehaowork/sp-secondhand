@@ -1,0 +1,52 @@
+.indicatorContainer{
+    margin: auto;
+    width: 50%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.buyContainer{
+    position: absolute;
+    left: 150px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.sellContainer{
+    position: absolute;
+    right: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.buy{
+    position: relative;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.sell{
+    position: relative;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.indicatorLine{
+    position: relative;
+    width: 120px;
+    height: 5px;
+    background: orange;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+}

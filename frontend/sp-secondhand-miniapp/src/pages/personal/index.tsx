@@ -1,5 +1,6 @@
-import { OpenData, View ,Image, Text,} from '@tarojs/components';
+import { OpenData, View ,Image, Text} from '@tarojs/components';
 import React from 'react';
+import Taro from '@tarojs/taro';
 import s from './index.css';
 
 //组件资源
@@ -43,7 +44,11 @@ const Index: React.FC<Props> = ()=>{
             关于我们
             <Text className={s.redirect} >〉</Text>     
         </View>
-        <View  className={s.item}>
+        <View  className={s.item} onClick={()=>{
+            Taro.navigateTo({
+                url: '/pages/Chatboard/Chatboard'
+            })
+        }}>
             <Image src={MessageIcon} className={s.icon} />
             我的私信
             <Text className={s.redirect} >〉</Text>     

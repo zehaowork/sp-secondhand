@@ -1,12 +1,13 @@
 export default {
   pages: [
     'pages/index/index',
-    'pages/personal/index'
+    'pages/personal/index',
+    'pages/Chatboard/Chatboard'
   ],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
+    navigationBarTitleText: '聊天板',
     navigationBarTextStyle: 'black'
   },
 
@@ -16,9 +17,6 @@ export default {
     {
       pagePath: "pages/index/index",
       text: "首页" },
-
-    
-
     {
       pagePath: "pages/personal/index",
       text: "个人" }]
