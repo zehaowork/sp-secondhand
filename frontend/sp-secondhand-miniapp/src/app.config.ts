@@ -2,7 +2,7 @@ export default {
   pages: [
     'pages/index/index',
     'pages/personal/index',
-    'pages/Chatboard/Chatboard'
+    'pages/chatboard/index'
   ],
   window: {
     backgroundTextStyle: 'light',

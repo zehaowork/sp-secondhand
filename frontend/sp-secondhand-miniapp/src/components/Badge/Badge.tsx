@@ -6,7 +6,7 @@ import s from './Badge.css'
 interface Props {}
 const Badge: React.FC<Props> = () => {
     return (
-        <View className={s.notifyBadge}>3</View>
+        <View className={s.container}>3</View>
     )
 }
 

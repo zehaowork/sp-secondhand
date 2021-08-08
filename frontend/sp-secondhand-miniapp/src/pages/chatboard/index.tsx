@@ -1,12 +1,12 @@
 import { View, ScrollView, Swiper, SwiperItem } from '@tarojs/components'
 import React from 'react'
-import s from './chatboard.css'
+import s from './index.css'
 import ChatItem from '../../components/ChatItem/ChatItem'
 import Indicator from '../../components/Indicator/Indicator'
 
 
 interface Props{}
-const Chatboard: React.FC<Props> = () => {
+const Index: React.FC<Props> = () => {
     const arr = [1, 2]
     const arr2 = [1, 2, 3]
     const chatItems = arr.map((value)=> {
@@ -19,21 +19,18 @@ const Chatboard: React.FC<Props> = () => {
     })
     return (
         <View>
-            <View className={s.line}></View>
-            <Indicator></Indicator>
-            <Swiper indicatorColor='#999'
-                    indicatorActiveColor='#333'
-                    vertical={false}
-                    circular
-                    indicatorDots
-                    autoplay>
+           
+            <Indicator />
+            <Swiper 
+                className={s.swiper}
+                    >
                 <SwiperItem>
-                    <ScrollView className={s.container}>
+                    <ScrollView>
                         {chatItems}
                     </ScrollView> 
                 </SwiperItem>
                 <SwiperItem>
-                    <ScrollView className={s.container}>
+                    <ScrollView >
                         {chatItems2}
                     </ScrollView> 
                 </SwiperItem>
@@ -42,5 +39,4 @@ const Chatboard: React.FC<Props> = () => {
     )
 }
 
-export default Chatboard
-
+export default Index

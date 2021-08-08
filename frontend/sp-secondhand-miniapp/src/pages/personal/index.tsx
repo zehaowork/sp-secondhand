@@ -46,7 +46,7 @@ const Index: React.FC<Props> = ()=>{
         </View>
         <View  className={s.item} onClick={()=>{
             Taro.navigateTo({
-                url: '/pages/Chatboard/Chatboard'
+                url: '/pages/chatboard/index'
             })
         }}>
             <Image src={MessageIcon} className={s.icon} />
