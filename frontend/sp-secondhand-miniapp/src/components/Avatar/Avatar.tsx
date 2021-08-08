@@ -5,7 +5,7 @@ import AvatarPlaceHolder from '../../images/avatar_placeholder.png';
 
 interface Props{
     
-    size:"lg"|"sm"
+    size:"lg"|"sm"|"md"
     isAuthorized?:boolean
 }
 

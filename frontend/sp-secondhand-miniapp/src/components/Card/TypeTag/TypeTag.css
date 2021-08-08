@@ -1,11 +1,8 @@
 .container {
-  padding: 4rpx;
-  border-radius: 10rpx;
-  width: 92rpx;
-  text-align: center;
-  font-size: 26rpx;
-  border-style: solid;
-  border-width: thin;
+  display: inline-block;
+  padding: 0 5px;
+  font-size: 23px;
+  margin-right: 10px;
 }
 
 .shop {

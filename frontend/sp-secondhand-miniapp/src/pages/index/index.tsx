@@ -33,7 +33,6 @@ const Index: React.FC<Props> = ()=>{
   <BannerSwiper />
   <CategoryList />
   <GoodsList />
-
 </View>
 }
 

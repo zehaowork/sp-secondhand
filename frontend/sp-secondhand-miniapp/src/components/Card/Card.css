@@ -10,7 +10,7 @@
   margin: 0 auto;
   margin-bottom: 5px;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
 .image {
@@ -27,6 +27,24 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 50rpx;
-  font-size: 28rpx;
+  line-height: 50px;
+  font-size: 28px;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 50px;
+  font-size: 25px;
+  color: grey;
+}
+
+.tags {
 }

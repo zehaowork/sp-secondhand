@@ -2,6 +2,9 @@ import React from 'react';
 import {View,Image} from '@tarojs/components'
 import s from './CategoryIcon.css'
 import { Category } from 'src/typings/common';
+import Groceries from '../../../images/groceries.png';
+import Lamp from '../../../images/lamp.png';
+
 
 enum GoodType {
     New = 0,
@@ -28,7 +31,7 @@ const CategoryIcon: React.FC<Props> = (props)=>{
 
     return<View className={s.container} >
         <View className={s.imageContainer}>
-        <Image className={s.image} src='' />
+        <Image className={s.image} src={Lamp} />
         </View>
         <View className={s.text} >
             {props.Category.Name}

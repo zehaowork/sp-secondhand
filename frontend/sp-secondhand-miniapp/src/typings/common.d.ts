@@ -8,11 +8,12 @@ declare interface Item  {
     Price:number;
     CityName:string;
     GoodType:GoodType;
+    CategoryName:string;
   }
 
   declare interface Category{
     ID:string;
-    ImgUrl:string;
+    ImgUrl:any;
     Name:string;
 }
   
