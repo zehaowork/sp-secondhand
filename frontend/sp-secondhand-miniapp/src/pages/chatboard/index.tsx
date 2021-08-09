@@ -23,6 +23,7 @@ const Index: React.FC<Props> = () => {
             <Indicator />
             <Swiper 
                 className={s.swiper}
+               
                     >
                 <SwiperItem>
                     <ScrollView>
