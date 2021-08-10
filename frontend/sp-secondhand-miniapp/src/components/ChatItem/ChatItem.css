@@ -1,6 +1,6 @@
 .area{
     position: relative;
-	width: 1500px;
+	width: 100%;
     height: 200px;
     margin-top: 20px;
 }
@@ -24,6 +24,7 @@
 }
 
 .chatbox{
+    position: relative;
     width: 1500px;
     display: flex;
     flex-direction: row;
@@ -72,7 +73,8 @@
 
 .chatboxRight{
     position: relative;
-    margin-left: 20px;
+    margin-left: 85px;
+    margin-top: 10px;
 }
 
 .isSold{
@@ -85,6 +87,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.delete{
+    position: absolute;
+    margin-left: 750px;
+    width: 150px;
+	height: 200px;
+	background: #ED6F20;
+    color: #fff;
+	line-height: 150px;
+	text-align: center;
+    border-radius: 0 10px 10px 0;
 }
 
 

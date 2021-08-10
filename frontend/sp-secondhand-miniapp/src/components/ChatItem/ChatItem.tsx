@@ -8,7 +8,7 @@ interface Props {}
 const ChatItem: React.FC<Props> = () => {
     return (
         <MovableArea className={s.area}>
-            <MovableView className={s.chartarea}
+            <MovableView className={s.chartArea}
                 damping = {100}
                 direction='horizontal'
         
@@ -30,7 +30,7 @@ const ChatItem: React.FC<Props> = () => {
                             <View className={s.isSold}>已售</View>
                         </View>  
                     </View>
-                    
+                    <View className={s.delete}>删除</View>
                 </View>
             </MovableView>
             <View className={s.line}></View>
