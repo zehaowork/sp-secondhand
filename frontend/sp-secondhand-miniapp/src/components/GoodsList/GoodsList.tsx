@@ -12,19 +12,26 @@ enum GoodType {
     Shop = 2,
   }
 
+interface Props {
+    isFavoritesPage:Boolean;
+}
 
 //容器组件
-const GoodsList: React.FC<any> = ()=>{
+const GoodsList: React.FC<any> = (props)=>{
 
     //定义状态
-    const [goodsList, setGoodsList] = useState<Array<Item>>([{ID:'0',CategoryName:'潮鞋服饰',Price:0,CityName:'南安普顿',Title:'LG 22寸显示屏',GoodType:GoodType.New,imgUrl:'images/',isSale:false,popularity:0,},{ID:'0',Price:0,CityName:'test',Title:'测试',GoodType:GoodType.New,imgUrl:'images/',isSale:false,popularity:0,},{ID:'0',Price:0,CityName:'test',Title:'测试',GoodType:GoodType.New,imgUrl:'images/',isSale:false,popularity:0,},{ID:'0',Price:0,CityName:'test',Title:'测试',GoodType:GoodType.New,imgUrl:'images/',isSale:false,popularity:0,}]);
+    const [goodsList, setGoodsList] = useState<Array<Item>>([{ID:'0',CategoryName:'潮鞋服饰',Price:0,CityName:'南安普顿',Title:'LG 22寸显示屏',GoodType:GoodType.New,imgUrl:'images/',isSale:false,popularity:0,},{ID:'0',CategoryName:'潮鞋服饰',Price:0,CityName:'test',Title:'测试',GoodType:GoodType.New,imgUrl:'images/',isSale:false,popularity:0,},{ID:'0',Price:0,CategoryName:'潮鞋服饰',CityName:'test',Title:'测试',GoodType:GoodType.New,imgUrl:'images/',isSale:false,popularity:0,}]);
 
     //声明周期
-
+    
+    //Create interface Props here that includes a boolean variable 
+    //stating whether the page we are rendering is the favorites page
+    //Pass this variable into the Card component below and render that way
+    const isFavPage = props.isFavoritesPage 
 
     //渲染函数
     const renderList = goodsList.map((item:Item)=>{
-        return <Card key ={item.ID} item={item} />
+        return <Card key ={item.ID} item={item} isFavoritesPage={isFavPage}/>
     })
     
 
