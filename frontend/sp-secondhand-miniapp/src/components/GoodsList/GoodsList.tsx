@@ -3,7 +3,6 @@ import {View,Picker, Button, Text} from '@tarojs/components'
 import { Item } from 'src/typings/common';
 import s from './GoodsList.css'
 import Card from '../Card/Card';
-import Loader from '../Loader/Loader';
 import InlineLoader from '../InlineLoader/InlineLoader';
 
 enum GoodType {
