@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 
 import configStore from './store'
+import { getItemList } from './actions/itemList'
 
 import './app.css'
 
@@ -34,7 +35,9 @@ class App extends Component {
 
   componentDidMount () {}
 
-  componentDidShow () {}
+  componentDidShow () {
+    store.dispatch(getItemList(this.AppData.BASE_URL))
+  }
 
   componentDidHide () {}
 
