@@ -27,14 +27,15 @@ export enum GoodType {
   Shop = 2,
 }
 
+//Pass in FALSE as the isFavorites boolean into GoodsList component
+
 interface Props {}
 const Index: React.FC<Props> = ()=>{
   return <View className={s.container}>
   <BannerSwiper />
   <CategoryList />
-  <GoodsList />
+  <GoodsList isFavoritesPage={false}/>
 </View>
 }
 
 export default Index
-

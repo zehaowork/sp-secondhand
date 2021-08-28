@@ -1,21 +1,27 @@
 import { GoodType } from "src/pages/index";
 declare interface Item  {
-    ID:string;
-    imgUrl:string;
-    isSale:boolean;
+    id:number;
+    title:string;
+    imgUrls:string;
+    description:string;
+    weChatId:string;
+    telephone:string;
+    price:number;
+    type:number;
+    address:string;
+    userId:number;
+    categoryId:number;
+    publishTime:string;
+    cityId:number;
+    isSold:boolean;
     popularity:number;
-    Title:string;
-    Price:number;
-    CityName:string;
-    GoodType:GoodType;
-    CategoryName:string;
   }
 
   declare interface Category{
     ID:string;
     ImgUrl:any;
     Name:string;
-}
+  }
   
 declare module "*.png";
 declare module "*.gif";

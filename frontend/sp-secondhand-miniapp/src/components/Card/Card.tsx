@@ -14,6 +14,7 @@ import CategoryTag from './CategoryTag/CategoryTag';
 
 interface Props {
     item:Item;
+    isFavoritesPage:Boolean;
 }
 
 
@@ -25,7 +26,17 @@ const Card: React.FC<Props> = (props) =>{
 
     //定义 Handler
 
-    
+    const isFavPage = props.isFavoritesPage
+    let shopperInfo
+    if(!isFavPage) {
+        shopperInfo = <View className='flex flex-space-between' >
+                        <View className={s.user}>
+                            <Avatar size='sm' isAuthorized />
+                            <OpenData className={s.name}  type='userNickName' />
+                        </View>
+                        <View className={s.name}>1000人想要</View>
+                      </View>
+    }
 
 
     return <View className={s.container}>
@@ -50,13 +61,8 @@ const Card: React.FC<Props> = (props) =>{
         </View>
 
        {/* 商家信息 */}
-        <View className='flex flex-space-between' >
-        <View className={s.user}>
-            <Avatar size='sm' isAuthorized />
-            <OpenData className={s.name}  type='userNickName' />
-        </View>
-        <View className={s.name}>1000人想要</View>
-        </View>
+        {shopperInfo}
+
         
     </View>
     </View>
