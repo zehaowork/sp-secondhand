@@ -13,6 +13,7 @@ import ShopIcon from '../../images/shop.png';
 import MessageIcon from '../../images/message.png';
 import ShareColorIcon from '../../images/share_color.png';
 import CustomerServiceIcon from '../../images/customer_service.png'
+import FavoritesIcon from '../../images/favorites_folder.svg'
 
 interface Props{
 
@@ -37,6 +38,15 @@ const Index: React.FC<Props> = ()=>{
         <View  className={s.item}>
             <Image src={ShopIcon} className={s.icon} />
             我的店铺
+            <Text className={s.redirect} >〉</Text>     
+        </View>
+        <View  className={s.item} onClick={()=>{
+            Taro.navigateTo({
+                url: '/pages/favorites/index'
+            })
+        }}>
+            <Image src={FavoritesIcon} className={s.icon} />
+            收藏夹
             <Text className={s.redirect} >〉</Text>     
         </View>
         <View  className={s.item}>
