@@ -3,7 +3,6 @@ declare interface Item  {
     id:number;
     title:string;
     imgUrls:string;
-    description:string;
     weChatId:string;
     telephone:string;
     price:number;

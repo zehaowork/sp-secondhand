@@ -24,6 +24,7 @@ export const FETCH_ITEMS_FAILED = errorMsg => {
     }
 }
 
+//TODO:没有参数
 export const getItemList : any = (baseUrl) => {
     return function (dispatch){
         dispatch(FETCH_ITEMS_REQ)

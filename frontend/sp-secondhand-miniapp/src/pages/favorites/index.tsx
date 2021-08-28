@@ -1,4 +1,4 @@
-import { View, Image, Text, MovableArea, MovableView } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import React from 'react'
 import GoodsList from '../../components/GoodsList/GoodsList'
 
@@ -8,7 +8,7 @@ interface Props {}
 const Index: React.FC<Props> = () => {
     return (
         <View>
-            <GoodsList isFavoritesPage={true}></GoodsList>
+            <GoodsList isFavouritesPage={true}></GoodsList>
         </View>
     )
 }

@@ -1,25 +1,11 @@
-import React from 'react'
-
+import React, { useEffect,useState } from 'react'
 import { View, Button, Text } from '@tarojs/components'
-
-
-
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
 import CategoryList from '../../components/CategoryList/CategoryList'
 import BannerSwiper from '../../components/BannerSwiper/BannerSwiper'
-
-
-
-// #region 书写注意
-//
-// 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
-// 需要显示声明 connect 的参数类型并通过 interface 的方式指定 Taro.Component 子类的 props
-// 这样才能完成类型检查和 IDE 的自动提示
-// 使用函数模式则无此限制
-// ref: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20796
-//
-// #endregion
+import API from '../../../utils/API'
+import { Item } from 'src/typings/common'
 
 export enum GoodType {
   New = 0,
@@ -31,10 +17,38 @@ export enum GoodType {
 
 interface Props {}
 const Index: React.FC<Props> = ()=>{
+
+  const [itemList, setItemList] = useState<Array<Item>>([]);
+  useEffect(() => {
+   getList();
+  }, [])
+
+
+  //数据抓取
+  const getList = ()=>{
+    API.SecondHand.getSecondHand({
+      catId:1,
+      cityId:1,
+      keyword:'',
+      page:0,
+      size:5,
+    }).then(res =>{
+      if(res.statusCode === 200){
+        console.log(res.data.data);
+        setItemList(res.data.data);
+      }
+      else{
+        //TODO:添加错误信息
+      }
+    }).catch(err =>{
+      //TODO:添加错误信息
+    })
+  }
+
   return <View className={s.container}>
   <BannerSwiper />
   <CategoryList />
-  <GoodsList isFavoritesPage={false}/>
+  <GoodsList itemList={itemList} isFavouritesPage={false}/>
 </View>
 }
 

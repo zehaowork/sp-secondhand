@@ -13,7 +13,7 @@ import ShopIcon from '../../images/shop.png';
 import MessageIcon from '../../images/message.png';
 import ShareColorIcon from '../../images/share_color.png';
 import CustomerServiceIcon from '../../images/customer_service.png'
-import FavoritesIcon from '../../images/favorites_folder.svg'
+// import FavoritesIcon from '../../images/favorites_folder.svg'
 
 interface Props{
 

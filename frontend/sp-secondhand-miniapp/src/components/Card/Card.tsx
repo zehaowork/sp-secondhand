@@ -14,7 +14,7 @@ import CategoryTag from './CategoryTag/CategoryTag';
 
 interface Props {
     item:Item;
-    isFavoritesPage:Boolean;
+    isFavouritesPage:Boolean;
 }
 
 
@@ -22,27 +22,15 @@ interface Props {
 const Card: React.FC<Props> = (props) =>{
     //定义状态
     const app:any = Taro.getApp().$app;
-    //定义Redux
+    //生命周期
 
-    //定义 Handler
+    //渲染函数
 
-    const isFavPage = props.isFavoritesPage
-    let shopperInfo
-    if(!isFavPage) {
-        shopperInfo = <View className='flex flex-space-between' >
-                        <View className={s.user}>
-                            <Avatar size='sm' isAuthorized />
-                            <OpenData className={s.name}  type='userNickName' />
-                        </View>
-                        <View className={s.name}>1000人想要</View>
-                      </View>
-    }
 
 
     return <View className={s.container}>
     <View className={s.item}>
-    <Image src={PlaceHolder} mode='aspectFill' className={s.image} >
-    {/* <SeenBadge Popularity={props.item.popularity} /> */}
+    <Image src={props.item.imgUrls} mode='aspectFill' className={s.image} >
     </Image>
     </View>
 
@@ -50,20 +38,25 @@ const Card: React.FC<Props> = (props) =>{
         {/* 商品小标签 */}
         <View className={s.tags} >
             <CityTag CityName={props.item.CityName} />
-            <TypeTag GoodType={props.item.GoodType} />
+            <TypeTag GoodType={props.item.type} />
             <CategoryTag CategoryName={props.item.CategoryName} />
         </View>
         
          {/* 商品名字 以及商品价格 */}
         <View className='flex flex-space-between' >
-            <View className={s.title}>{props.item.Title}</View>
-            <View className='price-yellow' >£{props.item.Price}</View>
+            <View className={s.title}>{props.item.title}</View>
+            <View className='price-yellow' >£{props.item.price}</View>
         </View>
-
-       {/* 商家信息 */}
-        {shopperInfo}
-
         
+       {/* 商家信息 */}
+        {!props.isFavouritesPage && <View className='flex flex-space-between' >
+            <View className={s.user}>
+                <Avatar size='sm' isAuthorized />
+                <OpenData className={s.name}  type='userNickName' />
+            </View>
+            <View className={s.name}>{props.item.popularity}人想要</View>
+          </View>
+        }
     </View>
     </View>
 }
