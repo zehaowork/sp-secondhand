@@ -3,7 +3,8 @@ export default {
     'pages/index/index',
     'pages/personal/index',
     'pages/chatboard/index',
-    'pages/favorites/index'
+    'pages/favorites/index',
+    'pages/search/index'
   ],
   window: {
     backgroundTextStyle: 'light',

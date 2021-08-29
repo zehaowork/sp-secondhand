@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from 'react'
-import { View, Button, Text } from '@tarojs/components'
+import Taro from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
 import CategoryList from '../../components/CategoryList/CategoryList'
@@ -13,7 +14,7 @@ export enum GoodType {
   Shop = 2,
 }
 
-//Pass in FALSE as the isFavorites boolean into GoodsList component
+//Pass in FALSE as the isFavourites boolean into GoodsList component
 
 interface Props {}
 const Index: React.FC<Props> = ()=>{
@@ -45,7 +46,14 @@ const Index: React.FC<Props> = ()=>{
     })
   }
 
+  const toSearch = ()=>{
+    Taro.navigateTo({
+      url:'../search/index'
+    })
+  }
+
   return <View className={s.container}>
+    <View  onClick={toSearch} >搜索入口</View>
   <BannerSwiper />
   <CategoryList />
   <GoodsList itemList={itemList} isFavouritesPage={false}/>
