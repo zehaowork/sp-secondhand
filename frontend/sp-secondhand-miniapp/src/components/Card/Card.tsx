@@ -1,9 +1,7 @@
 import React from 'react';
-import Taro from '@tarojs/taro';
 import {View,Image, OpenData} from '@tarojs/components'
 import s from './Card.css';
 import { Item } from 'src/typings/common';
-import PlaceHolder from '../../images/banner.jpg'
 import TypeTag from './TypeTag/TypeTag';
 
 import CityTag from './CityTag/CityTag';
@@ -21,14 +19,20 @@ interface Props {
 //商品显示组件
 const Card: React.FC<Props> = (props) =>{
     //定义状态
-    const app:any = Taro.getApp().$app;
-    //生命周期
+ 
+    //定义行为
+    
+    // 打开商品详情
+    const toDetail = ()=>{
+        //TODO:添加商品详情路径
+    }
+
 
     //渲染函数
 
 
 
-    return <View className={s.container}>
+    return <View onClick={toDetail} className={s.container}>
     <View className={s.item}>
     <Image src={props.item.imgUrls} mode='aspectFill' className={s.image} >
     </Image>
@@ -47,7 +51,7 @@ const Card: React.FC<Props> = (props) =>{
             <View className={s.title}>{props.item.title}</View>
             <View className='price-yellow' >£{props.item.price}</View>
         </View>
-        
+
        {/* 商家信息 */}
         {!props.isFavouritesPage && <View className='flex flex-space-between' >
             <View className={s.user}>

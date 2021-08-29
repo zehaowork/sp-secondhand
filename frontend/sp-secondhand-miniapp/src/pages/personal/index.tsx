@@ -45,7 +45,7 @@ const Index: React.FC<Props> = ()=>{
                 url: '/pages/favorites/index'
             })
         }}>
-            <Image src={FavoritesIcon} className={s.icon} />
+            {/* <Image src={FavoritesIcon} className={s.icon} /> */}
             收藏夹
             <Text className={s.redirect} >〉</Text>     
         </View>

@@ -26,7 +26,7 @@ const Index: React.FC<Props> = ()=>{
 
   //数据抓取
   const getList = ()=>{
-    API.SecondHand.getSecondHand({
+    API.SecondHand.getSecondHands({
       catId:1,
       cityId:1,
       keyword:'',

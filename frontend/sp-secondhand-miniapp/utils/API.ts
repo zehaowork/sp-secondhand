@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
-
+//服务器地址
 const BASE_URL:String = 'http://test.smallpotatoestech.com:8087/api/';
-const header = 'application/x-www-form-urlencoded';
+const header:String = 'application/x-www-form-urlencoded';
 
 enum Method {
     GET = 'GET',
@@ -12,14 +12,18 @@ enum Method {
 
 
 const API = {
-
+    //二手相关API
     SecondHand:{
-        getSecondHand: function(data) {
+        getSecondHands: function(data) {
             return Taro.request({
                 url:BASE_URL+'secondHand',
                 data:data,
+                header:header,
                 method:Method.GET,
             })
+        },
+        getSecondHand: function(data) {
+            
         }
     }
 
