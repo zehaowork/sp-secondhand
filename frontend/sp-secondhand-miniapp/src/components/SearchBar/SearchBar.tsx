@@ -11,7 +11,7 @@ interface Props{
     onFocus?: Function;
     onClear?: Function;
     onBlur?: Function;
-    onConfirm?: Function;
+    onConfirm: any;
     onActionClick?: Function;
  
     //参数
@@ -30,7 +30,7 @@ const SearchBar: React.FC<Props> = (props)=>{
         <View  className={s.icon} >
         <AtIcon value='search' size='13' color='F00' />
         </View>
-        <Input className={s.input} placeholder={props.placeholder} confirmType='search'  />
+        <Input onConfirm={props.onConfirm} className={s.input} placeholder={props.placeholder} confirmType='search'  />
         </View>
         <View className={s.action} >
             <View className={s.btn} >搜索</View>

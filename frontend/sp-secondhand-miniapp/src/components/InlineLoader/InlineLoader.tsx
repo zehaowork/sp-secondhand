@@ -11,7 +11,7 @@ interface Props{
 const InlineLoader: React.FC<Props> = (props)=>{
     return <View className={s.container}>
         <Loader size='sm' showLoading={props.showLoading} />
-        {props.message&&<View className={s.message} >{props.message}</View>}
+        {props.message&&<View className={props.showLoading && s.message} >{props.message}</View>}
     </View>
 }
 export default InlineLoader;

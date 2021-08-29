@@ -8,7 +8,9 @@ interface Props{
 }
 
 const Loader: React.FC<Props> = (props) =>{
-    return <View className={props.size ==='lg'?s.loader_lg:props.size==='md'?s.loader_md:s.loader_sm}></View>
+    return <React.Fragment>
+       {props.showLoading? <View className={props.size ==='lg'?s.loader_lg:props.size==='md'?s.loader_md:s.loader_sm}></View>:null}
+    </React.Fragment>
 
 }
 export default Loader;

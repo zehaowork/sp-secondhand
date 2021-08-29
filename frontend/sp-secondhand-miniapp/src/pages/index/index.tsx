@@ -5,8 +5,13 @@ import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
 import CategoryList from '../../components/CategoryList/CategoryList'
 import BannerSwiper from '../../components/BannerSwiper/BannerSwiper'
+import Header from '../../components/Header/Header'
+import InlineLoader from '../../components/InlineLoader/InlineLoader'
+import {AtDivider} from 'taro-ui'
 import API from '../../../utils/API'
 import { Item } from 'src/typings/common'
+
+
 
 export enum GoodType {
   New = 0,
@@ -56,7 +61,14 @@ const Index: React.FC<Props> = ()=>{
     <View  onClick={toSearch} >搜索入口</View>
   <BannerSwiper />
   <CategoryList />
+  <Header title ='闲置好物' />
   <GoodsList itemList={itemList} isFavouritesPage={false}/>
+  {/* 加载组件 */}
+  <View className={s.loader} >
+    <AtDivider>
+    <InlineLoader  message='别太放肆，我们可是有底线的噢-o-'  />
+    </AtDivider>
+    </View>
 </View>
 }
 

@@ -4,7 +4,8 @@ export default {
     'pages/personal/index',
     'pages/chatboard/index',
     'pages/favorites/index',
-    'pages/search/index'
+    'pages/search/index',
+    'pages/search/result/result'
   ],
   window: {
     backgroundTextStyle: 'light',

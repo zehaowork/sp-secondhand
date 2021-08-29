@@ -4,3 +4,7 @@
   justify-content: center;
   padding: 10px;
 }
+
+.loader {
+  padding: 20rpx 100rpx;
+}

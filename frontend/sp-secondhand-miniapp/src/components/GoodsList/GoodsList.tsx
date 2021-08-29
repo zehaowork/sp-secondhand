@@ -31,30 +31,10 @@ const GoodsList: React.FC<Props> = (props)=>{
     })
     
     return<View className={s.container} >
-        {/* 头部部分：包括标题和排序按钮 */}
-        <View className={s.listHeader} >
-            {/* 标题 */}
-            <View className={s.listTitle} >
-                闲置好物
-            </View>
-
-            {/* 排序按钮 */}
-            <Picker mode='selector' range={[]} onChange={()=>{}}  >
-            <View className={s.sort} >
-                <Button className={s.btn_sm}>
-                排序
-                    <Text className={s.icon_unfold}></Text>
-                </Button>
-            </View>
-            </Picker>
-        </View>
-
         {/* 列表 */}
         <View className={s.list} >
         {renderList}
         </View>
-        
-        <View className={s.loader} ><InlineLoader  showLoading /></View>
     </View>
 }
 export default GoodsList;

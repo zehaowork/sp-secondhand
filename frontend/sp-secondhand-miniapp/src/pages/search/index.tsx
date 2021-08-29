@@ -1,21 +1,30 @@
 
 import React from 'react';
+import Taro from '@tarojs/taro';
 import {View} from '@tarojs/components';
 import { AtIcon } from 'taro-ui'
 import s from './index.css';
 import SearchBar from '../../components/SearchBar/SearchBar';
 
-interface Props{
 
-}
 
-const Index :React.FC<Props> = ()=>{
+const Index :React.FC<any> = ()=>{
     //定义状态
     const historyList:Array<any> = [];
 
+    const onConfirm = ()=>{
+        Taro.navigateTo({
+            url:'./result/result'
+        })
+    }
+
 
     return <View className={s.container} >
-        <SearchBar placeholder="请输入商品关键词/名称/品牌" />
+        {/* 搜索栏 */}
+        <SearchBar 
+        placeholder="请输入商品关键词/名称/品牌"
+        onConfirm={onConfirm}
+        />
         {/* 内容区域 */}
         <View className={s.content}>
             {/* 最近搜索标题栏目 */}

@@ -1,4 +1,5 @@
 import "taro-ui/dist/style/components/icon.scss";
+import "taro-ui/dist/style/components/divider.scss";
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import configStore from './store'
