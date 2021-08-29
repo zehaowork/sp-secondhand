@@ -8,3 +8,34 @@
 .loader {
   padding: 20rpx 100rpx;
 }
+
+.header{
+  composes: flex from global;
+  position: sticky;
+  top:0;
+  z-index: 1;
+}
+
+.addMini {
+  position: fixed;
+  right: 20rpx;
+  top: 15rpx;
+  background: #ec5b5b;
+  padding: 10rpx 20rpx;
+  z-index: 999;
+  border-radius: 30rpx;
+}
+.addText {
+  color: #fff;
+  font-size: 24rpx;
+}
+.addStyle {
+  position: absolute;
+  right: 100rpx;
+  top: -35rpx;
+  width: 0;
+  height: 0;
+  border: 20rpx solid;
+  border-color: transparent transparent #ec5b5b;
+  /* border-right: 40rpx solid #f03131; */
+}

@@ -16,11 +16,11 @@ declare interface Item  {
     popularity:number;
   }
 
-  declare interface Category{
-    ID:string;
-    ImgUrl:any;
-    Name:string;
-  }
+  // declare interface Category{
+  //   ID:string;
+  //   ImgUrl:any;
+  //   Name:string;
+  // }
   
 declare module "*.png";
 declare module "*.gif";

@@ -4,7 +4,7 @@ import s from './BannerSwiper.css';
 
 
 interface Props {
-    
+    imageList: Array<string>;
 }
 
 const BannerSwiper: React.FC<Props> = (props)=>{
@@ -14,11 +14,12 @@ const BannerSwiper: React.FC<Props> = (props)=>{
 
 
     //渲染函数
+    const renderImage = props.imageList.map(img =>   <Image mode='aspectFill'  src={img} className={s.image} />)
     
     return <View  className={s.container}>
         <Swiper className={s.swiper} >
             <SwiperItem>
-                <Image  src='' className={s.image} />
+              {renderImage}
             </SwiperItem>
         </Swiper>
     </View>

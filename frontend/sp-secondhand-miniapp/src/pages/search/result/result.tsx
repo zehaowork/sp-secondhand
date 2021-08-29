@@ -4,8 +4,8 @@ import { AtDivider } from 'taro-ui'
 import s from './result.css';
 import SearchBar from '../../../components/SearchBar/SearchBar';
 import GoodsList from '../../../components/GoodsList/GoodsList';
-import InlineLoader from '../../../components/InlineLoader/InlineLoader';
 import Header from '../../../components/Header/Header';
+import InlineLoader from '../../../components/InlineLoader/InlineLoader';
 import { Item } from 'src/typings/common';
 
 

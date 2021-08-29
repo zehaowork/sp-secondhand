@@ -3,13 +3,18 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
-import CategoryList from '../../components/CategoryList/CategoryList'
+import Category from '../../components/Category/Category'
 import BannerSwiper from '../../components/BannerSwiper/BannerSwiper'
 import Header from '../../components/Header/Header'
+import SearchBarPlaceholder from '../../components/SearchBarPlaceholder/SearchBarPlaceholder'
 import InlineLoader from '../../components/InlineLoader/InlineLoader'
+import CitySelector from '../../components/CitySelector/CitySelector'
 import {AtDivider} from 'taro-ui'
 import API from '../../../utils/API'
 import { Item } from 'src/typings/common'
+
+
+
 
 
 
@@ -23,15 +28,24 @@ export enum GoodType {
 
 interface Props {}
 const Index: React.FC<Props> = ()=>{
-
+  //定义状态
   const [itemList, setItemList] = useState<Array<Item>>([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [showLoading, setShowLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState('别太放肆，我们可是有底线的噢-o-');
+
+  //页面行为
   useEffect(() => {
    getList();
+   getCategories();
   }, [])
 
 
   //数据抓取
+
+  //获取商品列表
   const getList = ()=>{
+    setShowLoading(true);
     API.SecondHand.getSecondHands({
       catId:1,
       cityId:1,
@@ -39,6 +53,7 @@ const Index: React.FC<Props> = ()=>{
       page:0,
       size:5,
     }).then(res =>{
+      setShowLoading(false);
       if(res.statusCode === 200){
         console.log(res.data.data);
         setItemList(res.data.data);
@@ -47,9 +62,27 @@ const Index: React.FC<Props> = ()=>{
         //TODO:添加错误信息
       }
     }).catch(err =>{
+      setShowLoading(false);
       //TODO:添加错误信息
     })
   }
+
+  //获取类别列表
+  const getCategories = ()=>{
+    API.Home.getCategories().then(res=>{
+      if(res.statusCode === 200){
+        console.log(res.data.data);
+        setCategoryList(res.data.data);
+      }
+      else{
+        //TODO:添加错误信息
+      }
+    }).catch(err =>{
+       //TODO:添加错误信息
+    })
+  }
+
+  const imageList = ['https://picsum.photos/200/300'];
 
   const toSearch = ()=>{
     Taro.navigateTo({
@@ -58,18 +91,29 @@ const Index: React.FC<Props> = ()=>{
   }
 
   return <View className={s.container}>
-    <View  onClick={toSearch} >搜索入口</View>
-  <BannerSwiper />
-  <CategoryList />
+    <View className={s.header} >
+      <CitySelector />
+      <SearchBarPlaceholder onClick={toSearch} />
+    </View>
+  <BannerSwiper imageList ={imageList} />
+  {/* 类型栏目 */}
+  <Category categoryList={categoryList} />
   <Header title ='闲置好物' />
+  {/* 商品列表 */}
   <GoodsList itemList={itemList} isFavouritesPage={false}/>
   {/* 加载组件 */}
   <View className={s.loader} >
     <AtDivider>
-    <InlineLoader  message='别太放肆，我们可是有底线的噢-o-'  />
+    <InlineLoader showLoading={showLoading} message={loadingText}  />
     </AtDivider>
     </View>
+
+  {/* 点击添加 */}
+  <View className={s.addMini} >
+    <View className={s.addStyle}></View>
+    <View className={s.addText}>点击右上角，添加小土豆</View>
+  </View>
 </View>
 }
 
-export default Index
+export default Index;

@@ -25,7 +25,16 @@ const API = {
         getSecondHand: function(data) {
             
         }
+    },
+    //主页相关动态资源API
+    Home:{
+        getCategories: function() {
+            return Taro.request({
+                url:BASE_URL+'home/categories',
+                header:header,
+                method:Method.GET,
+            })
+        }
     }
-
 }
 export default API;

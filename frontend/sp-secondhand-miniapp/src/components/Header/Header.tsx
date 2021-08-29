@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Picker, Text, View} from '@tarojs/components'
+import {Button, Picker, View} from '@tarojs/components'
 import {AtIcon} from 'taro-ui'
 import s from './Header.css'
 
