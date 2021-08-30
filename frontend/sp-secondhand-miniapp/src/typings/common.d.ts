@@ -1,4 +1,5 @@
 import { GoodType } from "src/pages/index";
+//物品接口
 declare interface Item  {
     id:number;
     title:string;
@@ -16,11 +17,14 @@ declare interface Item  {
     popularity:number;
   }
 
-  // declare interface Category{
-  //   ID:string;
-  //   ImgUrl:any;
-  //   Name:string;
-  // }
+  //API参数接口
+  declare interface searchSecondHandParam {
+    catId:number;
+    cityId:number;
+    keyword:string;
+    page:number;
+    size:number
+  }
   
 declare module "*.png";
 declare module "*.gif";

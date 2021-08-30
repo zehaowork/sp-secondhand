@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import Taro from '@tarojs/taro'
+import Taro,{useReachBottom} from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
@@ -30,6 +30,8 @@ interface Props {}
 const Index: React.FC<Props> = ()=>{
   //定义状态
   const [itemList, setItemList] = useState<Array<Item>>([]);
+  const [page, setPage] = useState(0);
+  const [catId, setCatId] = useState(1);
   const [categoryList, setCategoryList] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('别太放肆，我们可是有底线的噢-o-');
@@ -47,10 +49,10 @@ const Index: React.FC<Props> = ()=>{
   const getList = ()=>{
     setShowLoading(true);
     API.SecondHand.getSecondHands({
-      catId:1,
+      catId:catId,
       cityId:1,
       keyword:'',
-      page:0,
+      page:page,
       size:5,
     }).then(res =>{
       setShowLoading(false);

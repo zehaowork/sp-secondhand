@@ -7,17 +7,19 @@ import { AtIcon } from 'taro-ui';
 
 interface Props{
     //事件
-    onChange?: Function;
-    onFocus?: Function;
-    onClear?: Function;
-    onBlur?: Function;
-    onConfirm: any;
-    onActionClick?: Function;
+    onInput: any; //搜索框输入事件
+    onFocus?: any;
+    onClear?: any;
+    onBlur?: any;
+    onConfirm: any; //输入框确认事件
+    onClick:any; // 搜索按钮点击事件
+    onActionClick?: any;
  
     //参数
-    placeholder?: string;
-    maxlength?: number;
+    placeholder?: string; // 输入框提醒标题
+    maxlength?: number; //最长框最长长度
     actionName?:string;
+    keyword:string; //搜索框输入value
 }
 
 const SearchBar: React.FC<Props> = (props)=>{
@@ -30,10 +32,17 @@ const SearchBar: React.FC<Props> = (props)=>{
         <View  className={s.icon} >
         <AtIcon value='search' size='13' color='F00' />
         </View>
-        <Input onConfirm={props.onConfirm} className={s.input} placeholder={props.placeholder} confirmType='search'  />
+        {/* 输入框 */}
+        <Input 
+        onInput={(e) =>{props.onInput(e.detail.value)}} 
+        onConfirm={props.onConfirm} className={s.input} 
+        placeholder={props.placeholder} 
+        confirmType='search' 
+        value={props.keyword} />
+
         </View>
         <View className={s.action} >
-            <View className={s.btn} >搜索</View>
+            <View onClick={props.onClick} className={s.btn} >搜索</View>
         </View>
     </View>
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Image, OpenData} from '@tarojs/components'
+import {View,Image, OpenData, RichText} from '@tarojs/components'
 import s from './Card.css';
 import { Item } from 'src/typings/common';
 import TypeTag from './TypeTag/TypeTag';
@@ -7,12 +7,14 @@ import TypeTag from './TypeTag/TypeTag';
 import CityTag from './CityTag/CityTag';
 import Avatar from '../Avatar/Avatar';
 import CategoryTag from './CategoryTag/CategoryTag';
+import { Utils } from '../../../utils/Utils';
 
 
 
 interface Props {
     item:Item;
-    isFavouritesPage:Boolean;
+    isFavouritesPage:boolean;
+    keyword?:string;
 }
 
 
@@ -48,7 +50,7 @@ const Card: React.FC<Props> = (props) =>{
         
          {/* 商品名字 以及商品价格 */}
         <View className='flex flex-space-between' >
-            <View className={s.title}>{props.item.title}</View>
+            <View className={s.title}><RichText nodes={Utils.highlightKeyword(props.keyword,props.item.title,'#ffd101')} /></View>
             <View className='price-yellow' >£{props.item.price}</View>
         </View>
 

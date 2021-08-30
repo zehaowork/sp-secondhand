@@ -10,6 +10,7 @@ import InlineLoader from '../InlineLoader/InlineLoader';
 interface Props {
     isFavouritesPage:Boolean;
     itemList:Array<Item>;
+    keyword?:string;
 }
 
 //容器组件
@@ -27,7 +28,11 @@ const GoodsList: React.FC<Props> = (props)=>{
 
     //使用 Card 组件渲染商品列表
     const renderList = props.itemList.map((item:Item)=>{
-        return <Card key={item.id} item={item} isFavouritesPage={props.isFavouritesPage}/>
+        return <Card 
+                keyword={props.keyword} 
+                key={item.id} 
+                item={item} 
+                isFavouritesPage={props.isFavouritesPage}/>
     })
     
     return<View className={s.container} >
