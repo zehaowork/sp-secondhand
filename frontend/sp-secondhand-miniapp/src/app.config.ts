@@ -5,7 +5,8 @@ export default {
     'pages/chatboard/index',
     'pages/favorites/index',
     'pages/search/index',
-    'pages/search/result/result'
+    'pages/search/result/result',
+    'pages/city/index'
   ],
   window: {
     backgroundTextStyle: 'light',

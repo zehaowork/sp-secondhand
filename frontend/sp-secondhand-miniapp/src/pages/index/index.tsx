@@ -86,15 +86,22 @@ const Index: React.FC<Props> = ()=>{
 
   const imageList = ['https://picsum.photos/200/300'];
 
+  //打开搜索页面
   const toSearch = ()=>{
     Taro.navigateTo({
       url:'../search/index'
     })
   }
+  // 打开城市列表页面
+  const toCityPage = ()=>{
+    Taro.navigateTo({
+      url:'../city/index'
+    })
+  }
 
   return <View className={s.container}>
     <View className={s.header} >
-      <CitySelector />
+      <CitySelector onClick={toCityPage} />
       <SearchBarPlaceholder onClick={toSearch} />
     </View>
   <BannerSwiper imageList ={imageList} />

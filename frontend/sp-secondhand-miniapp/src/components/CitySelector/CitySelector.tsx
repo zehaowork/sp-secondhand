@@ -7,12 +7,12 @@ import s from './CitySelector.css'
 
 
 interface Props{
- 
+ onClick:any
 }
 
 const CitySelector: React.FC<Props> = (props)=>{
 
-    return <View className={s.container} >
+    return <View onClick={props.onClick} className={s.container} >
    <Text>南安普顿</Text>
    <AtIcon value='chevron-down' size='16' color='F00' />
 </View>

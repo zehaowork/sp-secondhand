@@ -92,7 +92,9 @@ page {
 :global(.round) {
 	border-radius: 5000rpx;
 }
-
+:global(.radius) {
+	border-radius: 6rpx;
+}
 
 :global(.flex) {
   display: -webkit-box;
@@ -101,6 +103,10 @@ page {
   display: -webkit-flex;
   display: flex;
   box-sizing: border-box;
+}
+
+:global(.flex-row){
+	flex-direction: row;
 }
 :global(.flex-align-center) {
   /*元素垂直居中*/
@@ -205,22 +211,6 @@ page {
           文本
  ==================== */
 
- /* :global .text-explain {
-	font-size: 20rpx;
-}
-
-:global .text-support {
-	font-size: 24rpx;
-}
-
-:global .text-body {
-	font-size: 28rpx;
-}
-
-:global .text-subheading {
-	font-size: 32rpx;
-} */
-
 /* 页面大标题 */
 :global .text-Headline {
 	font-size: 36rpx;
@@ -290,4 +280,84 @@ page {
 :global .bg-gradual-blue {
 	background-image: var(--gradualBlue);
 	color: var(--white);
+}
+
+:global .bg-red {
+	background-color: var(--red);
+	color: var(--white);
+}
+
+:global .bg-orange {
+	background-color: var(--orange);
+	color: var(--white);
+}
+
+:global .bg-yellow {
+	background-color: var(--yellow);
+	color: var(--black);
+}
+
+:global .bg-olive {
+	background-color: var(--olive);
+	color: var(--white);
+}
+
+:global .bg-green {
+	background-color: var(--green);
+	color: var(--white);
+}
+
+:global .bg-cyan {
+	background-color: var(--cyan);
+	color: var(--white);
+}
+
+:global .bg-blue {
+	background-color: var(--blue);
+	color: var(--white);
+}
+
+:global .bg-purple {
+	background-color: var(--purple);
+	color: var(--white);
+}
+
+:global .bg-mauve {
+	background-color: var(--mauve);
+	color: var(--white);
+}
+
+:global .bg-pink {
+	background-color: var(--pink);
+	color: var(--white);
+}
+
+:global .bg-brown {
+	background-color: var(--brown);
+	color: var(--white);
+}
+
+:global .bg-grey {
+	background-color: var(--grey);
+	color: var(--white);
+}
+
+:global .bg-gray {
+	background-color: #f0f0f0;
+	color: var(--black);
+}
+
+:global .bg-black {
+	background-color: var(--black);
+	color: var(--white);
+}
+
+:global .bg-white {
+	background-color: var(--white);
+	color: var(--darkGray);
+}
+
+
+:global .margin-right{
+	margin-right: 5rpx;
 }

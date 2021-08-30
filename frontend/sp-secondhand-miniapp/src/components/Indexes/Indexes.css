@@ -1,0 +1,18 @@
+
+.btn{
+    composes:text-Explain from global;
+    margin: 10rpx;
+    color:var(--yellow);
+}
+
+.container{
+    position: fixed;
+    top:50%;
+    transform: translateY(-50%);
+    right:10rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10rpx;
+    
+}

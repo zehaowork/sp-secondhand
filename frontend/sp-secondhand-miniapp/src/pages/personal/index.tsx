@@ -14,6 +14,7 @@ import ShopIcon from '../../images/shop.png';
 import MessageIcon from '../../images/message.png';
 import ShareColorIcon from '../../images/share_color.png';
 import CustomerServiceIcon from '../../images/customer_service.png'
+import Tag from '../../components/Tag/Tag';
 // import FavoritesIcon from '../../images/favorites_folder.svg'
 
 interface Props{
@@ -22,6 +23,7 @@ interface Props{
 
 const Index: React.FC<Props> = ()=>{
     return <View className={s.container}>
+   
         {/* 用户基本信息 */}
         <View className={s.header} >
         <View className={s.content}>

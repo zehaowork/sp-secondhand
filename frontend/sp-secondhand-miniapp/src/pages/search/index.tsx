@@ -5,6 +5,7 @@ import {View} from '@tarojs/components';
 import { AtIcon } from 'taro-ui'
 import s from './index.css';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import Tag from '../../components/Tag/Tag';
 
 
 
@@ -63,7 +64,7 @@ const Index :React.FC<any> = ()=>{
                 </View>
                 {/* 列表 */}
                 <View className={s.list} >
-                    <View className={s.item} >牙刷</View>
+                <Tag size='normal' name='牙刷' circle onClick={null} />
                 </View>
             </View>  
         </View>
