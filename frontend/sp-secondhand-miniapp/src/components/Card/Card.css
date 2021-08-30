@@ -24,11 +24,11 @@
   padding: 6px;
 }
 .title {
+  composes:text-Body from global;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 50px;
-  font-size: 28px;
+  
 }
 
 .user {
@@ -38,12 +38,10 @@
 }
 
 .name {
+  composes: text-Support from global;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 50px;
-  font-size: 25px;
-  color: grey;
 }
 
 .tags {

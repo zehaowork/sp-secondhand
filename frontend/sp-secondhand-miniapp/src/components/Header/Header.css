@@ -8,15 +8,14 @@
   
   .title {
     height: 55px;
+    composes: text-Headline from global;
     /* border-bottom: 1px solid #00AFEB; */
-    font-size: 36px;
     position: relative;
     bottom: -1px;
-    color: #333;
-    font-weight: bold;
     border-left: 8px solid var(--orange);
     padding-left: 20px;
     margin-bottom: 8px;
+    
   }
   
   .icon_unfold::before {
@@ -38,21 +37,16 @@
     font-size:32rpx
   }
   
-  .bg-gradual-orange {
-    background-image: linear-gradient(45deg, #ff9700, #ed1c24);
-    color: #fff;
-  }
+
   
   .btn {
-    composes: bg-gradual-orange;
+    composes: bg-gradual-orange from global;
     position: relative;
-    border: 0rpx;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     padding: 0 30rpx;
-    font-size: 28rpx;
     height: 64rpx;
     line-height: 1;
     text-align: center;
@@ -65,7 +59,8 @@
   
   .btn_sm {
     composes: btn;
+    composes: text-Support from global;
     padding: 0 20px;
-    font-size: 20px;
+    
     height: 48rpx;
   }

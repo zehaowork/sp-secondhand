@@ -6,6 +6,7 @@ import s from './index.css';
 //组件资源
 import Avatar from '../../components/Avatar/Avatar';
 import SystemButton from '../../components/SystemButton/SystemButton';
+import { AtIcon } from 'taro-ui'
 
 //图片资源
 import AboutIcon from '../../images/about.png';
@@ -38,7 +39,7 @@ const Index: React.FC<Props> = ()=>{
         <View  className={s.item}>
             <Image src={ShopIcon} className={s.icon} />
             我的店铺
-            <Text className={s.redirect} >〉</Text>     
+            <View className={s.redirect} > <AtIcon value='chevron-right' size='25' color='#D2D2D2'></AtIcon> </View>     
         </View>
         <View  className={s.item} onClick={()=>{
             Taro.navigateTo({
@@ -47,12 +48,12 @@ const Index: React.FC<Props> = ()=>{
         }}>
             {/* <Image src={FavoritesIcon} className={s.icon} /> */}
             收藏夹
-            <Text className={s.redirect} >〉</Text>     
+            <View className={s.redirect} > <AtIcon value='chevron-right' size='25' color='#D2D2D2'></AtIcon> </View>     
         </View>
         <View  className={s.item}>
             <Image src={AboutIcon} className={s.icon} />
             关于我们
-            <Text className={s.redirect} >〉</Text>     
+            <View className={s.redirect} > <AtIcon value='chevron-right' size='25' color='#D2D2D2'></AtIcon> </View>     
         </View>
         <View  className={s.item} onClick={()=>{
             Taro.navigateTo({
@@ -61,7 +62,7 @@ const Index: React.FC<Props> = ()=>{
         }}>
             <Image src={MessageIcon} className={s.icon} />
             我的私信
-            <Text className={s.redirect} >〉</Text>     
+            <View className={s.redirect} > <AtIcon value='chevron-right' size='25' color='#D2D2D2'></AtIcon> </View>     
         </View>
     </View>
 

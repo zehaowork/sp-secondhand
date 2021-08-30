@@ -53,22 +53,24 @@
 }
 
 .contactName{
+    composes: text-SubHeading from global;
     margin-top: 10px;
     margin-left: 40px;
-    font-size: 30px;
+    
 }
 
 .lastMsg{
+    composes: text-Support from global;
     margin-top: 10px;
     margin-left: 40px;
-    color: #9D9D9D;
-    font-size: 30px;
+    
 }
 
 .time{
+    composes: text-Support from global;
     margin-top: 10px;
     margin-left: 40px;
-    font-size: 20px;
+    
 }
 
 .chatboxRight{
@@ -78,6 +80,7 @@
 }
 
 .isSold{
+    composes: text-Body from global;
     position: absolute;
     right: -275px;
     height: 150px;

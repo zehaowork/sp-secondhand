@@ -28,8 +28,8 @@
   align-items: center;
 }
 .name {
-  font-size: 30px;
-  font-weight: bold;
+  composes: text-SubHeading from global;
+  
 }
 
 .list {
@@ -39,13 +39,13 @@
 }
 
 .item {
+  composes: text-Headline  from global;
   position: relative;
   display: flex;
   align-items: center;
 
   padding: 40px 30px;
-  font-size: 35px;
-  color: #333;
+  
 }
 
 .icon {
@@ -58,5 +58,5 @@
   position: absolute;
 
   right: 40px;
-  color: #999;
+  
 }

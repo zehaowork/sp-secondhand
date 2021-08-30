@@ -9,7 +9,6 @@ export const Utils = {
         if(keyword){
             let regex = new RegExp(keyword,'g');
             original = original.replace(regex,"<span style='color:"+color+"'>" + keyword +"</span>");
-            console.log(original);
             return original;
         }
         

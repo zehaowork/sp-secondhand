@@ -21,13 +21,14 @@
 
 
 .item{
+    composes: text-Body from global;
     padding:20rpx;
     display: inline-block;
-    color:var(--gray);
+    color:var(--bwAlpha05);
 }
 
 .itemActive{
     composes:item;
-    color:var(--black);
+    color:var(--bwAlpha09);
     font-weight: bold;
 }

@@ -8,6 +8,10 @@
 }
 
 .message {
-  margin-left: 20px;
+  composes: text-Support from global;
 }
 
+.messageLoading{
+  composes:message;
+  margin-left: 20px;
+}

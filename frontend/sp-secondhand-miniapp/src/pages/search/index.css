@@ -14,7 +14,7 @@
     padding: 0 30px;
   }
   .text {
-    font-size: 28px;
+    composes: text-Body from global;
     margin-left: 10px;
   }
 
@@ -24,15 +24,15 @@
     flex-wrap: wrap;
   }
   .item {
-    font-size: 23px;
+    composes: text-Support from global;
+    color:var(--bwAlpha05);
     background: #f7f7f7;
     border-radius: 40px;
     padding: 20px;
     margin: 10px;
   }
   .empty {
-    font-size: 23px;
-    color: #999;
+    composes: text-Support from global;
     text-align: center;
     padding: 20px 0;
   }

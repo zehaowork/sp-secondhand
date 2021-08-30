@@ -69,7 +69,19 @@ page {
 	--grayShadow: rgba(114, 130, 138, 0.2);
 	--blackShadow: rgba(26, 26, 26, 0.2);
 
+
+	/* 微信规范 */
+	--bwAlpha09:#181818;
+	--bwAlpha05:#7B7B7B;
+	--bwAlphaOpacity30:#ACACAC;
+	--bwAlphaOpacity15:#D2D2D2;
+	--bwAlphaOpacity10:#DDDDDD;
+
+	--fontWeightMedium:500;
+	--fontWeightRegular:400;
+
 	/* background-color: var(--ghostWhite); */
+
 	font-size: 28rpx;
 	color: var(--black);
 	font-family: Helvetica Neue, Helvetica, sans-serif;
@@ -186,4 +198,96 @@ page {
 	transform-origin: 0 0;
 	border-radius: inherit;
 	transform: scale(1, 1);
+}
+
+
+/* ==================
+          文本
+ ==================== */
+
+ /* :global .text-explain {
+	font-size: 20rpx;
+}
+
+:global .text-support {
+	font-size: 24rpx;
+}
+
+:global .text-body {
+	font-size: 28rpx;
+}
+
+:global .text-subheading {
+	font-size: 32rpx;
+} */
+
+/* 页面大标题 */
+:global .text-Headline {
+	font-size: 36rpx;
+	font-weight: var(--fontWeightMedium);
+	color:var(--bwAlpha09);
+}
+
+/* 页面小标题, 结果等页面单一信息页 */
+:global .text-SubHeading {
+	font-size: 32rpx;
+	font-weight: var(--fontWeightRegular);
+	color:var(--bwAlpha09);
+}
+
+/* 正文 */
+:global .text-Body {
+	font-size: 28rpx;
+	font-weight: var(--fontWeightRegular);
+	color:var(--bwAlpha09);
+}
+
+/* 辅助信息,次级信息 */
+:global .text-Support {
+	font-size: 24rpx;
+	font-weight: var(--fontWeightRegular);
+	color:var(--bwAlphaOpacity30);
+}
+
+/* 说明文本,标签文字 */
+:global .text-Explain {
+	font-size: 20rpx;
+	font-weight: var(--fontWeightRegular);
+	color:var(--bwAlphaOpacity15);
+}
+
+
+/* ==================
+          背景
+ ==================== */
+
+:global .bg-gradual-red {
+	background-image: var(--gradualRed);
+	color: var(--white);
+}
+
+:global .bg-gradual-orange {
+	background-image: var(--gradualOrange);
+	color: var(--white);
+}
+
+:global .bg-gradual-green {
+	background-image: var(--gradualGreen);
+	color: var(--white);
+}
+
+:global .bg-gradual-purple {
+	background-image: var(--gradualPurple);
+	color: var(--white);
+}
+
+:global .bg-gradual-pink {
+	background-image: var(--gradualPink);
+	color: var(--white);
+}
+
+
+:global .bg-gradual-blue {
+	background-image: var(--gradualBlue);
+	color: var(--white);
 }
