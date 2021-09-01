@@ -4,10 +4,14 @@ using SpSecondHandDb.Entities;
 
 namespace SpSecondHandDb.Interfaces
 {
-    public interface ICityRepository : IBaseRepository<City>
+    public interface IStaticDataRepository
     {
-        Task<IEnumerable<City>> GetAll();
+        Task<IEnumerable<City>> GetCities();
 
         Task<IEnumerable<City>> GetCitiesByCountryId(int id);
+
+        Task<IEnumerable<Category>> GetCategories();
+
+        Task<IEnumerable<Banner>> GetBanners();
     }
 }

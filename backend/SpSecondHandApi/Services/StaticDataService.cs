@@ -8,38 +8,43 @@ using SpSecondHandModels;
 
 namespace SpSecondHandApi.Services
 {
-    public class HomeService : IHomeServices
+    public class StaticDataService : IStaticDataServices
     {
-        private readonly ICategoryRepository _itemRepo;
-        private readonly ICityRepository _cityRepo;
+        private readonly IStaticDataRepository _staticDataRepo;
         private readonly IMapper _mapper;
 
-        public HomeService(ICategoryRepository itemRepo, ICityRepository cityRepo, IMapper mapper)
+        public StaticDataService(IStaticDataRepository staticDataRepo, IMapper mapper)
         {
-            _itemRepo = itemRepo;
-            _cityRepo = cityRepo;
+            _staticDataRepo = staticDataRepo;
             _mapper = mapper;
         }
 
         public async Task<List<CategoryDto>> GetCategories()
         {
-            var categoryList = await _itemRepo.GetAll();
+            var categoryList = await _staticDataRepo.GetCategories();
 
             return categoryList.Select(c => _mapper.Map<CategoryDto>(c)).ToList();
         }
 
         public async Task<List<CityDto>> GetCities()
         {
-            var cityList = await _cityRepo.GetAll();
+            var cityList = await _staticDataRepo.GetCities();
 
             return cityList.Select(c => _mapper.Map<CityDto>(c)).ToList();
         }
 
         public async Task<List<CityDto>> GetCitiesByCountryId(int countryId)
         {
-            var cityList = await _cityRepo.GetCitiesByCountryId(countryId);
+            var cityList = await _staticDataRepo.GetCitiesByCountryId(countryId);
 
             return cityList.Select(c => _mapper.Map<CityDto>(c)).ToList();
+        }
+
+        public async Task<List<BannerDto>> GetBanners()
+        {
+            var bannerList = await _staticDataRepo.GetBanners();
+
+            return bannerList.Select(c => _mapper.Map<BannerDto>(c)).ToList();
         }
     }
 }

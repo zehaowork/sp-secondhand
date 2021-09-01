@@ -72,6 +72,7 @@ namespace SpSecondHandApi.Services
                 return _mapper.Map<UserDto>(await _userRepo.Update(userFromDb));
             }
 
+            user.JoinTime = DateTime.UtcNow;
             var userToAdd = _mapper.Map<User>(user);
             var userAdded = await _userRepo.Add(userToAdd);
 

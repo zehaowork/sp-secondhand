@@ -10,16 +10,16 @@ using SpSecondHandModels;
 namespace SpSecondHandApi.Controllers
 {
     [ApiController]
-    [Route("api/home")]
-    public class HomeController : ControllerBase
+    [Route("api/staticData")]
+    public class StaticDataController : ControllerBase
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IHomeServices _homeService;
+        private readonly ILogger<StaticDataController> _logger;
+        private readonly IStaticDataServices _staticDataService;
 
-        public HomeController(ILogger<HomeController> logger, IHomeServices homeService)
+        public StaticDataController(ILogger<StaticDataController> logger, IStaticDataServices staticDataService)
         {
             _logger = logger;
-            _homeService = homeService;
+            _staticDataService = staticDataService;
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace SpSecondHandApi.Controllers
                 return Ok(new RespondObject<List<CategoryDto>>()
                 {
                     Message = "Success",
-                    Data = await _homeService.GetCategories()
+                    Data = await _staticDataService.GetCategories()
                 });
             }
             catch (Exception e)
@@ -63,7 +63,7 @@ namespace SpSecondHandApi.Controllers
                 return Ok(new RespondObject<List<CityDto>>()
                 {
                     Message = "Success",
-                    Data = await _homeService.GetCities()
+                    Data = await _staticDataService.GetCities()
                 });
             }
             catch (Exception e)
@@ -93,7 +93,7 @@ namespace SpSecondHandApi.Controllers
                 return Ok(new RespondObject<List<CityDto>>()
                 {
                     Message = "Success",
-                    Data = await _homeService.GetCitiesByCountryId(countryId)
+                    Data = await _staticDataService.GetCitiesByCountryId(countryId)
                 });
             }
             catch (Exception e)
@@ -109,6 +109,36 @@ namespace SpSecondHandApi.Controllers
             finally
             {
                 _logger.LogInformation($"{nameof(GetCitiesByCountryId)} complete");
+            }
+        }
+
+        [HttpGet]
+        [Route("banners")]
+        public async Task<ActionResult<RespondObject<List<BannerDto>>>> GetBanners()
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetBanners)} called.");
+
+                return Ok(new RespondObject<List<BannerDto>>()
+                {
+                    Message = "Success",
+                    Data = await _staticDataService.GetBanners()
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get banners: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<List<BannerDto>>()
+                {
+                    Message = $"Failed to get banners: {e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(GetBanners)} complete");
             }
         }
     }

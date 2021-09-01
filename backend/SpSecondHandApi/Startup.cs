@@ -96,15 +96,14 @@ namespace SpSecondHandApi
             services.AddScoped<ISecondHandRepository, SecondHandRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserContactRepository, UserContactRepository>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IStaticDataRepository, StaticDataRepository>();
         }
 
         private void AddControllerServices(IServiceCollection services)
         {
             services.AddScoped<ISecondHandService, SecondHandService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IHomeServices, HomeService>();
+            services.AddScoped<IStaticDataServices, StaticDataService>();
         }
 
         #endregion

@@ -11,9 +11,9 @@ namespace SpSecondHandDb
         }
 
         public virtual DbSet<ChatHistory> ChatHistory { get; set; }
-        public virtual DbSet<Category> Items { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<City> Region { get; set; }
-        public virtual DbSet<Banner> RotationChart { get; set; }
+        public virtual DbSet<Banner> Banners { get; set; }
         public virtual DbSet<SecondHand> SecondHand { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserContact> UserContact { get; set; }

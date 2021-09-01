@@ -4,9 +4,9 @@ using SpSecondHandModels;
 
 namespace SpSecondHandApi.Profiles
 {
-    public class HomeProfile : Profile
+    public class StaticDateProfile : Profile
     {
-        public HomeProfile()
+        public StaticDateProfile()
         {
             CreateMap<City, CityDto>()
                 .ReverseMap();

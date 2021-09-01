@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpSecondHandDb;
 
 namespace SpSecondHandDb.Migrations
 {
     [DbContext(typeof(SpShDbContext))]
-    partial class SpShDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210901204130_renameItemToCategory")]
+    partial class renameItemToCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +39,7 @@ namespace SpSecondHandDb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Banners");
+                    b.ToTable("RotationChart");
                 });
 
             modelBuilder.Entity("SpSecondHandDb.Entities.Category", b =>
@@ -58,7 +60,7 @@ namespace SpSecondHandDb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("SpSecondHandDb.Entities.ChatHistory", b =>
