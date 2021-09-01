@@ -40,3 +40,11 @@
   border-color: transparent transparent #ec5b5b;
   /* border-right: 40rpx solid #f03131; */
 }
+
+.fab{
+  display: flex;
+  position: fixed;
+  z-index: 999;
+  bottom: 40rpx;
+  right: 40rpx;
+}
