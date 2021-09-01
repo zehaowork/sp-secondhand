@@ -2,16 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SpSecondHandApi.Interfaces;
 using SpSecondHandDb.Entities;
 using SpSecondHandDb.Interfaces;
@@ -21,13 +14,11 @@ namespace SpSecondHandApi.Services
 {
     public class SecondHandService : ISecondHandService
     {
-        public SecondHandService(IHttpClientFactory httpClientFactory, IMemoryCache memoryCache, IConfiguration config, ISecondHandRepository shRepo, IMapper mapper)
+        public SecondHandService(IWeChatService weChatService, ISecondHandRepository shRepo, IMapper mapper)
         {
-            _memoryCache = memoryCache;
-            _config = config;
+            _weChatService = weChatService;
             _shRepo = shRepo;
             _mapper = mapper;
-            _httpClient = httpClientFactory.CreateClient();
         }
 
         public async Task<SecondHandDto> GetSecondHandById(int id)
@@ -155,7 +146,7 @@ namespace SpSecondHandApi.Services
                 await using var stream = new FileStream(path, FileMode.Create);
                 using var binReader = new BinaryReader(img.OpenReadStream());
                 var btData = binReader.ReadBytes((int)img.Length);
-                if (await ImgSecCheck(btData))
+                if (await _weChatService.ImgSecCheck(btData))
                 {
                     await img.CopyToAsync(stream);
                     imgUrls.Add(path);
@@ -171,67 +162,9 @@ namespace SpSecondHandApi.Services
 
         #region Private
 
-        private async Task<bool> ImgSecCheck(byte[] btData)
-        {
-            var token = await GetToken();
-
-            var array = new ByteArrayContent(btData);
-            array.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            var url = _wxImgSecCheckUrl + token;
-            var res = await _httpClient.PostAsync(url, array);
-
-            var data = await res.Content.ReadAsStringAsync();
-            var result = JObject.Parse(data);
-            var code = result.Root.SelectToken("errcode").ToString();
-
-            if (code == "87014")
-                return false;
-
-            return true;
-        }
-
-        private async Task<string> GetToken()
-        {
-            if (_memoryCache.TryGetValue("WxToken", out string token))
-            {
-                return token;
-            }
-
-            return await RequestAccessToken();
-        }
-
-        private async Task<string> RequestAccessToken()
-        {
-            _wxAccessTokenUrl += "&appid=" + _config["WxVerification:appid"];
-            _wxAccessTokenUrl += "&secret=" + _config["WxVerification:secret"];
-
-            //request.ContentType = "text/html;charset=UTF-8";
-            var response = await _httpClient.GetAsync(_wxAccessTokenUrl);
-
-            response.EnsureSuccessStatusCode();
-
-            await using var stream = await response.Content.ReadAsStreamAsync();
-            using var streamReader = new StreamReader(stream, Encoding.UTF8);
-            var serializedJson = await streamReader.ReadToEndAsync();
-
-            var data = JsonConvert.DeserializeObject<WxAccessToken>(serializedJson);
-            if (data != null)
-            {
-                _memoryCache.Set("WxToken", data.AccessToken, TimeSpan.FromMinutes(10));
-
-                return data.AccessToken;
-            }
-
-            return string.Empty;
-        }
-
-        private readonly IMemoryCache _memoryCache;
-        private readonly IConfiguration _config;
-        private readonly HttpClient _httpClient;
+        private readonly IWeChatService _weChatService;
         private readonly ISecondHandRepository _shRepo;
         private readonly IMapper _mapper;
-        private string _wxImgSecCheckUrl = @"https://api.weixin.qq.com/wxa/img_sec_check?access_token=";
-        private string _wxAccessTokenUrl = @"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential";
 
         #endregion
     }

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using SpSecondHandApi.Interfaces;
 using SpSecondHandDb.Entities;
 using SpSecondHandDb.Interfaces;
@@ -16,46 +12,20 @@ namespace SpSecondHandApi.Services
 {
     public class UserService : IUserService
     {
-        private readonly HttpClient _httpClient;
-        private readonly IConfiguration _config;
+        private readonly IWeChatService _weChatService;
         private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
-        private string _wxServerUrl = @"https://api.weixin.qq.com/sns/jscode2session?";
 
-        public UserService(IHttpClientFactory httpClientFactory, IConfiguration config, IUserRepository userRepository, IMapper mapper)
+        public UserService(IWeChatService weChatService, IUserRepository userRepository, IMapper mapper)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _config = config;
+            _weChatService = weChatService;
             _userRepo = userRepository;
             _mapper = mapper;
         }
 
         public async Task<string> GetWxOpenId(string code)
         {
-            _wxServerUrl += "appid=" + _config["WxVerification:appid"];
-            _wxServerUrl += "&secret=" + _config["WxVerification:secret"];
-            _wxServerUrl += "&js_code=" + code;
-            _wxServerUrl += "&grant_type" + _config["WxVerification:grant_type"];
-
-            var request = new HttpRequestMessage(HttpMethod.Get, _wxServerUrl);
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            WxVerification wxVerification;
-            var stream = await response.Content.ReadAsStreamAsync();
-            using (var streamReader = new StreamReader(stream))
-            {
-                using (var jsonTextReader = new JsonTextReader(streamReader))
-                {
-                    var jsonSerializer = new JsonSerializer();
-                    wxVerification = jsonSerializer.Deserialize<WxVerification>(jsonTextReader);
-                }
-            }
-
-            if (wxVerification.OpenId == null)
-                throw new ArgumentException("Null OpenId returned from WeChat server, please check code validity.");
-
-            return wxVerification.OpenId;
+            return await _weChatService.GetWxOpenId(code);
         }
 
         public async Task<UserDto> TryCreateUserRecord(UserDto user)
