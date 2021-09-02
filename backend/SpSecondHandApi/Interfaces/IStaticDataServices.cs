@@ -10,5 +10,6 @@ namespace SpSecondHandApi.Interfaces
         Task<List<CityDto>> GetCities();
         Task<List<CityDto>> GetCitiesByCountryId(int countryId);
         Task<List<BannerDto>> GetBanners();
+        Task<BannerDto> UpdateBanner(BannerDto bannerToUpdate);
     }
 }

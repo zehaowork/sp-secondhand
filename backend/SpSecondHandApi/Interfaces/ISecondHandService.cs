@@ -28,5 +28,7 @@ namespace SpSecondHandApi.Interfaces
         Task<bool> IsFavorite(int secondHandId, int userId);
 
         Task<List<string>> UploadImg(List<IFormFile> images);
+
+        Task<List<string>> GetStatistics();
     }
 }

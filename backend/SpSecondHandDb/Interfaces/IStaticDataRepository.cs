@@ -13,5 +13,9 @@ namespace SpSecondHandDb.Interfaces
         Task<IEnumerable<Category>> GetCategories();
 
         Task<IEnumerable<Banner>> GetBanners();
+
+        Task<Banner> GetBannerById(int id);
+
+        Task<Banner> UpdateBanner(Banner bannerToUpdate);
     }
 }

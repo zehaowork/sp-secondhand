@@ -141,5 +141,35 @@ namespace SpSecondHandApi.Controllers
                 _logger.LogInformation($"{nameof(GetBanners)} complete");
             }
         }
+
+        [HttpPut]
+        [Route("banners")]
+        public async Task<ActionResult<RespondObject<BannerDto>>> ModifyBanner(BannerDto banner)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(ModifyBanner)} called.");
+
+                return Ok(new RespondObject<BannerDto>()
+                {
+                    Message = "Success",
+                    Data = await _staticDataService.UpdateBanner(banner)
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to modify banner: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<BannerDto>()
+                {
+                    Message = $"Failed to modify banner: { e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(ModifyBanner)} complete");
+            }
+        }
     }
 }

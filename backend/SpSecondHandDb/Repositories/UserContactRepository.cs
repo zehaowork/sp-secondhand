@@ -14,7 +14,7 @@ namespace SpSecondHandDb.Repositories
 
         public async Task<UserContact> FindFirst(Func<UserContact, bool> predicate)
         {
-            var userContact = Context.UserContact.FirstOrDefault(predicate);
+            var userContact = Context.UserContacts.FirstOrDefault(predicate);
 
             return await Task.FromResult(userContact);
         }

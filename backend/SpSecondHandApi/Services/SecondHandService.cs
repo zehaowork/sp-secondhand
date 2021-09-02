@@ -14,12 +14,15 @@ namespace SpSecondHandApi.Services
 {
     public class SecondHandService : ISecondHandService
     {
-        public SecondHandService(IWeChatService weChatService, ISecondHandRepository shRepo, IMapper mapper)
+        public SecondHandService(IWeChatService weChatService, ISecondHandRepository shRepo, IUserRepository userRepo, IMapper mapper)
         {
             _weChatService = weChatService;
             _shRepo = shRepo;
+            _userRepo = userRepo;
             _mapper = mapper;
         }
+
+        #region Second Hand
 
         public async Task<SecondHandDto> GetSecondHandById(int id)
         {
@@ -99,6 +102,10 @@ namespace SpSecondHandApi.Services
             await _shRepo.Delete(sh);
         }
 
+        #endregion
+
+        #region Favorite
+
         public async Task<List<SecondHandDto>> GetFavorites(int userId, int page, int size)
         {
             var fav = await _shRepo.GetFavoriteSecondHands(userId);
@@ -120,6 +127,8 @@ namespace SpSecondHandApi.Services
         {
             return await _shRepo.IsFavorite(secondHandId, userId);
         }
+
+        #endregion
 
         public async Task<List<string>> UploadImg(List<IFormFile> images)
         {
@@ -160,10 +169,34 @@ namespace SpSecondHandApi.Services
             return imgUrls.Select(url => url.Replace("\\", "/")).ToList();
         }
 
+        public async Task<List<string>> GetStatistics()
+        {
+            var shList = (await _shRepo.GetAll()).ToList();
+            var totalSecondHands = shList.Count;
+            var yesterdayShIncrease = shList.Where(s => s.PublishTime == DateTime.Today.AddDays(-1)).ToList().Count;
+            var weekShIncrease = shList.Where(s => s.PublishTime >= DateTime.Today.AddDays(-7)).ToList().Count;
+
+            var userList = (await _userRepo.GetAll()).ToList();
+            var totalUsers = userList.Count;
+            var yesterdayUserIncrease = userList.Where(s => s.JoinTime == DateTime.Today.AddDays(-1)).ToList().Count;
+            var weekUserIncrease = userList.Where(s => s.JoinTime >= DateTime.Today.AddDays(-7)).ToList().Count;
+
+            return new List<string>()
+            {
+                $"总闲置数：{totalSecondHands}",
+                $"昨日闲置新增：{yesterdayShIncrease}",
+                $"上周闲置新增：{weekShIncrease}",
+                $"总用户数：{totalUsers}",
+                $"昨日用户新增：{yesterdayUserIncrease}",
+                $"上周用户新增：{weekUserIncrease}"
+            };
+        }
+
         #region Private
 
         private readonly IWeChatService _weChatService;
         private readonly ISecondHandRepository _shRepo;
+        private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
 
         #endregion

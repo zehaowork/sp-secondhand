@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -45,6 +46,21 @@ namespace SpSecondHandApi.Services
             var bannerList = await _staticDataRepo.GetBanners();
 
             return bannerList.Select(c => _mapper.Map<BannerDto>(c)).ToList();
+        }
+
+        public async Task<BannerDto> UpdateBanner(BannerDto bannerToUpdate)
+        {
+            var banner = await _staticDataRepo.GetBannerById(bannerToUpdate.Id);
+            if (banner == null)
+            {
+                throw new ArgumentException($"Banner Id {bannerToUpdate.Id} doesn't exist.");
+            }
+
+            banner.ImgUrl = bannerToUpdate.ImgUrl;
+            banner.Link = bannerToUpdate.Link;
+            banner.Sort = bannerToUpdate.Sort;
+
+            return _mapper.Map<BannerDto>(await _staticDataRepo.UpdateBanner(banner));
         }
     }
 }

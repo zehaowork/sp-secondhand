@@ -16,12 +16,12 @@ namespace SpSecondHandDb.Repositories
 
         public async Task<IEnumerable<City>> GetCities()
         {
-            return await Context.Region.ToListAsync();
+            return await Context.Cities.ToListAsync();
         }
 
         public async Task<IEnumerable<City>> GetCitiesByCountryId(int id)
         {
-            return await Context.Region.Where(c => c.CountryId == id).ToListAsync();
+            return await Context.Cities.Where(c => c.CountryId == id).ToListAsync();
         }
 
         public async Task<IEnumerable<Category>> GetCategories()
@@ -32,6 +32,19 @@ namespace SpSecondHandDb.Repositories
         public async Task<IEnumerable<Banner>> GetBanners()
         {
             return await Context.Banners.ToListAsync();
+        }
+
+        public async Task<Banner> GetBannerById(int id)
+        {
+            return await Context.Banners.FindAsync(id);
+        }
+
+        public async Task<Banner> UpdateBanner(Banner bannerToUpdate)
+        {
+            Context.Update(bannerToUpdate);
+            await Context.SaveChangesAsync();
+
+            return bannerToUpdate;
         }
 
         #region private

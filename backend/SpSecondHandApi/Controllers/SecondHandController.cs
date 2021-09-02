@@ -23,6 +23,8 @@ namespace SpSecondHandApi.Controllers
             _shService = shService;
         }
 
+        #region Second Hand
+
         [HttpGet]
         [Route("id/{shId:int}")]
         public async Task<ActionResult<RespondObject<SecondHandDto>>> GetSecondHand(int shId)
@@ -201,6 +203,10 @@ namespace SpSecondHandApi.Controllers
             }
         }
 
+        #endregion
+
+        #region Favorite
+
         [HttpGet]
         [Route("favorite/{userId:int}")]
         public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetFavorites(int userId, int page, int size)
@@ -325,6 +331,8 @@ namespace SpSecondHandApi.Controllers
             }
         }
 
+        #endregion
+
         [HttpPost]
         [Route("uploadImage")]
         public async Task<ActionResult<RespondObject<List<ImgUrlDto>>>> UploadImages()
@@ -364,6 +372,36 @@ namespace SpSecondHandApi.Controllers
             finally
             {
                 _logger.LogInformation("UploadImages complete.");
+            }
+        }
+
+        [HttpGet]
+        [Route("statistics")]
+        public async Task<ActionResult<RespondObject<List<string>>>> GetStatistics()
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetStatistics)} called.");
+
+                return Ok(new RespondObject<List<string>>()
+                {
+                    Message = "Success",
+                    Data = await _shService.GetStatistics()
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get statistics: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<string>()
+                {
+                    Message = $"Failed to get statistics: { e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(GetStatistics)} complete");
             }
         }
     }

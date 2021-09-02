@@ -92,7 +92,7 @@ namespace SpSecondHandDb.Migrations
 
                     b.HasIndex("ToUid");
 
-                    b.ToTable("ChatHistory");
+                    b.ToTable("ChatHistories");
                 });
 
             modelBuilder.Entity("SpSecondHandDb.Entities.City", b =>
@@ -113,7 +113,7 @@ namespace SpSecondHandDb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Region");
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("SpSecondHandDb.Entities.Favorite", b =>
@@ -182,7 +182,7 @@ namespace SpSecondHandDb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SecondHand");
+                    b.ToTable("SecondHands");
                 });
 
             modelBuilder.Entity("SpSecondHandDb.Entities.User", b =>
@@ -212,7 +212,7 @@ namespace SpSecondHandDb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SpSecondHandDb.Entities.UserContact", b =>
@@ -246,7 +246,7 @@ namespace SpSecondHandDb.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("UserContact");
+                    b.ToTable("UserContacts");
                 });
 
             modelBuilder.Entity("SpSecondHandDb.Entities.ChatHistory", b =>

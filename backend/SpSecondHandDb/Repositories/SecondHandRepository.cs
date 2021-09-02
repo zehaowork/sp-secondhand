@@ -16,12 +16,12 @@ namespace SpSecondHandDb.Repositories
 
         public async Task<IEnumerable<SecondHand>> GetAll()
         {
-            return await Task.FromResult(Context.SecondHand);
+            return await Task.FromResult(Context.SecondHands);
         }
 
         public async Task<IEnumerable<SecondHand>> FindAll(Func<SecondHand, bool> predicate, int page, int size)
         {
-            var secondHands = Context.SecondHand
+            var secondHands = Context.SecondHands
                 .Where(predicate)
                 .OrderByDescending(o => o.PublishTime)
                 .Skip(page * size)
@@ -33,7 +33,7 @@ namespace SpSecondHandDb.Repositories
 
         public async Task<IEnumerable<SecondHand>> GetSecondHandByPage(int page, int size)
         {
-            var secondHands = Context.SecondHand
+            var secondHands = Context.SecondHands
                 .OrderByDescending(o => o.PublishTime)
                 .Skip(page * size)
                 .Take(size)
@@ -51,8 +51,8 @@ namespace SpSecondHandDb.Repositories
 
         public async Task AddFavorite(int secondHandId, int userId)
         {
-            var secondHand = await Context.SecondHand.FindAsync(secondHandId);
-            var user = await Context.User.FindAsync(userId);
+            var secondHand = await Context.SecondHands.FindAsync(secondHandId);
+            var user = await Context.Users.FindAsync(userId);
             var fav = new Favorite()
             {
                 SecondHand = secondHand,
@@ -67,7 +67,7 @@ namespace SpSecondHandDb.Repositories
 
         public async Task RemoveFavorite(int secondHandId, int userId)
         {
-            var user = await Context.User.FindAsync(userId);
+            var user = await Context.Users.FindAsync(userId);
             var fav = user.Favorites.FirstOrDefault(f => f.SecondHandId == secondHandId);
 
             user.Favorites.Remove(fav);

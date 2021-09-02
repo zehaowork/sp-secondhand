@@ -10,13 +10,13 @@ namespace SpSecondHandDb
         {
         }
 
-        public virtual DbSet<ChatHistory> ChatHistory { get; set; }
+        public virtual DbSet<ChatHistory> ChatHistories { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<City> Region { get; set; }
+        public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Banner> Banners { get; set; }
-        public virtual DbSet<SecondHand> SecondHand { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<UserContact> UserContact { get; set; }
+        public virtual DbSet<SecondHand> SecondHands { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserContact> UserContacts { get; set; }
         public virtual DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

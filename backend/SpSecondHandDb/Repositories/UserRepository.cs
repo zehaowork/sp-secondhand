@@ -16,12 +16,12 @@ namespace SpSecondHandDb.Repositories
 
         public async Task<IEnumerable<User>> GetAll()
         {
-            return await Context.User.ToListAsync();
+            return await Context.Users.ToListAsync();
         }
 
         public async Task<IEnumerable<User>> FindAll(Func<User, bool> predicate)
         {
-            var users = Context.User
+            var users = Context.Users
                 .Where(predicate)
                 .ToList();
 
@@ -30,7 +30,7 @@ namespace SpSecondHandDb.Repositories
 
         public async Task<User> FindFirst(Func<User, bool> predicate)
         {
-            var users = Context.User.FirstOrDefault(predicate);
+            var users = Context.Users.FirstOrDefault(predicate);
 
             return await Task.FromResult(users);
         }
