@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View,Image, OpenData, RichText} from '@tarojs/components'
 import s from './Card.css';
 import { Item } from 'src/typings/common';
@@ -9,7 +9,8 @@ import Avatar from '../Avatar/Avatar';
 import CategoryTag from './CategoryTag/CategoryTag';
 import { Utils } from '../../../utils/Utils';
 
-
+import {AtIcon} from 'taro-ui';
+import API from '../../../utils/API'
 
 interface Props {
     item:Item;
@@ -20,6 +21,7 @@ interface Props {
 
 //商品显示组件
 const Card: React.FC<Props> = (props) =>{
+    const [isFavorite, setIsFavorite] = useState(false);
     //定义状态
  
     //定义行为
@@ -32,10 +34,29 @@ const Card: React.FC<Props> = (props) =>{
 
     //渲染函数
 
+    //加入收藏夹
+    const toggleFavorite = ()=>{
+        API.SecondHand.postFavorite({
+            userId:0,
+            secondHandId:props.item.id
+        }).then(
+            // setIsFavorite();
 
+        ).catch(
+            err =>{
+                console.log(err)
+            }
+        )
+    }
 
     return <View onClick={toDetail} className={s.container}>
-    <View className={s.item}>
+    <View className={s.item} style={{background:"grey"}}>
+         <AtIcon className={s.icon} 
+         value={isFavorite?'heart-2':'heart'} 
+         size='25' 
+         color='#F00'
+         onClick={toggleFavorite}/>
+
     <Image src={props.item.imgUrls} mode='aspectFill' className={s.image} >
     </Image>
     </View>

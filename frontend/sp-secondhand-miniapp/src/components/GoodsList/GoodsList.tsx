@@ -8,7 +8,7 @@ import InlineLoader from '../InlineLoader/InlineLoader';
 
 
 interface Props {
-    isFavouritesPage:Boolean;
+    isFavouritesPage:boolean;
     itemList:Array<Item>;
     keyword?:string;
 }
