@@ -6,7 +6,8 @@ export default {
     'pages/favorites/index',
     'pages/search/index',
     'pages/search/result/result',
-    'pages/city/index'
+    'pages/city/index',
+    'pages/shop/index'
   ],
   window: {
     backgroundTextStyle: 'light',

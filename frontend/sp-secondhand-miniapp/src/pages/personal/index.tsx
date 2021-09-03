@@ -15,7 +15,7 @@ import MessageIcon from '../../images/message.png';
 import ShareColorIcon from '../../images/share_color.png';
 import CustomerServiceIcon from '../../images/customer_service.png'
 import Tag from '../../components/Tag/Tag';
-// import FavoritesIcon from '../../images/favorites_folder.svg'
+import FavoritesIcon from '../../images/favorites_folder.svg'
 
 interface Props{
 
@@ -38,7 +38,11 @@ const Index: React.FC<Props> = ()=>{
     
     {/* 用户子界面列表 */}
     <View className={s.list}>
-        <View  className={s.item}>
+        <View  className={s.item} onClick={()=>{
+            Taro.navigateTo({
+                url: '/pages/shop/index'
+            })
+        }}>
             <Image src={ShopIcon} className={s.icon} />
             我的店铺
             <View className={s.redirect} > <AtIcon value='chevron-right' size='25' color='#D2D2D2'></AtIcon> </View>     
@@ -48,7 +52,7 @@ const Index: React.FC<Props> = ()=>{
                 url: '/pages/favorites/index'
             })
         }}>
-            {/* <Image src={FavoritesIcon} className={s.icon} /> */}
+            <Image src={FavoritesIcon} className={s.icon} />
             收藏夹
             <View className={s.redirect} > <AtIcon value='chevron-right' size='25' color='#D2D2D2'></AtIcon> </View>     
         </View>
