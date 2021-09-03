@@ -29,11 +29,11 @@ const Index: React.FC<Props> = () => {
             <View className={s.title} >当前城市定位</View>
                 <View className={` ${s.tagGroup} ${s.navigation}`} >
                     <Tag size='normal' active={true} onClick={null} > 
-                        <View className='margin-right'><AtIcon value='map-pin' size='13' color='black'/></View>
+                        <View className='margin-right'><AtIcon value='map-pin' size='13' color='white'/></View>
                         南安普顿
                     </Tag>
                     <View className='flex flex-row flex-align-center' >
-                    <View className='margin-right'><AtIcon value='map-pin' size='12' color='#ffd101'/></View>
+                    <View className='margin-right'><AtIcon value='map-pin' size='12' color='#ff8601'/></View>
                         开启定位</View>
                 </View>
                 <View className={s.title} >热门城市</View>

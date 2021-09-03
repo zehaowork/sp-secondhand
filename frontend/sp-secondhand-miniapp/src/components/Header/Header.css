@@ -41,6 +41,7 @@
   
   .btn {
     composes: bg-gradual-orange from global;
+    composes: shadow-blur from global;
     position: relative;
     display: inline-flex;
     align-items: center;

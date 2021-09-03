@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react'
-import Taro,{useReachBottom} from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
+import { View,Text } from '@tarojs/components'
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
 import Category from '../../components/Category/Category'
@@ -9,9 +9,11 @@ import Header from '../../components/Header/Header'
 import SearchBarPlaceholder from '../../components/SearchBarPlaceholder/SearchBarPlaceholder'
 import InlineLoader from '../../components/InlineLoader/InlineLoader'
 import CitySelector from '../../components/CitySelector/CitySelector'
+import Fab from '../../components/Fab/Fab'
 import {AtDivider} from 'taro-ui'
 import API from '../../../utils/API'
 import { Item } from 'src/typings/common'
+
 
 
 
@@ -42,6 +44,13 @@ const Index: React.FC<Props> = ()=>{
    getCategories();
   }, [])
 
+  //回到顶部
+  const toTop = ()=>{
+    Taro.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    })
+  }
 
   //数据抓取
 
@@ -105,10 +114,13 @@ const Index: React.FC<Props> = ()=>{
       <SearchBarPlaceholder onClick={toSearch} />
     </View>
   <BannerSwiper imageList ={imageList} />
+
   {/* 类型栏目 */}
   <Category categoryList={categoryList} />
   <Header title ='闲置好物' />
+
   {/* 商品列表 */}
+
   <GoodsList itemList={itemList} isFavouritesPage={false} isShopPage={false}/>
   {/* 加载组件 */}
   <View className={s.loader} >
@@ -121,6 +133,14 @@ const Index: React.FC<Props> = ()=>{
   <View className={s.addMini} >
     <View className={s.addStyle}></View>
     <View className={s.addText}>点击右上角，添加小土豆</View>
+  </View>
+
+  {/* 回到顶部按钮 */}
+  <View className={s.fab} >
+  <Fab onClick={toTop} >
+    <View>回到</View>
+    <View>顶部</View>
+    </Fab>
   </View>
 </View>
 }

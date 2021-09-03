@@ -2,7 +2,7 @@
 .btn{
     composes:text-Explain from global;
     margin: 10rpx;
-    color:var(--yellow);
+    color:var(--orange);
 }
 
 .container{

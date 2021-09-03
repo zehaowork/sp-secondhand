@@ -50,7 +50,7 @@
 .btn {
     composes:shadow-blur from global;
     composes:round from global;
-    composes:bg-yellow;
+    composes:bg-orange from global;
 	composes:text-Body from global;
     position: relative;
     display: inline-flex;

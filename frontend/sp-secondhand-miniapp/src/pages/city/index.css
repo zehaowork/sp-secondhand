@@ -29,7 +29,7 @@
 
 .navigation{
     justify-content:space-between;
-    color:var(--yellow);
+    color:var(--orange);
     padding-right: 20rpx;
 }
 
