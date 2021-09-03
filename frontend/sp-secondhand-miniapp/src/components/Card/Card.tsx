@@ -14,6 +14,7 @@ import { Utils } from '../../../utils/Utils';
 interface Props {
     item:Item;
     isFavouritesPage:boolean;
+    isShopPage:boolean;
     keyword?:string;
 }
 
@@ -43,9 +44,9 @@ const Card: React.FC<Props> = (props) =>{
     <View  className={s.info}>
         {/* 商品小标签 */}
         <View className={s.tags} >
-            <CityTag CityName={props.item.CityName} />
+            <CityTag CityName="Southampton" />
             <TypeTag GoodType={props.item.type} />
-            <CategoryTag CategoryName={props.item.CategoryName} />
+            <CategoryTag CategoryName="Item" />
         </View>
         
          {/* 商品名字 以及商品价格 */}
@@ -63,6 +64,13 @@ const Card: React.FC<Props> = (props) =>{
             <View className={s.name}>{props.item.popularity}人想要</View>
           </View>
         }
+        {props.isShopPage && <View className={s.options}>
+            <View className={s.dot}></View>
+            <View className={s.dot}></View>
+            <View className={s.dot}></View>
+        </View>
+        }
+        
     </View>
     </View>
 }

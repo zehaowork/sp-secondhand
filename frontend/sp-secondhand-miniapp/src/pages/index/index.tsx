@@ -109,7 +109,7 @@ const Index: React.FC<Props> = ()=>{
   <Category categoryList={categoryList} />
   <Header title ='闲置好物' />
   {/* 商品列表 */}
-  <GoodsList itemList={itemList} isFavouritesPage={false}/>
+  <GoodsList itemList={itemList} isFavouritesPage={false} isShopPage={false}/>
   {/* 加载组件 */}
   <View className={s.loader} >
     <AtDivider>

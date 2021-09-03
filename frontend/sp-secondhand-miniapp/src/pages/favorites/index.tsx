@@ -8,7 +8,7 @@ interface Props {}
 const Index: React.FC<Props> = () => {
     return (
         <View>
-            <GoodsList isFavouritesPage={true}></GoodsList>
+            <GoodsList isFavouritesPage={true} itemList={[]} isShopPage={false}></GoodsList>
         </View>
     )
 }
