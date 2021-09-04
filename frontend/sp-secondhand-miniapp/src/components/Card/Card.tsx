@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Image, OpenData, RichText} from '@tarojs/components'
+import {View,Image, OpenData, RichText, Picker} from '@tarojs/components'
 import s from './Card.css';
 import { Item } from 'src/typings/common';
 import TypeTag from './TypeTag/TypeTag';
@@ -52,7 +52,18 @@ const Card: React.FC<Props> = (props) =>{
          {/* 商品名字 以及商品价格 */}
         <View className='flex flex-space-between' >
             <View className={s.title}><RichText nodes={Utils.highlightKeyword(props.keyword,props.item.title,'#ffd101')} /></View>
+        </View>
+
+        <View className='flex flex-space-between' >
             <View className='price-yellow' >£{props.item.price}</View>
+            {props.isShopPage && <Picker mode='selector' range={["重新编辑", "已经售出", "暂时下架", "彻底删除"]} onChange={()=>{}}>
+                <View className={s.options}>
+                    <View className={s.dot}></View>
+                    <View className={s.dot}></View>
+                    <View className={s.dot}></View>
+                </View>
+            </Picker>
+            }   
         </View>
 
        {/* 商家信息 */}
@@ -63,12 +74,6 @@ const Card: React.FC<Props> = (props) =>{
             </View>
             <View className={s.name}>{props.item.popularity}人想要</View>
           </View>
-        }
-        {props.isShopPage && <View className={s.options}>
-            <View className={s.dot}></View>
-            <View className={s.dot}></View>
-            <View className={s.dot}></View>
-        </View>
         }
         
     </View>
