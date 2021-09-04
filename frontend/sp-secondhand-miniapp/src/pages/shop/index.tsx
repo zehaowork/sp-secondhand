@@ -8,11 +8,6 @@ import GoodsList from '../../components/GoodsList/GoodsList'
 
 
 interface Props {}
-
-const changeSelector = e => {
-    
-}
-
 const Index: React.FC<Props> = () => {
     return(
         <View>
@@ -30,9 +25,6 @@ const Index: React.FC<Props> = () => {
             </View>
             <View className={s.goodsContainer}>
                 <GoodsList isFavouritesPage={false} itemList={[]} isShopPage={true}></GoodsList>
-            </View>
-            <View>
-                <Picker mode='selector' range={["重新编辑", "已经售出", "暂时下架", "彻底删除"]} onChange={changeSelector}></Picker>
             </View>
         </View>
     )
