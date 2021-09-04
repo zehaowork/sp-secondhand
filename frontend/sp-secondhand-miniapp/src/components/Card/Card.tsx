@@ -43,31 +43,32 @@ const Card: React.FC<Props> = (props) =>{
 
     <View  className={s.info}>
         {/* 商品小标签 */}
-        <View className={s.tags} >
+        {!props.isShopPage && <View className={s.tags} >
             <CityTag CityName="Southampton" />
             <TypeTag GoodType={props.item.type} />
             <CategoryTag CategoryName="Item" />
-        </View>
+        </View>}
         
          {/* 商品名字 以及商品价格 */}
         <View className='flex flex-space-between' >
             <View className={s.title}><RichText nodes={Utils.highlightKeyword(props.keyword,props.item.title,'#ffd101')} /></View>
+            {!props.isShopPage && <View className='price-yellow' >£{props.item.price}</View>}
         </View>
 
-        <View className='flex flex-space-between' >
+        {/* 编辑按钮 - 只在商品列表下显示 */}
+        {props.isShopPage && <View className='flex flex-space-between' >
             <View className='price-yellow' >£{props.item.price}</View>
-            {props.isShopPage && <Picker mode='selector' range={["重新编辑", "已经售出", "暂时下架", "彻底删除"]} onChange={()=>{}}>
-                <View className={s.options}>
+            <Picker className={s.options} mode='selector' range={["重新编辑", "已经售出", "暂时下架", "彻底删除"]} onChange={()=>{}}>
+                <View >
                     <View className={s.dot}></View>
                     <View className={s.dot}></View>
                     <View className={s.dot}></View>
                 </View>
             </Picker>
-            }   
-        </View>
+        </View>}
 
        {/* 商家信息 */}
-        {!props.isFavouritesPage && <View className='flex flex-space-between' >
+        {(!props.isShopPage || !props.isFavouritesPage) && <View className='flex flex-space-between' >
             <View className={s.user}>
                 <Avatar size='sm' isAuthorized />
                 <OpenData className={s.name}  type='userNickName' />
