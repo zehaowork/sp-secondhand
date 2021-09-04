@@ -24,7 +24,7 @@ const Index: React.FC<Props> = () => {
     return (
         <View className={s.page}>
             <Indexes />
-        <SearchBar placeholder="搜索城市名或Post Code (请输入英文)" />
+        <SearchBar placeholder="搜索城市名或Postcode (请输入英文)" />
             <View className={s.container}>
             <View className={s.title} >当前城市定位</View>
                 <View className={` ${s.tagGroup} ${s.navigation}`} >

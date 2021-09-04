@@ -1,9 +1,8 @@
 import React from 'react';
-import {View,Picker, Button, Text} from '@tarojs/components'
+import {View} from '@tarojs/components'
 import { Item } from 'src/typings/common';
 import s from './GoodsList.css'
 import Card from '../Card/Card';
-import InlineLoader from '../InlineLoader/InlineLoader';
 
 
 
