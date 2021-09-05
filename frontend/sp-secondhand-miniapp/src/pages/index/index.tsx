@@ -68,7 +68,7 @@ const Index: React.FC<Props> = ()=>{
     setShowLoading(true);
     API.SecondHand.getSecondHands({
       catId:catId,
-      cityId:1,
+      cityId:469,
       keyword:'',
       page:page,
       size:5,

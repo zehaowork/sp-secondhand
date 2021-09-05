@@ -21,7 +21,7 @@ declare interface Item  {
   declare interface searchSecondHandParam {
     catId:number;
     cityId:number;
-    keyword:string;
+    keyword?:string;
     page:number;
     size:number
   }
