@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {View,Image, OpenData, RichText, Picker} from '@tarojs/components'
 import s from './Card.css';
 import { Item } from 'src/typings/common';
@@ -75,10 +75,9 @@ const Card: React.FC<Props> = (props) =>{
          <AtIcon className={s.icon} 
            value={isFavorite?'heart-2':'heart'} 
            size='25' 
-           color='#FF0202'
+           color={isFavorite?'#e54d42':'#aaaaaa'}
            onClick={toggleFavorite}
          />
-
     </View>
 
     <View  className={s.info}>
