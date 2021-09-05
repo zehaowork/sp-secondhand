@@ -69,7 +69,7 @@ const Result:React.FC<any> = ()=>{
         <Header title="搜索结果" />
         <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemList} />
         <View className={s.padding} >
-        <AtDivider content='异地同类' fontColor='#aaaaaa' lineColor='#aaaaaa' />
+        <AtDivider content='周边好物' fontColor='#aaaaaa' lineColor='#aaaaaa' />
         </View>
         {/* 异地物品 */}
         <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemList} />
