@@ -1,0 +1,56 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+
+
+.scroll{
+    width: 100%;
+    flex-direction: row;
+    white-space: nowrap;
+}
+.list{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.item{
+    margin-top:20px;
+    padding: 0px 10px;
+    display: inline-block;
+}
+
+.category{
+    width:110px;
+    height:110px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    composes: text-Explain from global;
+    color:var(--bwAlpha05);
+    border-radius:50%;
+    
+}
+
+/* 全部类别的特殊样式 */
+.all{
+    composes: item;
+    border-right: 10px solid var(--ghostWhite);
+    
+}
+
+.icon{
+    width:40px;
+    height:40px;
+    margin-bottom: 5px;
+}
+
+.active{
+   composes: bg-gradual-peach from global;
+   composes: shadow-blur from global;
+   color:var(--white);
+}

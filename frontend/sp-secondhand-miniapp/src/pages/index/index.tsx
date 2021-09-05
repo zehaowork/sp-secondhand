@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import { View,Text } from '@tarojs/components'
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
-import Category from '../../components/Category/Category'
+import Categories from '../../components/Category/Categories'
 import BannerSwiper from '../../components/BannerSwiper/BannerSwiper'
 import Header from '../../components/Header/Header'
 import SearchBarPlaceholder from '../../components/SearchBarPlaceholder/SearchBarPlaceholder'
@@ -80,7 +80,7 @@ const Index: React.FC<Props> = ()=>{
 
   //获取类别列表
   const getCategories = ()=>{
-    API.Home.getCategories().then(res=>{
+    API.StaticData.getCategories().then(res=>{
       if(res.statusCode === 200){
         console.log(res.data.data);
         setCategoryList(res.data.data);
@@ -116,7 +116,7 @@ const Index: React.FC<Props> = ()=>{
   <BannerSwiper imageList ={imageList} />
 
   {/* 类型栏目 */}
-  <Category categoryList={categoryList} />
+  <Categories categoryList={categoryList} />
   <Header title ='闲置好物' />
 
   {/* 商品列表 */}

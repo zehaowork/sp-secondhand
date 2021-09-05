@@ -28,14 +28,15 @@ const API = {
         }
     },
     //主页相关动态资源API
-    Home:{
+    StaticData:{
         getCategories: function() {
             return Taro.request({
-                url:BASE_URL+'home/categories',
+                url:BASE_URL+'staticData/categories',
                 header:header,
                 method:Method.GET,
             })
         }
-    }
+    },
+    
 }
 export default API;

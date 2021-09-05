@@ -22,7 +22,7 @@
 }
 
 .active{
-    composes:bg-orange from global;
+    composes:bg-gradual-peach from global;
 }
 .passive{
     composes: bg-gray from global;
