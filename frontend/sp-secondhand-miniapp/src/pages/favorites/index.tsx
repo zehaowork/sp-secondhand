@@ -1,14 +1,41 @@
 import { View } from '@tarojs/components'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import GoodsList from '../../components/GoodsList/GoodsList'
+import API from '../../../utils/API'
+import { Item } from 'src/typings/common'
 
 //Pass in the prop isFavorites variable as TRUE in this GoodsList component
 
-interface Props {}
-const Index: React.FC<Props> = () => {
+interface Props {
+    userId:string
+}
+const Index: React.FC<Props> = (props) => {
+    const [itemList, setItemList] = useState<Array<Item>>([]);
+
+    useEffect(() => {
+        getFavoriteList();
+    }, [])
+
+     //获取商品列表
+  const getFavoriteList = ()=>{
+
+    // API.SecondHand.getFavoritesByUserId(props.userId).then(
+    API.SecondHand.getFavoritesByUserId("0").then(
+        res => {
+        if(res.statusCode === 200){
+            console.log(res.data.data);
+            setItemList(res.data.data);
+          }
+    }).catch(
+        err =>{
+            console.log(err)
+    })
+  }
+
+
     return (
         <View>
-            <GoodsList isFavouritesPage={true} itemList={[]} isShopPage={false}></GoodsList>
+            <GoodsList isFavouritesPage itemList={[]} isShopPage={false}></GoodsList>
         </View>
     )
 }

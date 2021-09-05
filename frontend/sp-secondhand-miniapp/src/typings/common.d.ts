@@ -25,6 +25,11 @@ declare interface Item  {
     page:number;
     size:number
   }
+
+  declare interface toggleFavoriteParam {
+    userId:number;
+    secondHandId:number
+  }
   
 declare module "*.png";
 declare module "*.gif";

@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { searchSecondHandParam } from 'src/typings/common';
+import { searchSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
 //服务器地址
 const BASE_URL:String = 'http://test.smallpotatoestech.com:8087/api/';
 const header:String = 'application/x-www-form-urlencoded';
@@ -25,7 +25,37 @@ const API = {
         },
         getSecondHand: function(data) {
             
+        },
+
+        //通过用户id获取收藏列表
+        getFavoritesByUserId: function(userId: string){
+            return Taro.request({
+                url:BASE_URL+'secondHand/favorite/'+userId,
+                header:header,
+                method:Method.GET,
+            })
+        },
+
+        //加入收藏
+        postFavorite: function(data:toggleFavoriteParam){
+            return Taro.request({
+                url:BASE_URL+'secondHand/favorite/',
+                data:data,
+                header:header,
+                method:Method.POST,
+            })
+        },
+        
+        //取消收藏
+        deleteFavorite: function(data:toggleFavoriteParam){
+            return Taro.request({
+                url:BASE_URL+'secondHand/favorite/',
+                data:data,
+                header:header,
+                method:Method.DELETE,
+            })
         }
+
     },
     //主页相关动态资源API
     StaticData:{
