@@ -38,12 +38,13 @@ const Index: React.FC<Props> = ()=>{
   const [showLoading, setShowLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('别太放肆，我们可是有底线的噢-o-');
 
-  //页面行为
+  /*页面行为*/
+  // 初始抓取数据
   useEffect(() => {
-   getList();
-   getCategories();
-  }, [])
-
+  getList();
+  getCategories();
+  }, []);
+  
   //回到顶部
   const toTop = ()=>{
     Taro.pageScrollTo({
@@ -52,8 +53,16 @@ const Index: React.FC<Props> = ()=>{
     })
   }
 
-  //数据抓取
+  /**
+   * 选择商品类别
+   * @param id 类别id
+   */
+  const onSelectCategory = (e) => {
+    setCatId(Number(e.currentTarget.id));
+    setPage(0);
+  }
 
+  /* 数据抓取 */
   //获取商品列表
   const getList = ()=>{
     setShowLoading(true);
@@ -82,7 +91,6 @@ const Index: React.FC<Props> = ()=>{
   const getCategories = ()=>{
     API.StaticData.getCategories().then(res=>{
       if(res.statusCode === 200){
-        console.log(res.data.data);
         setCategoryList(res.data.data);
       }
       else{
@@ -116,7 +124,7 @@ const Index: React.FC<Props> = ()=>{
   <BannerSwiper imageList ={imageList} />
 
   {/* 类型栏目 */}
-  <Categories categoryList={categoryList} />
+  <Categories current={catId} onClick={onSelectCategory} categoryList={categoryList} />
   <Header title ='闲置好物' />
 
   {/* 商品列表 */}

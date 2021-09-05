@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {ScrollView, View, Image} from '@tarojs/components'
 import s from './Categories.css'
 
@@ -6,7 +6,13 @@ import s from './Categories.css'
 
 
 interface Props {
+    //事件
+    onClick:any;
+
+    //参数
     categoryList:Array<Category>;
+    current:number;
+    
 }
 
 interface Category {
@@ -18,13 +24,20 @@ interface Category {
 
 //容器组件
 const Categories: React.FC<Props> = (props)=>{
-
- 
+    //组件状态
+    const [scrollLeft, setScrollLeft] = useState<number>(5);
     
+    //组件行为
+    const onClick = (e)=>{
+        props.onClick(e);
+        setScrollLeft(e.currentTarget.offsetLeft);
+    }
+
+
     //渲染函数
     const categoryList = props.categoryList.slice(1).map( category => {
-        return <View className={s.item} >
-                <View className={s.category} >
+        return <View key={category.id} className={s.item} >
+                <View id={category.id.toString()} onClick={onClick} className={` ${s.category} ${(category.id === props.current) && s.active} ` } >
                     <Image className={s.icon} src={"http://120.79.59.51:8087"+category.logoUrl} />
                     {category.name}
                 </View>
@@ -33,12 +46,12 @@ const Categories: React.FC<Props> = (props)=>{
 
     return<View className={s.container} >
         {props.categoryList.length>0 && <View className={s.all} >
-                <View className={` ${s.category} ${s.active} ` } >
+                <View id={props.categoryList[0].id.toString()} onClick={onClick}  className={` ${s.category} ${(props.categoryList[0].id === props.current) && s.active} ` } >
                     <Image className={s.icon} src={"http://120.79.59.51:8087"+props.categoryList[0].logoUrl} />
                     {props.categoryList[0].name}
                 </View>
             </View>}
-       <ScrollView scrollWithAnimation className={s.scroll} scrollX >
+       <ScrollView scrollLeft={scrollLeft} scrollWithAnimation className={s.scroll} scrollX >
            {categoryList}
        </ScrollView>
     </View>
