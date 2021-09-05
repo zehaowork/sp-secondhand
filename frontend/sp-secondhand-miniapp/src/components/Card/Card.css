@@ -48,6 +48,7 @@
 }
 
 .icon {
-  position: relative;
-  left: 83%;
+  position: absolute;
+  left: 80%;
+  top: 10px;
 }

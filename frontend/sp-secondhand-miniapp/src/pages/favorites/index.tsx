@@ -16,7 +16,7 @@ const Index: React.FC<Props> = (props) => {
         getFavoriteList();
     }, [])
 
-     //获取收藏商品列表
+     //获取商品列表
   const getFavoriteList = ()=>{
 
     // API.SecondHand.getFavoritesByUserId(props.userId).then(
@@ -25,7 +25,6 @@ const Index: React.FC<Props> = (props) => {
         if(res.statusCode === 200){
             console.log(res.data.data);
             setItemList(res.data.data);
-            console.log("favorites get")
           }
     }).catch(
         err =>{

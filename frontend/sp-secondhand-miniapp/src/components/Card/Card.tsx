@@ -36,29 +36,47 @@ const Card: React.FC<Props> = (props) =>{
 
     //加入收藏夹
     const toggleFavorite = ()=>{
-        API.SecondHand.postFavorite({
-            userId:0,
-            secondHandId:props.item.id
-        }).then(
-            // setIsFavorite();
+        isFavorite?  deleteFavorite() : postFavorite();
+    }
 
-        ).catch(
+    const postFavorite = () => {
+        API.SecondHand.postFavorite({
+            userId:6,
+            secondHandId:props.item.id
+        }).then(res=>{
+            if(res.statusCode === 200){
+                setIsFavorite(!isFavorite);
+            }
+        }).catch(
             err =>{
                 console.log(err)
+        });
+    }
+
+    const deleteFavorite = () => {
+        API.SecondHand.deleteFavorite({
+            userId:6,
+            secondHandId:props.item.id
+        }).then(res=>{
+            if(res.statusCode === 200){
+                setIsFavorite(!isFavorite);
             }
-        )
+        }).catch(
+            err =>{
+                console.log(err)
+        });
     }
 
     return <View onClick={toDetail} className={s.container}>
-    <View className={s.item} style={{background:"grey"}}>
+    <View className={s.item} >
+    <Image src={props.item.imgUrls} mode='aspectFill' className={s.image} >
+    </Image>
          <AtIcon className={s.icon} 
          value={isFavorite?'heart-2':'heart'} 
          size='25' 
-         color='#F00'
+         color='#FF0202'
          onClick={toggleFavorite}/>
 
-    <Image src={props.item.imgUrls} mode='aspectFill' className={s.image} >
-    </Image>
     </View>
 
     <View  className={s.info}>

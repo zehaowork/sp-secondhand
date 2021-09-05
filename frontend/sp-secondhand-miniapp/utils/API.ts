@@ -44,6 +44,16 @@ const API = {
                 header:header,
                 method:Method.POST,
             })
+        },
+        
+        //取消收藏
+        deleteFavorite: function(data:toggleFavoriteParam){
+            return Taro.request({
+                url:BASE_URL+'secondHand/favorite/',
+                data:data,
+                header:header,
+                method:Method.DELETE,
+            })
         }
 
     },
@@ -51,7 +61,7 @@ const API = {
     Home:{
         getCategories: function() {
             return Taro.request({
-                url:BASE_URL+'home/categories',
+                url:BASE_URL+'staticData/categories',
                 header:header,
                 method:Method.GET,
             })
