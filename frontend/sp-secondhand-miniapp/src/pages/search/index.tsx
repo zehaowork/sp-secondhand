@@ -11,20 +11,29 @@ import Tag from '../../components/Tag/Tag';
 
 const Index :React.FC<any> = ()=>{
     //定义状态
-    const historyList:Array<any> = [];
-    const [keyword, setKeyword] = useState('');
+    const historyList:Array<any> = []; //搜索历史记录数组
+    const [keyword, setKeyword] = useState(''); //搜索关键词
+    const exploreList = ['吹风机','锅','水壶','咖啡','香水'];
 
-
-    const onInput = (input)=>{
+    //定义行为
+    const onInput = (input:string)=>{
         setKeyword(input);
     }
 
     const toResult = ()=>{
+        
         Taro.navigateTo({
             url:'./result/result?keyword='+keyword
         })
     }
 
+    //点击Tag的事件
+    const onSelectTag = (value:string)=>{
+        setKeyword(value);
+    }
+
+    //渲染函数
+    const renderExploreList = exploreList.map(item => <Tag size='normal' name={item} circle onClick={()=>{onSelectTag(item)}} />)
 
     return <View className={s.container} >
         {/* 搜索栏 */}
@@ -64,7 +73,7 @@ const Index :React.FC<any> = ()=>{
                 </View>
                 {/* 列表 */}
                 <View className={s.list} >
-                <Tag size='normal' name='牙刷' circle onClick={null} />
+                    {renderExploreList}
                 </View>
             </View>  
         </View>

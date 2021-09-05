@@ -17,7 +17,7 @@ interface Props {
 const GoodsList: React.FC<Props> = (props)=>{
 
     //定义状态
-   
+    
   
    
     //定义行为
