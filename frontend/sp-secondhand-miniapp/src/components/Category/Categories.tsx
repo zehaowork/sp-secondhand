@@ -25,12 +25,25 @@ interface Category {
 //容器组件
 const Categories: React.FC<Props> = (props)=>{
     //组件状态
-    const [scrollLeft, setScrollLeft] = useState<number>(5);
+    const [scrollLeft, setScrollLeft] = useState<number>(5);//横向滚动条位置,以左为开始
+    const [oldOffSetLeft, setOldOffSetLeft] = useState(5); //记录上一次滑动的位置
     
     //组件行为
     const onClick = (e)=>{
         props.onClick(e);
-        setScrollLeft(e.currentTarget.offsetLeft);
+        if(e.currentTarget.id === '1'){
+            setScrollLeft(5);
+        }
+        else{
+            //判断是是否左滑
+            if(e.currentTarget.offsetLeft >oldOffSetLeft){
+                setScrollLeft(e.currentTarget.offsetLeft-140);
+            }
+            else{
+                setScrollLeft(e.currentTarget.offsetLeft-140);
+            }
+            setOldOffSetLeft(e.currentTarget.offsetLeft);
+        }
     }
 
 
