@@ -57,12 +57,14 @@ const Result:React.FC<any> = ()=>{
 
     return <View className={s.container} >
         {/* 搜索栏 */}
+        <View className={s.searchBar}>
         <SearchBar 
         onInput={onInput} 
         keyword={keyword}
         onConfirm={search}
         onClick={search}
         placeholder="请输入商品关键词/名称/品牌" />
+        </View>
         {/* 同城物品 */}
         <Header title="搜索结果" />
         <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemList} />
