@@ -1,5 +1,7 @@
-import React,{useState} from 'react';
-import {View,Image, OpenData, RichText, Picker} from '@tarojs/components'
+import React, { useState } from 'react';
+import {View,Image, OpenData, RichText} from '@tarojs/components'
+import { AtActionSheet, AtActionSheetItem } from "taro-ui"
+import "taro-ui/dist/style/components/action-sheet.scss";
 import s from './Card.css';
 import { Item } from 'src/typings/common';
 import TypeTag from './TypeTag/TypeTag';
@@ -24,7 +26,8 @@ interface Props {
 const Card: React.FC<Props> = (props) =>{
     const [isFavorite, setIsFavorite] = useState(false);
     //定义状态
- 
+    const [isOpened, setIsOpened] = useState(false);
+
     //定义行为
     
     // 打开商品详情
@@ -32,6 +35,7 @@ const Card: React.FC<Props> = (props) =>{
         //TODO:添加商品详情路径
     }
 
+    
 
     //渲染函数
 
@@ -39,6 +43,7 @@ const Card: React.FC<Props> = (props) =>{
     const toggleFavorite = ()=>{
         isFavorite?  deleteFavorite() : postFavorite();
     }
+
 
     const postFavorite = () => {
         API.SecondHand.postFavorite({
@@ -67,6 +72,7 @@ const Card: React.FC<Props> = (props) =>{
                 console.log(err)
         });
     }
+
 
     return <View onClick={toDetail} className={s.container}>
     <View className={s.item} >
@@ -97,13 +103,11 @@ const Card: React.FC<Props> = (props) =>{
         {/* 编辑按钮 - 只在商品列表下显示 */}
         {props.isShopPage && <View className='flex flex-space-between' >
             <View className='price-yellow' >£{props.item.price}</View>
-            <Picker className={s.options} mode='selector' range={["重新编辑", "已经售出", "暂时下架", "彻底删除"]} onChange={()=>{}}>
-                <View >
-                    <View className={s.dot}></View>
-                    <View className={s.dot}></View>
-                    <View className={s.dot}></View>
-                </View>
-            </Picker>
+            <View onClick={() => setIsOpened(!isOpened)}>
+                <View className={s.dot}></View>
+                <View className={s.dot}></View>
+                <View className={s.dot}></View>
+            </View>
         </View>}
 
        {/* 商家信息 */}
@@ -115,8 +119,15 @@ const Card: React.FC<Props> = (props) =>{
             <View className={s.name}>{props.item.popularity}人想要</View>
           </View>
         }
-        
     </View>
+        <AtActionSheet isOpened={isOpened} cancelText='取消' 
+            onCancel={() => setIsOpened(false)} 
+            onClose={() => setIsOpened(!isOpened)}>
+                <AtActionSheetItem >重新编辑</AtActionSheetItem>
+                <AtActionSheetItem >已经售出</AtActionSheetItem>
+                <AtActionSheetItem >暂时下架</AtActionSheetItem>
+                <AtActionSheetItem >彻底删除</AtActionSheetItem>
+        </AtActionSheet>
     </View>
 }
 export default Card;

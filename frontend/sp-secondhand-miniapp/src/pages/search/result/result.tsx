@@ -57,17 +57,19 @@ const Result:React.FC<any> = ()=>{
 
     return <View className={s.container} >
         {/* 搜索栏 */}
+        <View className={s.searchBar}>
         <SearchBar 
         onInput={onInput} 
         keyword={keyword}
         onConfirm={search}
         onClick={search}
         placeholder="请输入商品关键词/名称/品牌" />
+        </View>
         {/* 同城物品 */}
         <Header title="搜索结果" />
         <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemList} />
         <View className={s.padding} >
-        <AtDivider content='异地同类' fontColor='#aaaaaa' lineColor='#aaaaaa' />
+        <AtDivider content='周边好物' fontColor='#aaaaaa' lineColor='#aaaaaa' />
         </View>
         {/* 异地物品 */}
         <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemList} />

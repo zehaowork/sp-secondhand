@@ -18,22 +18,33 @@ const Index :React.FC<any> = ()=>{
     // 定义行为
     useEffect(() => {
        getSearchHistory();
-    }, [])
+    }, []);
+
+    
 
     const onInput = (input:string)=>{
         setKeyword(input);
     }
 
-    const toResult = ()=>{
-        addKeywordToHistory(keyword);
+    
+    //打开搜索结果页面
+    const toResult = (keyword)=>{
         Taro.navigateTo({
             url:'./result/result?keyword='+keyword
         })
     }
 
+    //点击搜索按钮事件
+    const onSearch = ()=>{
+        addKeywordToHistory(keyword);
+        toResult(keyword);
+    }
+
     // 点击Tag的事件
     const onSelectTag = (value:string)=>{
         setKeyword(value);
+        addKeywordToHistory(value);
+        toResult(value);
     }
 
     // 添加关键词到搜索记录里
@@ -80,7 +91,7 @@ const Index :React.FC<any> = ()=>{
         <SearchBar 
         placeholder="请输入商品关键词/名称/品牌"
         onConfirm={toResult}
-        onClick={toResult}
+        onClick={onSearch}
         onInput={onInput}
         keyword={keyword}
         />
