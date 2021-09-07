@@ -28,7 +28,7 @@ const API = {
         },
 
         //通过用户id获取收藏列表
-        getFavoritesByUserId: function(userId: string){
+        getFavorites: function(userId: string){
             return Taro.request({
                 url:BASE_URL+'secondHand/favorite/'+userId,
                 header:header,

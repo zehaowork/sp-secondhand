@@ -31,6 +31,13 @@ declare interface Item  {
     secondHandId:number
   }
   
+  //Reducer接口
+  declare interface favoriteReducer{
+    favorite:Array<Item>;
+    isLoading:boolean;
+    errMsg:string
+  }
+
 declare module "*.png";
 declare module "*.gif";
 declare module "*.jpg";
