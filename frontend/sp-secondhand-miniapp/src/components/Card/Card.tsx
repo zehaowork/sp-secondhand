@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View,Image, OpenData, RichText, Picker} from '@tarojs/components'
+import { AtActionSheet, AtActionSheetItem } from "taro-ui"
+import "taro-ui/dist/style/components/action-sheet.scss";
 import s from './Card.css';
 import { Item } from 'src/typings/common';
 import TypeTag from './TypeTag/TypeTag';
@@ -30,9 +32,9 @@ const Card: React.FC<Props> = (props) =>{
         //TODO:添加商品详情路径
     }
 
+    const [isClicked, setIsClicked] = useState(false)
 
     //渲染函数
-
 
 
     return <View onClick={toDetail} className={s.container}>
@@ -58,13 +60,11 @@ const Card: React.FC<Props> = (props) =>{
         {/* 编辑按钮 - 只在商品列表下显示 */}
         {props.isShopPage && <View className='flex flex-space-between' >
             <View className='price-yellow' >£{props.item.price}</View>
-            <Picker className={s.options} mode='selector' range={["重新编辑", "已经售出", "暂时下架", "彻底删除"]} onChange={()=>{}}>
-                <View >
-                    <View className={s.dot}></View>
-                    <View className={s.dot}></View>
-                    <View className={s.dot}></View>
-                </View>
-            </Picker>
+            <View onClick={() => setIsClicked(!isClicked)}>
+                <View className={s.dot}></View>
+                <View className={s.dot}></View>
+                <View className={s.dot}></View>
+            </View>
         </View>}
 
        {/* 商家信息 */}
@@ -76,6 +76,15 @@ const Card: React.FC<Props> = (props) =>{
             <View className={s.name}>{props.item.popularity}人想要</View>
           </View>
         }
+
+        <AtActionSheet isOpened={isClicked} cancelText='取消' 
+        onCancel={() => setIsClicked(!isClicked)} 
+        onClose={() => setIsClicked(!isClicked)}>
+            <AtActionSheetItem onClick={() => setIsClicked(!isClicked)}>重新编辑</AtActionSheetItem>
+            <AtActionSheetItem onClick={() => setIsClicked(!isClicked)}>已经售出</AtActionSheetItem>
+            <AtActionSheetItem onClick={() => setIsClicked(!isClicked)}>暂时下架</AtActionSheetItem>
+            <AtActionSheetItem onClick={() => setIsClicked(!isClicked)}>彻底删除</AtActionSheetItem>
+        </AtActionSheet>
         
     </View>
     </View>
