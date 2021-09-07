@@ -41,7 +41,7 @@ const Index: React.FC<Props> = ()=>{
   /*页面行为*/
   // 初始抓取数据
   useEffect(() => {
-  getList();
+  getList(page,catId);
   getCategories();
   }, []);
   
@@ -58,13 +58,15 @@ const Index: React.FC<Props> = ()=>{
    * @param id 类别id
    */
   const onSelectCategory = (e) => {
-    setCatId(Number(e.currentTarget.id));
+    let newCatId = Number(e.currentTarget.id);
+    setCatId(newCatId);
     setPage(0);
+    getList(0,newCatId);
   }
 
   /* 数据抓取 */
   //获取商品列表
-  const getList = ()=>{
+  const getList = (page:number,catId:number)=>{
     setShowLoading(true);
     API.SecondHand.getSecondHands({
       catId:catId,

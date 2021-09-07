@@ -76,7 +76,7 @@ const Card: React.FC<Props> = (props) =>{
 
     return <View onClick={toDetail} className={s.container}>
     <View className={s.item} >
-    <Image src={props.item.imgUrls} mode='aspectFill' className={s.image} >
+    <Image src={"http://120.79.59.51:8087/"+props.item.imgUrls} mode='aspectFill' className={s.image} >
     </Image>
          <AtIcon className={s.icon} 
            value={isFavorite?'heart-2':'heart'} 
