@@ -59,7 +59,7 @@ const Categories: React.FC<Props> = (props)=>{
 
     return<View className={s.container} >
         {props.categoryList.length>0 && <View className={s.all} >
-                <View id={props.categoryList[0].id.toString()} onClick={onClick}  className={` ${s.category} ${(props.categoryList[0].id === props.current) && s.active} ` } >
+                <View id={(props.categoryList[0].id-1).toString()} onClick={onClick}  className={` ${s.category} ${(props.categoryList[0].id-1 === props.current) && s.active} ` } >
                     <Image className={s.icon} src={"http://120.79.59.51:8087"+props.categoryList[0].logoUrl} />
                     {props.categoryList[0].name}
                 </View>
