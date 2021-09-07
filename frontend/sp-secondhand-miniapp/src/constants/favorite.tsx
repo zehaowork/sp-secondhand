@@ -1,0 +1,4 @@
+
+export const GET_FAVORITE_REQUEST:string = 'GET_FAVORITE_REQUEST';
+export const GET_FAVORITE_SUCCESS:string = 'GET_FAVORITE_SUCCESS';
+export const GET_FAVORITE_FAIL:string = 'GET_FAVORITE_FAIL';
