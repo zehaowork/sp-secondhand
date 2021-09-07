@@ -29,11 +29,12 @@ const GoodsList: React.FC<Props> = (props)=>{
     //使用 Card 组件渲染商品列表
     const renderList = props.itemList.map((item:Item)=>{
         return <Card 
-                keyword={props.keyword} 
-                key={item.id} 
-                item={item} 
-                isFavouritesPage={props.isFavouritesPage}
-                isShopPage={props.isShopPage}/>
+          keyword={props.keyword} 
+          key={item.id} 
+          item={item} 
+          isFavouritesPage={props.isFavouritesPage}
+          isShopPage={props.isShopPage}
+        />
     })
 
     

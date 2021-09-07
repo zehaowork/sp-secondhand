@@ -63,3 +63,9 @@
   justify-content: center
   
 }
+
+.icon {
+  position: absolute;
+  left: 80%;
+  top: 10px;
+}
