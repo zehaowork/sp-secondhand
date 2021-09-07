@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {View,Image, OpenData, RichText, Picker} from '@tarojs/components'
+import {View,Image, OpenData, RichText} from '@tarojs/components'
 import { AtActionSheet, AtActionSheetItem } from "taro-ui"
 import "taro-ui/dist/style/components/action-sheet.scss";
 import s from './Card.css';
@@ -24,7 +24,8 @@ interface Props {
 //商品显示组件
 const Card: React.FC<Props> = (props) =>{
     //定义状态
- 
+    const [isOpened, setIsOpened] = useState(false);
+
     //定义行为
     
     // 打开商品详情
@@ -32,7 +33,7 @@ const Card: React.FC<Props> = (props) =>{
         //TODO:添加商品详情路径
     }
 
-    const [isClicked, setIsClicked] = useState(false)
+    
 
     //渲染函数
 
@@ -60,7 +61,7 @@ const Card: React.FC<Props> = (props) =>{
         {/* 编辑按钮 - 只在商品列表下显示 */}
         {props.isShopPage && <View className='flex flex-space-between' >
             <View className='price-yellow' >£{props.item.price}</View>
-            <View onClick={() => setIsClicked(!isClicked)}>
+            <View onClick={() => setIsOpened(!isOpened)}>
                 <View className={s.dot}></View>
                 <View className={s.dot}></View>
                 <View className={s.dot}></View>
@@ -76,17 +77,15 @@ const Card: React.FC<Props> = (props) =>{
             <View className={s.name}>{props.item.popularity}人想要</View>
           </View>
         }
-
-        <AtActionSheet isOpened={isClicked} cancelText='取消' 
-        onCancel={() => setIsClicked(!isClicked)} 
-        onClose={() => setIsClicked(!isClicked)}>
-            <AtActionSheetItem onClick={() => setIsClicked(!isClicked)}>重新编辑</AtActionSheetItem>
-            <AtActionSheetItem onClick={() => setIsClicked(!isClicked)}>已经售出</AtActionSheetItem>
-            <AtActionSheetItem onClick={() => setIsClicked(!isClicked)}>暂时下架</AtActionSheetItem>
-            <AtActionSheetItem onClick={() => setIsClicked(!isClicked)}>彻底删除</AtActionSheetItem>
-        </AtActionSheet>
-        
     </View>
+        <AtActionSheet isOpened={isOpened} cancelText='取消' 
+            onCancel={() => setIsOpened(false)} 
+            onClose={() => setIsOpened(!isOpened)}>
+                <AtActionSheetItem >重新编辑</AtActionSheetItem>
+                <AtActionSheetItem >已经售出</AtActionSheetItem>
+                <AtActionSheetItem >暂时下架</AtActionSheetItem>
+                <AtActionSheetItem >彻底删除</AtActionSheetItem>
+        </AtActionSheet>
     </View>
 }
 export default Card;
