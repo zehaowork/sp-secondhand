@@ -8,6 +8,7 @@ import s from './Header.css'
 
 interface Props{
    title: string;
+   children?: React.ReactNode //子组件
 }
 
 const Header: React.FC<Props> = (props)=>{
@@ -18,15 +19,9 @@ const Header: React.FC<Props> = (props)=>{
         {props.title}
     </View>
 
-    {/* 排序按钮 */}
-    <Picker mode='selector' range={[]} onChange={()=>{}}  >
-    <View className={s.sort} >
-        <Button className={s.btn_sm}>
-        排序
-        <AtIcon value='chevron-down' size='10' color='white'></AtIcon>
-        </Button>
-    </View>
-    </Picker>
+    {/* 右边按钮 */} 
+    {props.children}
+
 </View>
 }
 export default Header;
