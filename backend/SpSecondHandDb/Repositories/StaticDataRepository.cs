@@ -19,6 +19,11 @@ namespace SpSecondHandDb.Repositories
             return await Context.Cities.ToListAsync();
         }
 
+        public async Task<City> GetCityById(int id)
+        {
+            return await Context.Cities.FindAsync(id);
+        }
+
         public async Task<IEnumerable<City>> GetCitiesByCountryId(int id)
         {
             return await Context.Cities.Where(c => c.CountryId == id).ToListAsync();
@@ -27,6 +32,11 @@ namespace SpSecondHandDb.Repositories
         public async Task<IEnumerable<Category>> GetCategories()
         {
             return await Context.Categories.ToListAsync();
+        }
+
+        public async Task<Category> GetCategoryById(int id)
+        {
+            return await Context.Categories.FindAsync(id);
         }
 
         public async Task<IEnumerable<Banner>> GetBanners()

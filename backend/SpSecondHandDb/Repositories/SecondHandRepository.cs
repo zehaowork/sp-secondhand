@@ -22,6 +22,9 @@ namespace SpSecondHandDb.Repositories
         public async Task<IEnumerable<SecondHand>> FindAll(Func<SecondHand, bool> predicate, int page, int size)
         {
             var secondHands = Context.SecondHands
+                .Include(s => s.User)
+                .Include(s => s.Category)
+                .Include(s => s.City)
                 .Where(predicate)
                 .OrderByDescending(o => o.PublishTime)
                 .Skip(page * size)
@@ -34,6 +37,9 @@ namespace SpSecondHandDb.Repositories
         public async Task<IEnumerable<SecondHand>> GetSecondHandByPage(int page, int size)
         {
             var secondHands = Context.SecondHands
+                .Include(s => s.User)
+                .Include(s => s.Category)
+                .Include(s => s.City)
                 .OrderByDescending(o => o.PublishTime)
                 .Skip(page * size)
                 .Take(size)
@@ -46,13 +52,31 @@ namespace SpSecondHandDb.Repositories
         {
             var fav = Context.Favorites.Where(f => f.UserId == userId);
 
-            return await fav?.Select(f => f.SecondHand).ToListAsync();
+            return await fav?.Select(f => f.SecondHand)
+                .Include(s => s.User)
+                .Include(s => s.Category)
+                .Include(s => s.City)
+                .ToListAsync();
         }
 
-        public async Task AddFavorite(int secondHandId, int userId)
+        public async Task AddFavorite(long secondHandId, long userId)
         {
             var secondHand = await Context.SecondHands.FindAsync(secondHandId);
+            if (secondHand == null)
+            {
+                throw new ArgumentException($"Second hand item {secondHandId} doesn't exist.");
+            }
             var user = await Context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new ArgumentException($"User {userId} doesn't exist.");
+            }
+
+            if (await IsFavorite(secondHandId, userId))
+            {
+                throw new ArgumentException($"User {userId} already added second hand item {secondHandId} as favorite.");
+            }
+
             var fav = new Favorite()
             {
                 SecondHand = secondHand,
@@ -65,9 +89,13 @@ namespace SpSecondHandDb.Repositories
             await Context.SaveChangesAsync();
         }
 
-        public async Task RemoveFavorite(int secondHandId, int userId)
+        public async Task RemoveFavorite(long secondHandId, long userId)
         {
             var user = await Context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new ArgumentException($"User {userId} doesn't exist.");
+            }
             var fav = user.Favorites.FirstOrDefault(f => f.SecondHandId == secondHandId);
 
             user.Favorites.Remove(fav);
@@ -75,7 +103,7 @@ namespace SpSecondHandDb.Repositories
             await Context.SaveChangesAsync();
         }
 
-        public async Task<bool> IsFavorite(int secondHandId, int userId)
+        public async Task<bool> IsFavorite(long secondHandId, long userId)
         {
             return await Context.Favorites.AnyAsync(f => f.UserId == userId && f.SecondHandId == secondHandId);
         }

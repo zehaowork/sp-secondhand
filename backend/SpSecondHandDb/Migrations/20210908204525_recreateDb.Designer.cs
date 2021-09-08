@@ -10,7 +10,7 @@ using SpSecondHandDb;
 namespace SpSecondHandDb.Migrations
 {
     [DbContext(typeof(SpShDbContext))]
-    [Migration("20210902214734_recreateDb")]
+    [Migration("20210908204525_recreateDb")]
     partial class recreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,8 +123,8 @@ namespace SpSecondHandDb.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("SecondHandId")
-                        .HasColumnType("int");
+                    b.Property<long>("SecondHandId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("UserId", "SecondHandId");
 
@@ -135,9 +135,9 @@ namespace SpSecondHandDb.Migrations
 
             modelBuilder.Entity("SpSecondHandDb.Entities.SecondHand", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
@@ -176,13 +176,19 @@ namespace SpSecondHandDb.Migrations
                     b.Property<int?>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("WeChatId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("SecondHands");
                 });
@@ -279,6 +285,21 @@ namespace SpSecondHandDb.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SpSecondHandDb.Entities.SecondHand", b =>
+                {
+                    b.HasOne("SpSecondHandDb.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("SpSecondHandDb.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.HasOne("SpSecondHandDb.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SpSecondHandDb.Entities.UserContact", b =>

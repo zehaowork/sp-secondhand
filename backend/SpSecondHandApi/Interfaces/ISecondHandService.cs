@@ -7,25 +7,25 @@ namespace SpSecondHandApi.Interfaces
 {
     public interface ISecondHandService
     {
-        Task<SecondHandDto> GetSecondHandById(int id);
+        Task<SecondHandDto> GetSecondHandById(long id);
 
         Task<List<SecondHandDto>> GetSecondHand(int catId, int cityId, string keyword, int page, int size);
 
-        Task<List<SecondHandDto>> GetSecondHandByUser(int userId, int page, int size);
+        Task<List<SecondHandDto>> GetSecondHandByUser(long userId, int page, int size);
 
-        Task<SecondHandDto> PublishSecondHand(SecondHandDto shDto);
+        Task<SecondHandDto> PublishSecondHand(SecondHandCreateDto shDto);
 
-        Task<SecondHandDto> ModifySecondHand(SecondHandDto shDto);
+        Task<SecondHandDto> ModifySecondHand(SecondHandCreateDto shDto);
 
-        Task DeleteSecondHand(int shId);
+        Task DeleteSecondHand(long shId);
 
-        Task<List<SecondHandDto>> GetFavorites(int userId, int page, int size);
+        Task<List<SecondHandDto>> GetFavorites(long userId, int page, int size);
 
-        Task AddFavorite(int secondHandId, int userId);
+        Task AddFavorite(long secondHandId, long userId);
 
-        Task RemoveFavorite(int secondHandId, int userId);
+        Task RemoveFavorite(long secondHandId, long userId);
 
-        Task<bool> IsFavorite(int secondHandId, int userId);
+        Task<bool> IsFavorite(long secondHandId, long userId);
 
         Task<List<string>> UploadImg(List<IFormFile> images);
 

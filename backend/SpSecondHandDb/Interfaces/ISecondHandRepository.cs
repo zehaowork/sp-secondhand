@@ -15,10 +15,10 @@ namespace SpSecondHandDb.Interfaces
 
         Task<IEnumerable<SecondHand>> GetFavoriteSecondHands(long userId);
 
-        Task AddFavorite(int secondHandId, int userId);
+        Task AddFavorite(long secondHandId, long userId);
 
-        Task RemoveFavorite(int secondHandId, int userId);
+        Task RemoveFavorite(long secondHandId, long userId);
 
-        Task<bool> IsFavorite(int secondHandId, int userId);
+        Task<bool> IsFavorite(long secondHandId, long userId);
     }
 }

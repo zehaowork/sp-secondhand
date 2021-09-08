@@ -2,8 +2,8 @@
 {
     public class FavoriteDto
     {
-        public int UserId { get; set; }
-
         public int SecondHandId { get; set; }
+
+        public int UserId { get; set; }
     }
 }

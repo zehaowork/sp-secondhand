@@ -5,7 +5,7 @@ namespace SpSecondHandDb.Entities
 {
     public class SecondHand
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Title { get; set; }
         public string ImgUrls { get; set; }
         public string Description { get; set; }
@@ -14,13 +14,13 @@ namespace SpSecondHandDb.Entities
         public decimal? Price { get; set; }
         public int? Type { get; set; }
         public string Address { get; set; }
-        public int? UserId { get; set; }
-        public int? CategoryId { get; set; }
         public DateTime? PublishTime { get; set; }
-        public int? CityId { get; set; }
         public bool? IsSold { get; set; }
         public long? Popularity { get; set; }
 
+        public virtual User User { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual City City { get; set; }
         public virtual ICollection<Favorite> Favorites { get; set; }
     }
 }

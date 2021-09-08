@@ -6,7 +6,7 @@
 
         public virtual User User { get; set; }
 
-        public int SecondHandId { get; set; }
+        public long SecondHandId { get; set; }
 
         public virtual SecondHand SecondHand { get; set; }
     }

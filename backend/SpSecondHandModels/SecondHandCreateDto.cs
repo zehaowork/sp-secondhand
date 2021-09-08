@@ -2,7 +2,7 @@
 
 namespace SpSecondHandModels
 {
-    public class SecondHandDto
+    public class SecondHandCreateDto
     {
         public long Id { get; set; }
         public string Title { get; set; }
@@ -19,10 +19,5 @@ namespace SpSecondHandModels
         public int CityId { get; set; }
         public bool? IsSold { get; set; }
         public long? Popularity { get; set; }
-
-        public string CityName { get; set; }
-        public string CategoryName { get; set; }
-        public string UserName { get; set; }
-        public string UserProfileImgUrl { get; set; }
     }
 }

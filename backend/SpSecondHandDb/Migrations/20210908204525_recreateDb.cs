@@ -53,32 +53,6 @@ namespace SpSecondHandDb.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SecondHands",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: true),
-                    ImgUrls = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    WeChatId = table.Column<string>(nullable: true),
-                    Telephone = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: true),
-                    Type = table.Column<int>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: true),
-                    CategoryId = table.Column<int>(nullable: true),
-                    PublishTime = table.Column<DateTime>(nullable: true),
-                    CityId = table.Column<int>(nullable: true),
-                    IsSold = table.Column<bool>(nullable: true),
-                    Popularity = table.Column<long>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SecondHands", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -126,27 +100,47 @@ namespace SpSecondHandDb.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Favorites",
+                name: "SecondHands",
                 columns: table => new
                 {
-                    UserId = table.Column<long>(nullable: false),
-                    SecondHandId = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: true),
+                    ImgUrls = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    WeChatId = table.Column<string>(nullable: true),
+                    Telephone = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: true),
+                    Type = table.Column<int>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    PublishTime = table.Column<DateTime>(nullable: true),
+                    IsSold = table.Column<bool>(nullable: true),
+                    Popularity = table.Column<long>(nullable: true),
+                    UserId = table.Column<long>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: true),
+                    CityId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favorites", x => new { x.UserId, x.SecondHandId });
+                    table.PrimaryKey("PK_SecondHands", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Favorites_SecondHands_SecondHandId",
-                        column: x => x.SecondHandId,
-                        principalTable: "SecondHands",
+                        name: "FK_SecondHands_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Favorites_Users_UserId",
+                        name: "FK_SecondHands_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SecondHands_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,6 +167,30 @@ namespace SpSecondHandDb.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    UserId = table.Column<long>(nullable: false),
+                    SecondHandId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => new { x.UserId, x.SecondHandId });
+                    table.ForeignKey(
+                        name: "FK_Favorites_SecondHands_SecondHandId",
+                        column: x => x.SecondHandId,
+                        principalTable: "SecondHands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ChatHistories_FromUId",
                 table: "ChatHistories",
@@ -189,6 +207,21 @@ namespace SpSecondHandDb.Migrations
                 column: "SecondHandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SecondHands_CategoryId",
+                table: "SecondHands",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SecondHands_CityId",
+                table: "SecondHands",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SecondHands_UserId",
+                table: "SecondHands",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserContacts_UserId",
                 table: "UserContacts",
                 column: "UserId",
@@ -202,13 +235,7 @@ namespace SpSecondHandDb.Migrations
                 name: "Banners");
 
             migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
                 name: "ChatHistories");
-
-            migrationBuilder.DropTable(
-                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Favorites");
@@ -218,6 +245,12 @@ namespace SpSecondHandDb.Migrations
 
             migrationBuilder.DropTable(
                 name: "SecondHands");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Users");

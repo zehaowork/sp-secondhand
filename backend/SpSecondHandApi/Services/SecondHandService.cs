@@ -14,17 +14,18 @@ namespace SpSecondHandApi.Services
 {
     public class SecondHandService : ISecondHandService
     {
-        public SecondHandService(IWeChatService weChatService, ISecondHandRepository shRepo, IUserRepository userRepo, IMapper mapper)
+        public SecondHandService(IWeChatService weChatService, ISecondHandRepository shRepo, IUserRepository userRepo, IStaticDataRepository staticDataRepo, IMapper mapper)
         {
             _weChatService = weChatService;
             _shRepo = shRepo;
             _userRepo = userRepo;
+            _staticDataRepo = staticDataRepo;
             _mapper = mapper;
         }
 
         #region Second Hand
 
-        public async Task<SecondHandDto> GetSecondHandById(int id)
+        public async Task<SecondHandDto> GetSecondHandById(long id)
         {
             var shItem = await _shRepo.Get(id);
 
@@ -43,8 +44,8 @@ namespace SpSecondHandApi.Services
         {
             Func<SecondHand, bool> predicate = sh =>
             {
-                var match = catId == 0 || sh.CategoryId == catId;
-                match = match && (cityId == 0 || sh.CityId == cityId);
+                var match = catId == 0 || sh.Category.Id == catId;
+                match = match && (cityId == 0 || sh.City.Id == cityId);
                 match = match && (string.IsNullOrWhiteSpace(keyword) || sh.Title.Contains(keyword));
 
                 return match;
@@ -54,21 +55,24 @@ namespace SpSecondHandApi.Services
             return shList.Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
 
-        public async Task<List<SecondHandDto>> GetSecondHandByUser(int userId, int page, int size)
+        public async Task<List<SecondHandDto>> GetSecondHandByUser(long userId, int page, int size)
         {
-            var shList = await _shRepo.FindAll(sh => sh.UserId == userId , page, size);
+            var shList = await _shRepo.FindAll(sh => sh.User.Id == userId , page, size);
 
             return shList.Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
 
-        public async Task<SecondHandDto> PublishSecondHand(SecondHandDto shDto)
+        public async Task<SecondHandDto> PublishSecondHand(SecondHandCreateDto shDto)
         {
             var newSh = _mapper.Map<SecondHand>(shDto);
+            newSh.Category = await TryGetCategory(shDto.CategoryId);
+            newSh.City = await TryGetCity(shDto.CityId);
+            newSh.User = await TryGetUser(shDto.UserId);
 
             return _mapper.Map<SecondHandDto>(await _shRepo.Add(newSh));
         }
 
-        public async Task<SecondHandDto> ModifySecondHand(SecondHandDto shDto)
+        public async Task<SecondHandDto> ModifySecondHand(SecondHandCreateDto shDto)
         {
             var sh = await _shRepo.Get(shDto.Id);
             if (sh == null)
@@ -84,14 +88,22 @@ namespace SpSecondHandApi.Services
             sh.Price = shDto.Price;
             sh.Type = shDto.Type;
             sh.Address = shDto.Address;
-            sh.CategoryId = shDto.CategoryId;
-            sh.CityId = shDto.CityId;
             sh.IsSold = shDto.IsSold;
+
+            if (sh.Category.Id != shDto.CategoryId)
+            {
+                sh.Category = await TryGetCategory(shDto.CategoryId);
+            }
+
+            if (sh.City.Id != shDto.CityId)
+            {
+                sh.City = await TryGetCity(shDto.CityId);
+            }
 
             return _mapper.Map<SecondHandDto>(await _shRepo.Update(sh));
         }
 
-        public async Task DeleteSecondHand(int shId)
+        public async Task DeleteSecondHand(long shId)
         {
             var sh = await _shRepo.Get(shId);
             if (sh == null)
@@ -106,24 +118,24 @@ namespace SpSecondHandApi.Services
 
         #region Favorite
 
-        public async Task<List<SecondHandDto>> GetFavorites(int userId, int page, int size)
+        public async Task<List<SecondHandDto>> GetFavorites(long userId, int page, int size)
         {
             var fav = await _shRepo.GetFavoriteSecondHands(userId);
 
             return fav.Skip(page * size).Take(size).Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
 
-        public async Task AddFavorite(int secondHandId, int userId)
+        public async Task AddFavorite(long secondHandId, long userId)
         {
             await _shRepo.AddFavorite(secondHandId, userId);
         }
 
-        public async Task RemoveFavorite(int secondHandId, int userId)
+        public async Task RemoveFavorite(long secondHandId, long userId)
         {
             await _shRepo.RemoveFavorite(secondHandId, userId);
         }
 
-        public async Task<bool> IsFavorite(int secondHandId, int userId)
+        public async Task<bool> IsFavorite(long secondHandId, long userId)
         {
             return await _shRepo.IsFavorite(secondHandId, userId);
         }
@@ -194,9 +206,43 @@ namespace SpSecondHandApi.Services
 
         #region Private
 
+        public async Task<Category> TryGetCategory(int id)
+        {
+            var cat = await _staticDataRepo.GetCategoryById(id);
+            if (cat == null)
+            {
+                throw new ArgumentException($"Category {id} doesn't exist.");
+            }
+
+            return cat;
+        }
+
+        public async Task<City> TryGetCity(int id)
+        {
+            var city = await _staticDataRepo.GetCityById(id);
+            if (city == null)
+            {
+                throw new ArgumentException($"City {id} doesn't exist.");
+            }
+
+            return city;
+        }
+
+        public async Task<User> TryGetUser(long id)
+        {
+            var user = await _userRepo.Get(id);
+            if (user == null)
+            {
+                throw new ArgumentException($"User {id} doesn't exist.");
+            }
+
+            return user;
+        }
+
         private readonly IWeChatService _weChatService;
         private readonly ISecondHandRepository _shRepo;
         private readonly IUserRepository _userRepo;
+        private readonly IStaticDataRepository _staticDataRepo;
         private readonly IMapper _mapper;
 
         #endregion

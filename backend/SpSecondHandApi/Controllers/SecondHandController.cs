@@ -26,8 +26,8 @@ namespace SpSecondHandApi.Controllers
         #region Second Hand
 
         [HttpGet]
-        [Route("id/{shId:int}")]
-        public async Task<ActionResult<RespondObject<SecondHandDto>>> GetSecondHand(int shId)
+        [Route("id/{shId:long}")]
+        public async Task<ActionResult<RespondObject<SecondHandDto>>> GetSecondHand(long shId)
         {
             try
             {
@@ -85,8 +85,8 @@ namespace SpSecondHandApi.Controllers
         }
 
         [HttpGet]
-        [Route("user/{userId:int}")]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandListByUser(int userId, int page, int size)
+        [Route("user/{userId:long}")]
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandListByUser(long userId, int page, int size)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace SpSecondHandApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<RespondObject<SecondHandDto>>> PublishSecondHand(SecondHandDto secondHand)
+        public async Task<ActionResult<RespondObject<SecondHandDto>>> PublishSecondHand(SecondHandCreateDto secondHand)
         {
             try
             {
@@ -129,22 +129,22 @@ namespace SpSecondHandApi.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Failed to publish second hand item: {e.Message}");
+                _logger.LogError($"Failed to publish second hand item: {e.Message}.");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<SecondHandDto>()
                 {
-                    Message = $"Failed to publish second hand item: { e.Message}",
+                    Message = $"Failed to publish second hand item: { e.Message}.",
                     Data = null
                 });
             }
             finally
             {
-                _logger.LogInformation($"{nameof(PublishSecondHand)} complete");
+                _logger.LogInformation($"{nameof(PublishSecondHand)} complete.");
             }
         }
 
         [HttpPut]
-        public async Task<ActionResult<RespondObject<SecondHandDto>>> ModifySecondHand(SecondHandDto secondHand)
+        public async Task<ActionResult<RespondObject<SecondHandDto>>> ModifySecondHand(SecondHandCreateDto secondHand)
         {
             try
             {
@@ -158,22 +158,22 @@ namespace SpSecondHandApi.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Failed to modify second hand item: {e.Message}");
+                _logger.LogError($"Failed to modify second hand item: {e.Message}.");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<SecondHandDto>()
                 {
-                    Message = $"Failed to modify second hand item: { e.Message}",
+                    Message = $"Failed to modify second hand item: { e.Message}.",
                     Data = null
                 });
             }
             finally
             {
-                _logger.LogInformation($"{nameof(ModifySecondHand)} complete");
+                _logger.LogInformation($"{nameof(ModifySecondHand)} complete.");
             }
         }
 
         [HttpDelete]
-        public async Task<ActionResult<RespondObject<string>>> DeleteSecondHand(int secondHandId)
+        public async Task<ActionResult<RespondObject<string>>> DeleteSecondHand(long secondHandId)
         {
             try
             {
