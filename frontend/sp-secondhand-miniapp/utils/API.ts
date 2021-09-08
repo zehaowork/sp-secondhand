@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { searchSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
+import { searchSecondHandParam, favoritesSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
 //服务器地址
 const BASE_URL:String = 'http://test.smallpotatoestech.com:8087/api/';
 const header:String = 'application/x-www-form-urlencoded';
@@ -10,7 +10,6 @@ enum Method {
     PUT = 'PUT',
     DELETE = 'DELETE',
 }
-
 
 const API = {
     //二手相关API
@@ -28,27 +27,19 @@ const API = {
         },
 
         //通过用户id获取收藏列表
-        getFavorites: function(userId: string){
+        getFavorites: function(data:favoritesSecondHandParam) {
             return Taro.request({
-                url:BASE_URL+'secondHand/favorite/'+userId,
-                header:header,
-                method:Method.GET,
-            })
-        },
-
-        postIsFavorite: function(data:toggleFavoriteParam){
-            return Taro.request({
-                url:BASE_URL+'secondHand/isFavorite',
+                url:BASE_URL+'secondHand/favorite/'+ data.userId,
                 data:data,
                 header:header,
-                method:Method.POST,
+                method:Method.GET,
             })
         },
 
         //加入收藏
         postFavorite: function(data:toggleFavoriteParam){
             return Taro.request({
-                url:BASE_URL+'secondHand/favorite/',
+                url:BASE_URL+'secondHand/favorite',
                 data:data,
                 header:header,
                 method:Method.POST,
@@ -58,8 +49,7 @@ const API = {
         //取消收藏
         deleteFavorite: function(data:toggleFavoriteParam){
             return Taro.request({
-                url:BASE_URL+'secondHand/favorite/',
-                data:data,
+                url:BASE_URL+'secondHand/favorite?secondHandId='+data.secondHandId+'&userId='+data.userId,
                 header:header,
                 method:Method.DELETE,
             })

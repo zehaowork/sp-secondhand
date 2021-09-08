@@ -12,12 +12,17 @@ interface Props {
 }
 const Index: React.FC<Props> = (props) => {
     //定义状态、变量
+    const [page, setPage] = useState(0);
     const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite); // 储存着reducer里面的三个state
     
     //这里使用action获取数据
     useEffect(() => {
-        dispatch(getFavoriteList('1'));
+        dispatch(getFavoriteList({
+            userId:333,
+            page:page,
+            size:5
+        })); //userID 333, itemId 960, 963 are favorited
     }, [])
 
      //获取商品列表
@@ -41,7 +46,7 @@ const Index: React.FC<Props> = (props) => {
 
     return (
         <View>
-            <GoodsList isFavouritesPage itemList={favorite.favorite} isShopPage={false}></GoodsList>
+            <GoodsList isFavouritesPage itemList={favorite.favorites==undefined? [] : favorite.favorites } isShopPage={false} page={page} ></GoodsList>
         </View>
     )
 }

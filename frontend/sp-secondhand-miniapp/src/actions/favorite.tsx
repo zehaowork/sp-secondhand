@@ -1,5 +1,6 @@
 import API from "../../utils/API"
 import { GET_FAVORITE_REQUEST, GET_FAVORITE_FAIL, GET_FAVORITE_SUCCESS } from "../constants/favorite"
+import { favoritesSecondHandParam } from 'src/typings/common';
 
 /**
  * 
@@ -37,14 +38,14 @@ const FETCH_FAVORITE_FAIL = (payload)=>{
 
 /**
  * 
- * @param userId 用户ID
+ * @param favoritesSecondHandParam 用于获取收藏列表需要的参数
  * @returns 根据不同的情况返回相应的action类型
  */
-export const getFavoriteList = (userId:string)=>{
+export const getFavoriteList = (data:favoritesSecondHandParam)=>{
     return function(dispatch) {
         dispatch(FETCH_FAVORITE_REQUEST());
-        API.SecondHand.getFavorites(userId)
-        .then(res => dispatch(FETCH_FAVORITE_SUCCESS(res.data)))
+        API.SecondHand.getFavorites(data)
+        .then(res => dispatch(FETCH_FAVORITE_SUCCESS(res.data.data)))
         .catch(err => dispatch(FETCH_FAVORITE_FAIL(err)));
     }
 }

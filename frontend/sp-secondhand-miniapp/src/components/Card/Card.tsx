@@ -24,8 +24,8 @@ interface Props {
 
 //商品显示组件
 const Card: React.FC<Props> = (props) =>{
-    const [isFavorite, setIsFavorite] = useState(false);
     //定义状态
+    const [isFavorite, setIsFavorite] = useState(props.isFavouritesPage);
     const [isOpened, setIsOpened] = useState(false);
 
     //定义行为
@@ -41,25 +41,9 @@ const Card: React.FC<Props> = (props) =>{
 
     //加入收藏夹
     const toggleFavorite = ()=>{
-        checkFavorite()
+        // console.log(props.item.userId)
+        // console.log(props.item.id)
         isFavorite?  deleteFavorite() : postFavorite();
-    }
-
-    const checkFavorite = () => {
-        console.log(props.item.userId)
-        console.log(props.item.id)
-
-        API.SecondHand.postIsFavorite({
-            userId:props.item.userId,
-            secondHandId:props.item.id
-        }).then(res =>{
-            if(res.statusCode === 200){
-                console.log(res.data.data)
-                setIsFavorite(res.data.data)
-                // return res.data.data;
-            }
-        })
-        // return false;
     }
 
     const postFavorite = () => {
@@ -68,7 +52,7 @@ const Card: React.FC<Props> = (props) =>{
             secondHandId:props.item.id
         }).then(res=>{
             if(res.statusCode === 200){
-                // setIsFavorite(!isFavorite);
+                setIsFavorite(!isFavorite);
                 console.log("successfully add to fav")
             }
         }).catch(
@@ -83,6 +67,7 @@ const Card: React.FC<Props> = (props) =>{
             secondHandId:props.item.id
         }).then(res=>{
             if(res.statusCode === 200){
+                setIsFavorite(!isFavorite);
                 console.log("succesfully delete fav")
             }
         }).catch(
