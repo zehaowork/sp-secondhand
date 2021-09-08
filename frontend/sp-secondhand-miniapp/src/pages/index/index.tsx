@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react'
-import Taro from '@tarojs/taro'
-import { View,Text } from '@tarojs/components'
+import Taro,{useReachBottom,usePullDownRefresh} from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
 import Categories from '../../components/Category/Categories'
@@ -44,6 +44,15 @@ const Index: React.FC<Props> = ()=>{
   getList(page,catId);
   getCategories();
   }, []);
+
+  useReachBottom(() => {
+    getList(page,catId);
+  })
+
+  usePullDownRefresh(()=>{
+    setPage(0);
+    getList(0,catId);
+  })
   
   //回到顶部
   const toTop = ()=>{
@@ -52,6 +61,7 @@ const Index: React.FC<Props> = ()=>{
       duration: 300
     })
   }
+  
 
   /**
    * 选择商品类别
@@ -64,10 +74,13 @@ const Index: React.FC<Props> = ()=>{
     getList(0,newCatId);
   }
 
+  
+
   /* 数据抓取 */
   //获取商品列表
   const getList = (page:number,catId:number)=>{
     setShowLoading(true);
+    setLoadingText('努力加载中-o-');
     API.SecondHand.getSecondHands({
       catId:catId,
       cityId:469,
@@ -75,25 +88,31 @@ const Index: React.FC<Props> = ()=>{
       page:page,
       size:5,
     }).then(res =>{
-      setShowLoading(false);
-      if(res.statusCode === 200){
-        console.log(res.data.data);
-        setItemList(res.data.data);
+      if(res.statusCode === 200 && res.data.data.length){
+        setPage(page+1);
+        if(page === 0){
+          setItemList(res.data.data);
+        }
+        else{
+          setItemList([...itemList,...res.data.data]);
+        }
+        
       }
       else{
         //TODO:添加错误信息
       }
     }).catch(err =>{
-      setShowLoading(false);
+      
       //TODO:添加错误信息
-    })
+    }).finally(()=>{
+      setShowLoading(false);
+      setLoadingText('别太放肆，我们可是有底线的噢-o-');});
   }
 
   //获取类别列表
   const getCategories = ()=>{
     API.StaticData.getCategories().then(res=>{
       if(res.statusCode === 200){
-        
         setCategoryList(res.data.data);
       }
       else{
