@@ -36,6 +36,15 @@ const API = {
             })
         },
 
+        postIsFavorite: function(data:toggleFavoriteParam){
+            return Taro.request({
+                url:BASE_URL+'secondHand/isFavorite',
+                data:data,
+                header:header,
+                method:Method.POST,
+            })
+        },
+
         //加入收藏
         postFavorite: function(data:toggleFavoriteParam){
             return Taro.request({

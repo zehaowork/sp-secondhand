@@ -41,17 +41,35 @@ const Card: React.FC<Props> = (props) =>{
 
     //加入收藏夹
     const toggleFavorite = ()=>{
+        checkFavorite()
         isFavorite?  deleteFavorite() : postFavorite();
     }
 
+    const checkFavorite = () => {
+        console.log(props.item.userId)
+        console.log(props.item.id)
+
+        API.SecondHand.postIsFavorite({
+            userId:props.item.userId,
+            secondHandId:props.item.id
+        }).then(res =>{
+            if(res.statusCode === 200){
+                console.log(res.data.data)
+                setIsFavorite(res.data.data)
+                // return res.data.data;
+            }
+        })
+        // return false;
+    }
 
     const postFavorite = () => {
         API.SecondHand.postFavorite({
-            userId:6,
+            userId:props.item.userId,
             secondHandId:props.item.id
         }).then(res=>{
             if(res.statusCode === 200){
-                setIsFavorite(!isFavorite);
+                // setIsFavorite(!isFavorite);
+                console.log("successfully add to fav")
             }
         }).catch(
             err =>{
@@ -61,11 +79,11 @@ const Card: React.FC<Props> = (props) =>{
 
     const deleteFavorite = () => {
         API.SecondHand.deleteFavorite({
-            userId:6,
+            userId:props.item.userId,
             secondHandId:props.item.id
         }).then(res=>{
             if(res.statusCode === 200){
-                setIsFavorite(!isFavorite);
+                console.log("succesfully delete fav")
             }
         }).catch(
             err =>{
