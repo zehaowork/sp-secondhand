@@ -1,13 +1,17 @@
 import { View, Image, Text, MovableArea, MovableView } from '@tarojs/components'
 import React from 'react'
-
+import Taro from '@tarojs/taro';
 import s from './ChatItem.css'
 import Badge from '../Badge/Badge'
 
 interface Props {}
 const ChatItem: React.FC<Props> = () => {
     return (
-        <MovableArea className={s.area}>
+        <MovableArea className={s.area} onClick={() => {
+            Taro.navigateTo({
+                url: '/pages/chat/index'
+            })
+        }}>
             <MovableView className={s.chartArea}
                 damping = {100}
                 direction='horizontal'
