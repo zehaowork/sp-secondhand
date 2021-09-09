@@ -21,5 +21,15 @@ namespace SpSecondHandDb.Interfaces
         Task<Banner> GetBannerById(int id);
 
         Task<Banner> UpdateBanner(Banner bannerToUpdate);
+
+        Task<IEnumerable<RecommendedSearch>> GetRecommendedSearches();
+
+        Task<RecommendedSearch> GetRecommendedSearchById(int id);
+
+        Task<RecommendedSearch> AddRecommendedSearch(RecommendedSearch entityToAdd);
+
+        Task<RecommendedSearch> UpdateRecommendedSearch(RecommendedSearch entityToUpdate);
+
+        Task DeleteRecommendedSearch(RecommendedSearch entityToDelete);
     }
 }

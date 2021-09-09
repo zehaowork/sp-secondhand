@@ -16,6 +16,9 @@ namespace SpSecondHandApi.Profiles
 
             CreateMap<Category, CategoryDto>()
                 .ReverseMap();
+
+            CreateMap<RecommendedSearch, RecommendedSearchDto>()
+                .ReverseMap();
         }
     }
 }

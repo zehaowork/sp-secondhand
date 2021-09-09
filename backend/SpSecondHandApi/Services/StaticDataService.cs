@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SpSecondHandApi.Interfaces;
+using SpSecondHandDb.Entities;
 using SpSecondHandDb.Interfaces;
 using SpSecondHandModels;
 
@@ -58,9 +59,53 @@ namespace SpSecondHandApi.Services
 
             banner.ImgUrl = bannerToUpdate.ImgUrl;
             banner.Link = bannerToUpdate.Link;
-            banner.Sort = bannerToUpdate.Sort;
+            banner.Order = bannerToUpdate.Order;
 
             return _mapper.Map<BannerDto>(await _staticDataRepo.UpdateBanner(banner));
         }
+
+        #region Recommended Search
+
+        public async Task<List<RecommendedSearchDto>> GetRecommendedSearches()
+        {
+            var recommendedSearchList = await _staticDataRepo.GetRecommendedSearches();
+
+            return recommendedSearchList.Select(c => _mapper.Map<RecommendedSearchDto>(c)).ToList();
+        }
+
+        public async Task<RecommendedSearchDto> AddRecommendedSearch(RecommendedSearchDto rsDto)
+        {
+            var newRs = _mapper.Map<RecommendedSearch>(rsDto);
+
+            return _mapper.Map<RecommendedSearchDto>(await _staticDataRepo.AddRecommendedSearch(newRs));
+        }
+
+        public async Task<RecommendedSearchDto> UpdateRecommendedSearch(RecommendedSearchDto rsToUpdate)
+        {
+            var search = await _staticDataRepo.GetRecommendedSearchById(rsToUpdate.Id);
+            if (search == null)
+            {
+                throw new ArgumentException($"Recommended search Id {rsToUpdate.Id} doesn't exist.");
+            }
+
+            search.Keyword = rsToUpdate.Keyword;
+            search.Order = rsToUpdate.Order;
+
+            return _mapper.Map<RecommendedSearchDto>(await _staticDataRepo.UpdateRecommendedSearch(search));
+        }
+
+        public async Task DeleteRecommendedSearch(int rsId)
+        {
+            var search = await _staticDataRepo.GetRecommendedSearchById(rsId);
+            if (search == null)
+            {
+                throw new ArgumentException($"Recommended search Id {rsId} doesn't exist.");
+            }
+
+            await _staticDataRepo.DeleteRecommendedSearch(search);
+        }
+
+        #endregion
+
     }
 }

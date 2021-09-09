@@ -26,7 +26,7 @@ namespace SpSecondHandDb.Repositories
                 .Include(s => s.Category)
                 .Include(s => s.City)
                 .Where(predicate)
-                .OrderByDescending(o => o.PublishTime)
+                .OrderByDescending(s => s.PublishTime)
                 .Skip(page * size)
                 .Take(size)
                 .ToList();
@@ -34,12 +34,20 @@ namespace SpSecondHandDb.Repositories
             return await Task.FromResult(secondHands);
         }
 
+        public async Task<IEnumerable<SecondHand>> FindAllWithSorting(Func<SecondHand, bool> predicate, Func<SecondHand, dynamic> orderBy, bool isDesc, int page, int size)
+        {
+            var secondHands = isDesc
+                ? Context.SecondHands.Include(s => s.User).Include(s => s.Category)
+                    .Include(s => s.City).Where(predicate).OrderByDescending(orderBy).Skip(page * size).Take(size).ToList()
+                : Context.SecondHands.Include(s => s.User).Include(s => s.Category)
+                    .Include(s => s.City).Where(predicate).Where(predicate).OrderBy(orderBy).Skip(page * size).Take(size).ToList();
+
+            return await Task.FromResult(secondHands);
+        }
+
         public async Task<IEnumerable<SecondHand>> GetSecondHandByPage(int page, int size)
         {
             var secondHands = Context.SecondHands
-                .Include(s => s.User)
-                .Include(s => s.Category)
-                .Include(s => s.City)
                 .OrderByDescending(o => o.PublishTime)
                 .Skip(page * size)
                 .Take(size)
@@ -53,9 +61,6 @@ namespace SpSecondHandDb.Repositories
             var fav = Context.Favorites.Where(f => f.UserId == userId);
 
             return await fav?.Select(f => f.SecondHand)
-                .Include(s => s.User)
-                .Include(s => s.Category)
-                .Include(s => s.City)
                 .ToListAsync();
         }
 

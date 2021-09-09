@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using SpSecondHandModels.Enums;
 
 namespace SpSecondHandApi.Interfaces
 {
@@ -9,7 +10,8 @@ namespace SpSecondHandApi.Interfaces
     {
         Task<SecondHandDto> GetSecondHandById(long id);
 
-        Task<List<SecondHandDto>> GetSecondHand(int catId, int cityId, string keyword, int page, int size);
+        Task<List<SecondHandDto>> GetSecondHand(int catId, int cityId, string keyword, int page, int size,
+            SortType sort);
 
         Task<List<SecondHandDto>> GetSecondHandByUser(long userId, int page, int size);
 

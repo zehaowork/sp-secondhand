@@ -11,6 +11,9 @@ namespace SpSecondHandDb.Interfaces
 
         Task<IEnumerable<SecondHand>> FindAll(Func<SecondHand, bool> predicate, int page, int size);
 
+        Task<IEnumerable<SecondHand>> FindAllWithSorting(Func<SecondHand, bool> predicate, Func<SecondHand, dynamic> orderBy,
+            bool isDesc, int page, int size);
+
         Task<IEnumerable<SecondHand>> GetSecondHandByPage(int page, int size);
 
         Task<IEnumerable<SecondHand>> GetFavoriteSecondHands(long userId);

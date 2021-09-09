@@ -57,6 +57,42 @@ namespace SpSecondHandDb.Repositories
             return bannerToUpdate;
         }
 
+        #region Recommended Search
+
+        public async Task<IEnumerable<RecommendedSearch>> GetRecommendedSearches()
+        {
+            return await Context.RecommendedSearches.ToListAsync();
+        }
+
+        public async Task<RecommendedSearch> GetRecommendedSearchById(int id)
+        {
+            return await Context.RecommendedSearches.FindAsync(id);
+        }
+
+        public async Task<RecommendedSearch> AddRecommendedSearch(RecommendedSearch entityToAdd)
+        {
+            await Context.AddAsync(entityToAdd);
+            await Context.SaveChangesAsync();
+
+            return entityToAdd;
+        }
+
+        public async Task<RecommendedSearch> UpdateRecommendedSearch(RecommendedSearch entityToUpdate)
+        {
+            Context.Update(entityToUpdate);
+            await Context.SaveChangesAsync();
+
+            return entityToUpdate;
+        }
+
+        public async Task DeleteRecommendedSearch(RecommendedSearch entityToDelete)
+        {
+            Context.Remove(entityToDelete);
+            await Context.SaveChangesAsync();
+        }
+
+        #endregion
+
         #region private
 
         protected readonly SpShDbContext Context;

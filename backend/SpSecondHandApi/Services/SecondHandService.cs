@@ -9,6 +9,7 @@ using SpSecondHandApi.Interfaces;
 using SpSecondHandDb.Entities;
 using SpSecondHandDb.Interfaces;
 using SpSecondHandModels;
+using SpSecondHandModels.Enums;
 
 namespace SpSecondHandApi.Services
 {
@@ -40,7 +41,7 @@ namespace SpSecondHandApi.Services
             return _mapper.Map<SecondHandDto>(shItem);
         }
 
-        public async Task<List<SecondHandDto>> GetSecondHand(int catId, int cityId, string keyword, int page, int size)
+        public async Task<List<SecondHandDto>> GetSecondHand(int catId, int cityId, string keyword, int page, int size, SortType sort)
         {
             Func<SecondHand, bool> predicate = sh =>
             {
@@ -50,7 +51,9 @@ namespace SpSecondHandApi.Services
 
                 return match;
             };
-            var shList = await _shRepo.FindAll(predicate, page, size);
+
+            ProcessSorting(sort, out var orderBy, out var isDesc);
+            var shList = await _shRepo.FindAllWithSorting(predicate, orderBy, isDesc, page, size);
 
             return shList.Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
@@ -206,7 +209,7 @@ namespace SpSecondHandApi.Services
 
         #region Private
 
-        public async Task<Category> TryGetCategory(int id)
+        private async Task<Category> TryGetCategory(int id)
         {
             var cat = await _staticDataRepo.GetCategoryById(id);
             if (cat == null)
@@ -217,7 +220,7 @@ namespace SpSecondHandApi.Services
             return cat;
         }
 
-        public async Task<City> TryGetCity(int id)
+        private async Task<City> TryGetCity(int id)
         {
             var city = await _staticDataRepo.GetCityById(id);
             if (city == null)
@@ -228,7 +231,7 @@ namespace SpSecondHandApi.Services
             return city;
         }
 
-        public async Task<User> TryGetUser(long id)
+        private async Task<User> TryGetUser(long id)
         {
             var user = await _userRepo.Get(id);
             if (user == null)
@@ -237,6 +240,32 @@ namespace SpSecondHandApi.Services
             }
 
             return user;
+        }
+
+        private void ProcessSorting(SortType sort, out Func<SecondHand, dynamic> orderBy, out bool isDesc)
+        {
+            isDesc = true;
+            switch (sort)
+            {
+                case SortType.PopularityDesc:
+                    orderBy = sh => sh.Popularity;
+                    break;
+                case SortType.PriceDesc:
+                    orderBy = sh => sh.Price;
+                    break;
+                case SortType.PopularityAsc:
+                    isDesc = false;
+                    orderBy = sh => sh.Popularity;
+                    break;
+                case SortType.PriceAsc:
+                    isDesc = false;
+                    orderBy = sh => sh.Price;
+                    break;
+                case SortType.TimeDesc:
+                default:
+                    orderBy = sh => sh.PublishTime;
+                    break;
+            }
         }
 
         private readonly IWeChatService _weChatService;

@@ -18,6 +18,7 @@ namespace SpSecondHandDb
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserContact> UserContacts { get; set; }
         public virtual DbSet<Favorite> Favorites { get; set; }
+        public virtual DbSet<RecommendedSearch> RecommendedSearches { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

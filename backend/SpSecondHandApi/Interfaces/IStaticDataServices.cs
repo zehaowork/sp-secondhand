@@ -11,5 +11,9 @@ namespace SpSecondHandApi.Interfaces
         Task<List<CityDto>> GetCitiesByCountryId(int countryId);
         Task<List<BannerDto>> GetBanners();
         Task<BannerDto> UpdateBanner(BannerDto bannerToUpdate);
+        Task<List<RecommendedSearchDto>> GetRecommendedSearches();
+        Task<RecommendedSearchDto> AddRecommendedSearch(RecommendedSearchDto rsDto);
+        Task<RecommendedSearchDto> UpdateRecommendedSearch(RecommendedSearchDto rsToUpdate);
+        Task DeleteRecommendedSearch(int rsId);
     }
 }

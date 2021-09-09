@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SpSecondHandApi.Interfaces;
 using SpSecondHandModels;
+using SpSecondHandModels.Enums;
 
 namespace SpSecondHandApi.Controllers
 {
@@ -56,7 +57,7 @@ namespace SpSecondHandApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandList(int catId, int cityId, string keyword, int page, int size)
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandList(int catId, int cityId, string keyword, int page = 0, int size = 5, SortType sort = SortType.TimeDesc)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace SpSecondHandApi.Controllers
                 return Ok(new RespondObject<List<SecondHandDto>>()
                 {
                     Message = "Success",
-                    Data = await _shService.GetSecondHand(catId, cityId, keyword, page, size)
+                    Data = await _shService.GetSecondHand(catId, cityId, keyword, page, size, sort)
                 });
             }
             catch (Exception e)
@@ -86,7 +87,7 @@ namespace SpSecondHandApi.Controllers
 
         [HttpGet]
         [Route("user/{userId:long}")]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandListByUser(long userId, int page, int size)
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandListByUser(long userId, int page = 0, int size = 5)
         {
             try
             {
@@ -209,7 +210,7 @@ namespace SpSecondHandApi.Controllers
 
         [HttpGet]
         [Route("favorite/{userId:int}")]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetFavorites(int userId, int page, int size)
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetFavorites(int userId, int page = 0, int size = 5)
         {
             try
             {
