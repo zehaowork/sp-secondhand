@@ -20,17 +20,17 @@ interface Props {
 const GoodsList: React.FC<Props> = (props)=>{
 
     //定义状态、变量
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite); // 储存着reducer里面的三个state
 
     //这里使用action获取收藏夹数据
-    useEffect(() => {
-        dispatch(getFavoriteList({
-            userId:333,
-            page:props.page,
-            size:5
-        })); //userID 333, itemId 960, 963 are favorited
-    }, [])
+    // useEffect(() => {
+    //     dispatch(getFavoriteList({
+    //         userId:333,
+    //         page:props.page,
+    //         size:5
+    //     })); //userID 333, itemId 960, 963
+    // }, [])
     
     //定义行为
 
@@ -45,12 +45,12 @@ const GoodsList: React.FC<Props> = (props)=>{
           keyword={props.keyword} 
           key={item.id} 
           item={item} 
-          isFavouritesPage={favorite.favorites.some((fav:Item) => fav.id === item.id)}
+          isFavouritesPage={props.isFavouritesPage}
           isShopPage={props.isShopPage}
+          isFavoriteInit={favorite.favorites.some((fav:Item) => fav.id === item.id)}
         />
     })
 
-    
     
     return<View className={s.container} >
         {/* 列表 */}

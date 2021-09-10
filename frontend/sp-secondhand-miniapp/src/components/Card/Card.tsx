@@ -19,13 +19,13 @@ interface Props {
     isFavouritesPage:boolean;
     isShopPage:boolean;
     keyword?:string;
+    isFavoriteInit:boolean;
 }
-
 
 //商品显示组件
 const Card: React.FC<Props> = (props) =>{
     //定义状态
-    const [isFavorite, setIsFavorite] = useState(props.isFavouritesPage);
+    const [isFavorite, setIsFavorite] = useState(props.isFavoriteInit);
     const [isOpened, setIsOpened] = useState(false);
 
     //定义行为

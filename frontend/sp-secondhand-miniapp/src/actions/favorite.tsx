@@ -1,6 +1,6 @@
 import API from "../../utils/API"
 import { GET_FAVORITE_REQUEST, GET_FAVORITE_FAIL, GET_FAVORITE_SUCCESS } from "../constants/favorite"
-import { favoritesSecondHandParam } from 'src/typings/common';
+import { favoritesSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
 
 /**
  * 
