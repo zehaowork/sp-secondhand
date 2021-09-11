@@ -38,12 +38,11 @@ const Card: React.FC<Props> = (props) =>{
     
 
     //渲染函数
+   
 
     //加入收藏夹
     const toggleFavorite = ()=>{
-        // console.log(props.item.userId)
-        // console.log(props.item.id)
-        isFavorite?  deleteFavorite() : postFavorite();
+        isFavorite? deleteFavorite() : postFavorite();
     }
 
     const postFavorite = () => {
@@ -92,9 +91,9 @@ const Card: React.FC<Props> = (props) =>{
     <View  className={s.info}>
         {/* 商品小标签 */}
         {!props.isShopPage && <View className={s.tags} >
-            <CityTag CityName='Southampton' />
+            <CityTag CityName={props.item.cityName} />
             <TypeTag GoodType={props.item.type} />
-            <CategoryTag CategoryName='Item' />
+            <CategoryTag CategoryName={props.item.categoryName} />
         </View>}
         
          {/* 商品名字 以及商品价格 */}
@@ -116,13 +115,15 @@ const Card: React.FC<Props> = (props) =>{
        {/* 商家信息 */}
         {(!props.isShopPage || !props.isFavouritesPage) && <View className='flex flex-space-between' >
             <View className={s.user}>
-                <Avatar size='sm' isAuthorized />
-                <OpenData className={s.name}  type='userNickName' />
+                
+                <Avatar size='sm' imageUrl={props.item.userProfileImgUrl} />
+                <View className={s.name} >{props.item.userName}</View>
             </View>
             <View className={s.name}>{props.item.popularity}人想要</View>
           </View>
         }
     </View>
+        {/* 编辑商品 */}
         <AtActionSheet isOpened={isOpened} cancelText='取消' 
             onCancel={() => setIsOpened(false)} 
             onClose={() => setIsOpened(!isOpened)}>

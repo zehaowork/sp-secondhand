@@ -10,9 +10,13 @@ declare interface Item  {
     type:number;
     address:string;
     userId:number;
+    userName:string;
+    userProfileImgUrl:string;
     categoryId:number;
+    categoryName:string;
     publishTime:string;
     cityId:number;
+    cityName:string;
     isSold:boolean;
     popularity:number;
   }
