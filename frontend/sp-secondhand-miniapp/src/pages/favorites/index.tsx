@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
+import Taro,{useReachBottom,usePullDownRefresh} from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import GoodsList from '../../components/GoodsList/GoodsList'
 import { Item } from 'src/typings/common'
@@ -12,36 +13,37 @@ interface Props {
 }
 const Index: React.FC<Props> = (props) => {
     //定义状态、变量
+    const [page, setPage] = useState(0);
     const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite); // 储存着reducer里面的三个state
-    
+    let testUser = 333; //userID 333, itemId 960, 963
+
     //这里使用action获取数据
     useEffect(() => {
-        dispatch(getFavoriteList('1'));
+        getFavList(page, testUser);
     }, [])
 
-     //获取商品列表
-//   const getFavoriteList = ()=>{
-
+    useReachBottom(() => {
+        getFavList(page, testUser);
+      })
     
+    usePullDownRefresh(()=>{
+        setPage(0);
+        getFavList(0, testUser);
+    })
 
-     //这个部分已经移动到action了，记得查看
-//     // API.SecondHand.getFavoritesByUserId("0").then(
-//     //     res => {
-//     //     if(res.statusCode === 200){
-//     //         console.log(res.data.data);
-//     //         setItemList(res.data.data);
-//     //       }
-//     // }).catch(
-//     //     err =>{
-//     //         console.log(err)
-//     // })
-//   }
+    const getFavList = (page:number, userId:number) => {
+        dispatch(getFavoriteList({
+            userId:userId, 
+            page:page,
+            size:5
+        }));
+    }
 
 
     return (
         <View>
-            <GoodsList isFavouritesPage itemList={favorite.favorite} isShopPage={false}></GoodsList>
+            <GoodsList isFavouritesPage itemList={favorite.favorites==undefined? [] : favorite.favorites } isShopPage={false} page={page} ></GoodsList>
         </View>
     )
 }

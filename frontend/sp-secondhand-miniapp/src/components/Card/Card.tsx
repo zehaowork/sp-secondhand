@@ -19,13 +19,13 @@ interface Props {
     isFavouritesPage:boolean;
     isShopPage:boolean;
     keyword?:string;
+    isFavoriteInit:boolean;
 }
-
 
 //商品显示组件
 const Card: React.FC<Props> = (props) =>{
-    const [isFavorite, setIsFavorite] = useState(false);
     //定义状态
+    const [isFavorite, setIsFavorite] = useState(props.isFavoriteInit);
     const [isOpened, setIsOpened] = useState(false);
 
     //定义行为
@@ -47,11 +47,12 @@ const Card: React.FC<Props> = (props) =>{
 
     const postFavorite = () => {
         API.SecondHand.postFavorite({
-            userId:6,
+            userId:props.item.userId,
             secondHandId:props.item.id
         }).then(res=>{
             if(res.statusCode === 200){
                 setIsFavorite(!isFavorite);
+                console.log("successfully add to fav")
             }
         }).catch(
             err =>{
@@ -61,11 +62,12 @@ const Card: React.FC<Props> = (props) =>{
 
     const deleteFavorite = () => {
         API.SecondHand.deleteFavorite({
-            userId:6,
+            userId:props.item.userId,
             secondHandId:props.item.id
         }).then(res=>{
             if(res.statusCode === 200){
                 setIsFavorite(!isFavorite);
+                console.log("succesfully delete fav")
             }
         }).catch(
             err =>{

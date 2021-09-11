@@ -30,6 +30,12 @@ declare interface Item  {
     size:number
   }
 
+  declare interface favoritesSecondHandParam{
+    userId:number;
+    page:number;
+    size:number;
+  }
+
   declare interface toggleFavoriteParam {
     userId:number;
     secondHandId:number
