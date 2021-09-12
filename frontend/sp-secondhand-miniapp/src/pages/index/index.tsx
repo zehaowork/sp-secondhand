@@ -212,12 +212,14 @@ const Index: React.FC<Props> = ()=>{
     </Fab>
   </View>
 
-  <AtActionSheet isOpened={isSortOptionOpened}
-                 cancelText='取消' 
-                 onCancel={()=>{setIsSortOptionOpened(false)}} 
-                 onClose={()=>{setIsSortOptionOpened(false)}} >
-                {renderSortActions}
-        </AtActionSheet>
+  <AtActionSheet 
+  isOpened={isSortOptionOpened}
+  cancelText='取消' 
+  onCancel={()=>{setIsSortOptionOpened(false)}} 
+  onClose={()=>{setIsSortOptionOpened(false)}} 
+  >
+    {renderSortActions}
+  </AtActionSheet>
 </View>
 }
 

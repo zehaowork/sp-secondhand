@@ -15,13 +15,13 @@ const BannerSwiper: React.FC<Props> = (props)=>{
 
 
     //渲染函数
-    const renderImage = props.imageList.map(banner =>   <Image mode='aspectFill'  src={'http://120.79.59.51:8087/'+banner.imgUrl} className={s.image} />)
+    const renderImage = props.imageList.map(banner =>  <SwiperItem> <Image mode='aspectFill'  src={'http://120.79.59.51:8087/'+banner.imgUrl} className={s.image} /></SwiperItem>)
     
     return <View  className={s.container}>
         <Swiper className={s.swiper} >
-            <SwiperItem>
+           
               {renderImage}
-            </SwiperItem>
+            
         </Swiper>
     </View>
 }
