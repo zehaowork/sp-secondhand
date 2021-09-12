@@ -21,6 +21,14 @@ declare interface Item  {
     popularity:number;
   }
 
+  //Banner图片
+  interface Banner {
+    id:number;
+    imgUrl:string;
+    link:string;
+    order:number
+  }
+
   //API参数接口
   declare interface searchSecondHandParam {
     catId:number;

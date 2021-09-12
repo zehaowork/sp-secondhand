@@ -65,6 +65,13 @@ const API = {
                 method:Method.GET,
             })
         },
+        getBanners:()=>{
+            return Taro.request({
+                url:BASE_URL+'staticData/banners',
+                header:header,
+                method:Method.GET,
+            })
+        },
         getSearchRecommendations:()=>{
             return Taro.request({
                 url:BASE_URL+'staticData/recommendedSearch',

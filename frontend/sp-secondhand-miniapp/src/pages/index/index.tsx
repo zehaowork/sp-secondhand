@@ -13,7 +13,7 @@ import CitySelector from '../../components/CitySelector/CitySelector'
 import Fab from '../../components/Fab/Fab'
 import {AtDivider,AtActionSheet,AtActionSheetItem,AtIcon} from 'taro-ui'
 import API from '../../../utils/API'
-import { Item } from 'src/typings/common'
+import { Banner, Item } from 'src/typings/common'
 import { getFavoriteList } from '../../actions/favorite'
 
 
@@ -28,6 +28,8 @@ export enum GoodType {
   Shop = 2,
 }
 
+
+
 //Pass in FALSE as the isFavourites boolean into GoodsList component
 
 interface Props {}
@@ -38,6 +40,7 @@ const Index: React.FC<Props> = ()=>{
   const [page, setPage] = useState(0);
   const [catId, setCatId] = useState(0);
   const [categoryList, setCategoryList] = useState([]);
+  const [bannerList, setBannerList] = useState<Banner[]>([]);
   const [showLoading, setShowLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('别太放肆，我们可是有底线的噢-o-');
 
@@ -50,6 +53,7 @@ const Index: React.FC<Props> = ()=>{
   useEffect(() => {
   getList(page,catId);
   getCategories();
+  getBanners();
   dispatch(getFavoriteList({userId:333,page:0,size:5}));
   }, []);
 
@@ -131,8 +135,25 @@ const Index: React.FC<Props> = ()=>{
        //TODO:添加错误信息
     })
   }
+  
+  //获取Banner图片
+  const getBanners = ()=>{
+    API.StaticData.getBanners().then(res =>{
+      if(res.statusCode === 200){
+        
+        setBannerList(res.data.data);
+      }
+      else{
+
+      }
+    }).catch(err=>{
+
+    })
+  }
+
+
   //渲染函数
-  const imageList = ['https://picsum.photos/200/300'];
+  
 
   const renderSortActions = sortOptions.map(option => <AtActionSheetItem onClick={()=>{setSortText(option);setIsSortOptionOpened(false)}} >{option}</AtActionSheetItem>)
 
@@ -154,7 +175,7 @@ const Index: React.FC<Props> = ()=>{
       <CitySelector onClick={toCityPage} />
       <SearchBarPlaceholder onClick={toSearch} />
     </View>
-  <BannerSwiper imageList ={imageList} />
+  <BannerSwiper imageList ={bannerList} />
 
   {/* 类型栏目 */}
   <Categories current={catId} onClick={onSelectCategory} categoryList={categoryList} />
@@ -169,7 +190,7 @@ const Index: React.FC<Props> = ()=>{
 
   {/* 商品列表 */}
 
-  <GoodsList itemList={itemList} isFavouritesPage={false} isShopPage={false} page={page} />
+  <GoodsList itemList={itemList} isFavouritesPage={false} isShopPage={false} />
   {/* 加载组件 */}
   <View className={s.loader} >
     <AtDivider>
