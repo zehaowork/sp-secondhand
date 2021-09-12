@@ -18,7 +18,9 @@ const Index: React.FC<Props> = (props) => {
 
     //这里使用action获取数据
     useEffect(() => {
-        getFavList(favorite.page, testUser);
+        if(favorite.favorites === [] && !favorite.isLoading) {
+            getFavList(favorite.page, testUser);
+        }
     }, [])
 
     useReachBottom(() => {

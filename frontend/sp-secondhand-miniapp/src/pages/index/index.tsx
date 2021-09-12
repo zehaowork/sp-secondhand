@@ -1,4 +1,5 @@
 import React, { useEffect,useState } from 'react'
+import {useDispatch} from 'react-redux'
 import Taro,{useReachBottom,usePullDownRefresh} from '@tarojs/taro'
 import { View,Button } from '@tarojs/components'
 import s from './index.css'
@@ -13,6 +14,7 @@ import Fab from '../../components/Fab/Fab'
 import {AtDivider,AtActionSheet,AtActionSheetItem,AtIcon} from 'taro-ui'
 import API from '../../../utils/API'
 import { Item } from 'src/typings/common'
+import { getFavoriteList } from '../../actions/favorite'
 
 
 
@@ -31,6 +33,7 @@ export enum GoodType {
 interface Props {}
 const Index: React.FC<Props> = ()=>{
   //定义状态
+  const dispatch  = useDispatch();
   const [itemList, setItemList] = useState<Array<Item>>([]);
   const [page, setPage] = useState(0);
   const [catId, setCatId] = useState(0);
@@ -47,6 +50,7 @@ const Index: React.FC<Props> = ()=>{
   useEffect(() => {
   getList(page,catId);
   getCategories();
+  dispatch(getFavoriteList({userId:333,page:0,size:5}));
   }, []);
 
   useReachBottom(() => {
