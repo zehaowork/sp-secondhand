@@ -64,6 +64,13 @@ const API = {
                 header:header,
                 method:Method.GET,
             })
+        },
+        getSearchRecommendations:()=>{
+            return Taro.request({
+                url:BASE_URL+'staticData/recommendedSearch',
+                method:Method.GET,
+                header:header,
+            })
         }
     },
     

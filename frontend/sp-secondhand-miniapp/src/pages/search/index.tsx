@@ -6,18 +6,25 @@ import { AtIcon } from 'taro-ui'
 import s from './index.css';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Tag from '../../components/Tag/Tag';
+import API from '../../../utils/API';
 
 
+interface Recommendation {
+    id:number;
+    keyword:string;
+    order:number;
+}
 
 const Index :React.FC<any> = ()=>{
     //定义状态
-    const [historyList, setHistoryList] = useState<Array<string>>([]); //搜索历史记录数组
-    const [keyword, setKeyword] = useState(''); //搜索关键词
-    const exploreList = ['吹风机','锅','水壶','咖啡','香水'];
+    const [historyList, setHistoryList] = useState<string[]>([]); //搜索历史记录数组
+    const [keyword, setKeyword] = useState<string>(''); //搜索关键词
+    const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
     
     // 定义行为
     useEffect(() => {
        getSearchHistory();
+       getRecommendations();
     }, []);
 
     
@@ -72,8 +79,24 @@ const Index :React.FC<any> = ()=>{
             key:'searchHistory'
         }).then(res =>{
             setHistoryList(JSON.parse(res.data));
-        });
+        }).catch(err=> setHistoryList([]));
     }
+
+    //获取搜索推荐
+    const getRecommendations = ()=>{
+        API.StaticData.getSearchRecommendations().then(res=>{
+            if(res.statusCode === 200){
+             
+               setRecommendations(res.data.data);
+            }
+            else{
+
+            }
+        }).catch(err=>{
+
+        })
+    }
+
 
     // 清除搜索记录
     const clearHistory = ()=>{
@@ -83,7 +106,7 @@ const Index :React.FC<any> = ()=>{
     }
 
     //渲染函数
-    const renderExploreList = exploreList.map(item => <Tag size='normal' name={item} circle onClick={()=>{onSelectTag(item)}} />);
+    const renderRecommendations = recommendations.map(item => <Tag size='normal' name={item.keyword} circle onClick={()=>{onSelectTag(item.keyword)}} />);
     const renderHistoryList = historyList.map(item => <Tag size='normal' name={item} circle onClick={()=>{onSelectTag(item)}} />);
 
     return <View className={s.container} >
@@ -123,9 +146,12 @@ const Index :React.FC<any> = ()=>{
                     <View className={s.text} >搜索发现</View>
                 </View>
                 {/* 发现列表 */}
+                {recommendations.length>0?
                 <View className={s.list} >
-                    {renderExploreList}
-                </View>
+                    {renderRecommendations}
+                </View>:
+                <View className={s.empty} >暂无发现</View>
+                }
             </View>  
         </View>
     </View>
