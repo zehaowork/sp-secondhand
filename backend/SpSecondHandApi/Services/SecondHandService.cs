@@ -121,11 +121,11 @@ namespace SpSecondHandApi.Services
 
         #region Favorite
 
-        public async Task<List<SecondHandDto>> GetFavorites(long userId, int page, int size)
+        public async Task<List<SecondHandDto>> GetFavorites(long userId)
         {
             var fav = await _shRepo.GetFavoriteSecondHands(userId);
 
-            return fav.Skip(page * size).Take(size).Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
+            return fav.Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
 
         public async Task AddFavorite(long secondHandId, long userId)

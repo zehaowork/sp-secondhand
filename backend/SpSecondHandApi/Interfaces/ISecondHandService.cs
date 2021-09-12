@@ -21,7 +21,7 @@ namespace SpSecondHandApi.Interfaces
 
         Task DeleteSecondHand(long shId);
 
-        Task<List<SecondHandDto>> GetFavorites(long userId, int page, int size);
+        Task<List<SecondHandDto>> GetFavorites(long userId);
 
         Task AddFavorite(long secondHandId, long userId);
 

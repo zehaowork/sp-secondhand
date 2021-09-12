@@ -209,8 +209,8 @@ namespace SpSecondHandApi.Controllers
         #region Favorite
 
         [HttpGet]
-        [Route("favorite/{userId:int}")]
-        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetFavorites(int userId, int page = 0, int size = 5)
+        [Route("favorite/{userId:long}")]
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetFavorites(long userId)
         {
             try
             {
@@ -219,7 +219,7 @@ namespace SpSecondHandApi.Controllers
                 return Ok(new RespondObject<List<SecondHandDto>>()
                 {
                     Message = "Success",
-                    Data = await _shService.GetFavorites(userId, page, size)
+                    Data = await _shService.GetFavorites(userId)
                 });
             }
             catch (Exception e)
