@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {View,Image, OpenData, RichText} from '@tarojs/components'
+import {useDispatch,useSelector} from 'react-redux';
+import {View,Image, RichText} from '@tarojs/components'
 import { AtActionSheet, AtActionSheetItem } from "taro-ui"
 import "taro-ui/dist/style/components/action-sheet.scss";
 import s from './Card.css';
@@ -12,21 +13,22 @@ import CategoryTag from './CategoryTag/CategoryTag';
 import { Utils } from '../../../utils/Utils';
 
 import {AtIcon} from 'taro-ui';
-import API from '../../../utils/API'
+import { addFavorite,deleteFavorite } from '../../actions/favorite';
 
 interface Props {
     item:Item;
-    isFavouritesPage:boolean;
-    isShopPage:boolean;
+    isFavouritesPage?:boolean;
+    isShopPage?:boolean;
     keyword?:string;
-    isFavoriteInit:boolean;
 }
 
 //商品显示组件
 const Card: React.FC<Props> = (props) =>{
     //定义状态
-    const [isFavorite, setIsFavorite] = useState(props.isFavoriteInit);
     const [isOpened, setIsOpened] = useState(false);
+    const dispatch = useDispatch();
+    const favorite = useSelector(({favorite}) => favorite);
+
 
     //定义行为
     
@@ -35,45 +37,21 @@ const Card: React.FC<Props> = (props) =>{
         //TODO:添加商品详情路径
     }
 
-    
+    //加入收藏
+    const add = ()=>{
+        dispatch(addFavorite({userId:333,item:props.item}))
+    }
 
+    //删除收藏
+    const del = ()=>{
+        dispatch(deleteFavorite({userId:333,item:props.item}))
+    }
+    
+    const isFav = favorite.favorites.some(fav => fav.id === props.item.id);
     //渲染函数
    
-
-    //加入收藏夹
-    const toggleFavorite = ()=>{
-        isFavorite? deleteFavorite() : postFavorite();
-    }
-
-    const postFavorite = () => {
-        API.SecondHand.postFavorite({
-            userId:props.item.userId,
-            secondHandId:props.item.id
-        }).then(res=>{
-            if(res.statusCode === 200){
-                setIsFavorite(!isFavorite);
-                console.log("successfully add to fav")
-            }
-        }).catch(
-            err =>{
-                console.log(err)
-        });
-    }
-
-    const deleteFavorite = () => {
-        API.SecondHand.deleteFavorite({
-            userId:props.item.userId,
-            secondHandId:props.item.id
-        }).then(res=>{
-            if(res.statusCode === 200){
-                setIsFavorite(!isFavorite);
-                console.log("succesfully delete fav")
-            }
-        }).catch(
-            err =>{
-                console.log(err)
-        });
-    }
+   
+  
 
 
     return <View onClick={toDetail} className={s.container}>
@@ -81,10 +59,10 @@ const Card: React.FC<Props> = (props) =>{
     <Image src={"http://120.79.59.51:8087/"+props.item.imgUrls} mode='aspectFill' className={s.image} >
     </Image>
          <AtIcon className={s.icon} 
-           value={isFavorite?'heart-2':'heart'} 
+           value={isFav?'heart-2':'heart'} 
            size='25' 
-           color={isFavorite?'#e54d42':'#aaaaaa'}
-           onClick={toggleFavorite}
+           color={isFav?'#e54d42':'#aaaaaa'}
+           onClick = {isFav?del:add}
          />
     </View>
 

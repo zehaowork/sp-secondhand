@@ -93,7 +93,7 @@ const Index: React.FC<Props> = ()=>{
       size:5,
     }).then(res =>{
       if(res.statusCode === 200 && res.data.data.length){
-        console.log(res.data.data);
+        
         setPage(page+1);
         if(page === 0){
           setItemList(res.data.data);

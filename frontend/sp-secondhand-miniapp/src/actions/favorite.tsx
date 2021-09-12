@@ -1,6 +1,6 @@
 import API from "../../utils/API"
-import { GET_FAVORITE_REQUEST, GET_FAVORITE_FAIL, GET_FAVORITE_SUCCESS } from "../constants/favorite"
-import { favoritesSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
+import { GET_FAVORITE_REQUEST, GET_FAVORITE_FAIL, GET_FAVORITE_SUCCESS,ADD_FAVORITE_REQUEST,ADD_FAVORITE_SUCCESS,ADD_FAVORITE_FAIL, DELETE_FAVORITE_REQUEST, DELETE_FAVORITE_SUCCESS, DELETE_FAVORITE_FAIL } from "../constants/favorite"
+import { favoritesSecondHandParam,Item} from 'src/typings/common';
 
 /**
  * 
@@ -45,7 +45,71 @@ export const getFavoriteList = (data:favoritesSecondHandParam)=>{
     return function(dispatch) {
         dispatch(FETCH_FAVORITE_REQUEST());
         API.SecondHand.getFavorites(data)
-        .then(res => dispatch(FETCH_FAVORITE_SUCCESS(res.data.data)))
+        .then(res => dispatch(FETCH_FAVORITE_SUCCESS({data:res.data.data,page:data.page})))
         .catch(err => dispatch(FETCH_FAVORITE_FAIL(err)));
+    }
+}
+
+const POST_FAVORITE_REQUEST = ()=>{
+    return {
+        type:ADD_FAVORITE_REQUEST
+    }
+}
+
+const POST_FAVORITE_SUCCESS = (payload:any)=>{
+    return {
+        type:ADD_FAVORITE_SUCCESS,
+        payload:payload
+    }
+}
+
+const POST_FAVORITE_FAIL = (payload:any)=>{
+    return {
+        type:ADD_FAVORITE_FAIL,
+        payload:payload
+    }
+}
+
+export const addFavorite = (data:{userId:number,item:Item})=>{
+    return function(dispatch) {
+        dispatch(POST_FAVORITE_REQUEST());
+        API.SecondHand.postFavorite({
+            userId:data.userId,
+            secondHandId:data.item.id
+        })
+        .then(res=>res.statusCode===200?dispatch(POST_FAVORITE_SUCCESS(data.item)):dispatch(POST_FAVORITE_FAIL(res.data.data)))
+        .catch(err => dispatch(POST_FAVORITE_FAIL(err)));
+    }
+
+}
+
+const DEL_FAVORITE_REQUEST = () =>{
+    return {
+        type:DELETE_FAVORITE_REQUEST
+    }
+}
+
+const DEL_FAVORITE_SUCCESS = (payload:Item) =>{
+    return {
+        type:DELETE_FAVORITE_SUCCESS,
+        payload:payload
+    }
+}
+
+const DEL_FAVORITE_FAIL = (payload:any) =>{
+    return {
+        type:DELETE_FAVORITE_FAIL,
+        payload:payload
+    }
+}
+
+export const deleteFavorite = (data:{userId:number,item:Item}) =>{
+    return function(dispatch) {
+        dispatch(DEL_FAVORITE_REQUEST());
+        API.SecondHand.deleteFavorite({
+            userId:data.userId,
+            secondHandId:data.item.id
+        }).then(res=>res.statusCode===200?dispatch(DEL_FAVORITE_SUCCESS(data.item)):dispatch(DEL_FAVORITE_FAIL(res.data.data)))
+        .catch(err => dispatch(DEL_FAVORITE_FAIL(err)));
     }
 }

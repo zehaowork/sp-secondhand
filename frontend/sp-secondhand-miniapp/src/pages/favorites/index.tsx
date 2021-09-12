@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
-import Taro,{useReachBottom,usePullDownRefresh} from '@tarojs/taro'
+import {useReachBottom,usePullDownRefresh} from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import GoodsList from '../../components/GoodsList/GoodsList'
-import { Item } from 'src/typings/common'
 import { getFavoriteList } from '../../actions/favorite'
 
 //Pass in the prop isFavorites variable as TRUE in this GoodsList component
@@ -13,29 +12,27 @@ interface Props {
 }
 const Index: React.FC<Props> = (props) => {
     //定义状态、变量
-    const [page, setPage] = useState(0);
     const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite); // 储存着reducer里面的三个state
     let testUser = 333; //userID 333, itemId 960, 963
 
     //这里使用action获取数据
     useEffect(() => {
-        getFavList(page, testUser);
+        getFavList(favorite.page, testUser);
     }, [])
 
     useReachBottom(() => {
-        getFavList(page, testUser);
+        getFavList(favorite.page, testUser);
       })
     
     usePullDownRefresh(()=>{
-        setPage(0);
         getFavList(0, testUser);
     })
 
     const getFavList = (page:number, userId:number) => {
         dispatch(getFavoriteList({
             userId:userId, 
-            page:page,
+            page:page, 
             size:5
         }));
     }
@@ -43,7 +40,7 @@ const Index: React.FC<Props> = (props) => {
 
     return (
         <View>
-            <GoodsList isFavouritesPage itemList={favorite.favorites==undefined? [] : favorite.favorites } isShopPage={false} page={page} ></GoodsList>
+            <GoodsList isFavouritesPage itemList={favorite.favorites} isShopPage={false}  ></GoodsList>
         </View>
     )
 }
