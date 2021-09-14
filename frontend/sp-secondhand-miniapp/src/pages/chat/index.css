@@ -47,46 +47,66 @@ page{
 
 .chatLabel .avatar{ 
     position: absolute; 
-    top:0; 
-    right: 50px; 
+    top: 10px; 
+    right: 15px; 
     border-radius: 50%; 
-    width: 160px; 
-    height: 160px; 
+    width: 80px; 
+    height: 80px; 
     overflow: hidden;
 }
 
 .chatLabel .avatarTime{ 
     position: absolute; 
-    top: 100px; 
-    right: 50px; 
+    top: 60px; 
+    right: 15px; 
     border-radius: 50%; 
-    width: 160px; 
-    height: 160px; 
+    width: 80px; 
+    height: 80px; 
     overflow: hidden;
 }
 
-.chatLabel.auto{ 
-    padding:10px 100px 0 200px; 
+.chatLabelBuyer{ 
+    min-height: 90px; 
+    position: relative; 
+    margin-bottom: 20px; 
+    overflow: hidden; 
+    padding: 0 100px 0 66px; 
     text-align: left;
 }
 
-.chatLabel.auto .articleBox{ 
-    border-radius: 40px 40px 40px 40px; 
-    margin-left: 10px;  
+.chatLabelBuyer .articleBox{ 
     background: #fff; 
     color: #333;
+    display: inline-block; 
+    border-radius: 20px 20px 20px 20px; 
+    padding: 10px 30px; 
+    overflow: hidden; 
+    font-size: 28px; 
+    line-height: 76px; 
+    min-height: 60px; 
+    text-align: justify; 
+    max-width: 800px; 
+    margin-left: 50px; 
+    word-break: break-all; 
 }
 
-.chatLabel.auto .avatar{ 
-    right: auto; 
-    left: 10px; 
-    border: 2px solid #eee; 
-    background: #fff;
+.chatLabelBuyer .avatar{  
+    position: absolute; 
+    top: 10px; 
+    left: 15px; 
+    border-radius: 50%; 
+    width: 80px; 
+    height: 80px; 
+    overflow: hidden;
 }
 
-.chatLabel.auto .avatarTime{ 
-    right: auto; 
-    left: 10px; 
+.chatLabelBuyer .avatarTime{ 
+    position: absolute;
+    top: 60px;  
+    left: 10px;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px; 
     border: 2px solid #eee; 
     background: #fff;
 }
@@ -112,20 +132,24 @@ page{
     display: block; 
     padding: 20px 20px 20px 30px; 
     border-bottom: 2px solid #eee;
+    position: relative;
+    right: 30px;
 }
 
 .chatFooterGroup .textInputBox .textInput{ 
     width: 100%;
     height: 35px; 
     font-size: 28px; 
-    color: #333; 
+    color: #333;
+    position: relative;
+    right: 30px; 
 }
 
 .chatFooterGroup .sendMsgBox{ 
     display: block; 
     font-weight: bold; 
     text-align: center; 
-    width: 280px; 
+    width: 120px; 
     height: 100px; 
     font-size: 16px; 
     color: #32A3FF; 
@@ -176,12 +200,12 @@ page{
     margin-right: 10px; 
 } 
 
-.chatLabel.auto .shareBox{ 
+.chatLabelBuyer .shareBox{ 
     display: inline-block; 
     flex-direction: column; 
     border-radius: 40px 40px 40px 40px; 
     background: white; 
-    padding: 40px 60px; 
+    padding: 20px 30px; 
     overflow: hidden; 
     font-size: 56px; 
     line-height: 76px; 
@@ -203,14 +227,14 @@ page{
   margin-top: 40px;
   color:#ff8601;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 30px;
 }
 
 .checkBtn{
   margin-top: 40px;
-  padding: 7px 12px;
+  padding: 7px 14px;
   background-color: #ff8601;
-  font-size: 40px;
+  font-size: 30px;
   color: white;
   border-radius: 20px;
 }
