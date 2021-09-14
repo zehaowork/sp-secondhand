@@ -30,6 +30,9 @@ export enum GoodType {
 
 
 
+
+
+
 //Pass in FALSE as the isFavourites boolean into GoodsList component
 
 interface Props {}
@@ -42,11 +45,17 @@ const Index: React.FC<Props> = ()=>{
   const [categoryList, setCategoryList] = useState([]);
   const [bannerList, setBannerList] = useState<Banner[]>([]);
   const [showLoading, setShowLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState('别太放肆，我们可是有底线的噢-o-');
+  const [loadingText, setLoadingText] = useState<string>('别太放肆，我们可是有底线的噢-o-');
 
-  const [isSortOptionOpened, setIsSortOptionOpened] = useState(false);
-  const [sortText, setSortText] = useState('排序');
-  const sortOptions = ["最近发布","价格:低-高","价格:高-低","人气:高-低","人气:低-高"];
+  const [isSortOptionOpened, setIsSortOptionOpened] = useState<boolean>(false);
+  const [selectedSortOption, setSelectedSortOption] = useState<[string,string]>(['TimeDesc','排序']);
+  const sortOptions:Array<[string,string]> = [
+    ['TimeDesc','最近发布'],
+    ['PopularityDesc',"人气:高-低"],
+    ['PopularityAsc',"人气:低-高"],
+    ['PriceDesc',"价格:高-低"],
+    ['PriceAsc',"价格:低-高"],
+  ]
 
   /*页面行为*/
   // 初始抓取数据
@@ -54,7 +63,7 @@ const Index: React.FC<Props> = ()=>{
   getList(page,catId);
   getCategories();
   getBanners();
-  dispatch(getFavoriteList({userId:333,page:0,size:5}));
+  dispatch(getFavoriteList(333));
   }, []);
 
   useReachBottom(() => {
@@ -83,14 +92,19 @@ const Index: React.FC<Props> = ()=>{
     let newCatId = Number(e.currentTarget.id);
     setCatId(newCatId);
     setPage(0);
-    getList(0,newCatId);
+    getList(0,newCatId,selectedSortOption[0]);
   }
 
-  
+  const onSelectSortOption = (option) =>{
+    setIsSortOptionOpened(false);
+    setSelectedSortOption(option);
+    setPage(0);
+    getList(0,catId,option[0]);
+  }
 
   /* 数据抓取 */
   //获取商品列表
-  const getList = (page:number,catId:number)=>{
+  const getList = (page:number,catId:number,option:string = "TimeDesc")=>{
     setShowLoading(true);
     setLoadingText('努力加载中-o-');
     API.SecondHand.getSecondHands({
@@ -99,6 +113,7 @@ const Index: React.FC<Props> = ()=>{
       keyword:'',
       page:page,
       size:5,
+      sort:option
     }).then(res =>{
       if(res.statusCode === 200 && res.data.data.length){
         
@@ -152,10 +167,11 @@ const Index: React.FC<Props> = ()=>{
   }
 
 
+
   //渲染函数
   
 
-  const renderSortActions = sortOptions.map(option => <AtActionSheetItem onClick={()=>{setSortText(option);setIsSortOptionOpened(false)}} >{option}</AtActionSheetItem>)
+  const renderSortActions = sortOptions.map(option => <AtActionSheetItem onClick={()=>{onSelectSortOption(option)}} >{option[1]}</AtActionSheetItem>)
 
   //打开搜索页面
   const toSearch = ()=>{
@@ -182,7 +198,7 @@ const Index: React.FC<Props> = ()=>{
   <Header title ='闲置好物' >
   <View className={s.sort} >
   <Button onClick={()=>{setIsSortOptionOpened(true)}} className={s.btn_sm}>
-      {sortText}
+      {selectedSortOption[1]}
       <AtIcon value='chevron-down' size='10' color='white'></AtIcon>
       </Button>
     </View>

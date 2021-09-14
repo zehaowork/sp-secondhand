@@ -29,6 +29,8 @@ declare interface Item  {
     order:number
   }
 
+
+
   //API参数接口
   declare interface searchSecondHandParam {
     catId:number;
@@ -36,6 +38,7 @@ declare interface Item  {
     keyword?:string;
     page:number;
     size:number
+    sort:string;
   }
 
 

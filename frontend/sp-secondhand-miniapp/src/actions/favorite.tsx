@@ -38,7 +38,7 @@ const FETCH_FAVORITE_FAIL = (payload)=>{
 
 /**
  * 
- * @param favoritesSecondHandParam 用于获取收藏列表需要的参数
+ * 
  * @returns 根据不同的情况返回相应的action类型
  */
 export const getFavoriteList = (userId:number)=>{

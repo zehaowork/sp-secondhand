@@ -5,12 +5,12 @@ import { View } from '@tarojs/components'
 import GoodsList from '../../components/GoodsList/GoodsList'
 import { getFavoriteList } from '../../actions/favorite'
 
-//Pass in the prop isFavorites variable as TRUE in this GoodsList component
+
 
 interface Props {
     userId:string
 }
-const Index: React.FC<Props> = (props) => {
+const Index: React.FC<Props> = () => {
     //定义状态、变量
     const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite); // 储存着reducer里面的三个state
@@ -30,7 +30,6 @@ const Index: React.FC<Props> = (props) => {
     const getFavList = (userId:number) => {
         dispatch(getFavoriteList(userId));
     }
-
 
     return (
         <View>

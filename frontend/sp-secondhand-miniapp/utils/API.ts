@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { searchSecondHandParam, favoritesSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
+import { searchSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
 //服务器地址
 const BASE_URL:String = 'http://test.smallpotatoestech.com:8087/api/';
 const header:String = 'application/x-www-form-urlencoded';
@@ -27,10 +27,10 @@ const API = {
         },
 
         //通过用户id获取收藏列表
-        getFavorites: function(data:favoritesSecondHandParam) {
+        getFavorites: function(userId:number) {
             return Taro.request({
-                url:BASE_URL+'secondHand/favorite/'+ data.userId,
-                data:data,
+                url:BASE_URL+'secondHand/favorite/'+ userId,
+                data:userId,
                 header:header,
                 method:Method.GET,
             })
