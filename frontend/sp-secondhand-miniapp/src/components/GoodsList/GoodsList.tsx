@@ -8,8 +8,8 @@ import {useSelector} from 'react-redux'
 
 
 interface Props {
-    isFavouritesPage:boolean;
-    isShopPage:boolean;
+    isFavouritesPage?:boolean;
+    isShopPage?:boolean;
     itemList:Array<Item>;
     keyword?:string;
 }
