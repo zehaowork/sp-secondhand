@@ -78,6 +78,13 @@ const API = {
                 method:Method.GET,
                 header:header,
             })
+        },
+        getCities:()=>{
+            return Taro.request({
+                url:BASE_URL+'staticData/cities',
+                method:Method.GET,
+                header:header,
+            })
         }
     },
     

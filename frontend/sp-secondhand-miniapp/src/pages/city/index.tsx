@@ -1,15 +1,23 @@
+import React,{useState,useEffect} from 'react'
 import { View } from '@tarojs/components'
-import React from 'react'
 import Tag from '../../components/Tag/Tag'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import s from './index.css'
 import { AtIcon } from 'taro-ui'
 import Indexes from '../../components/Indexes/Indexes'
+import API from '../../../utils/API';
+import { City } from 'src/typings/common'
 
 
 
 interface Props{}
 const Index: React.FC<Props> = () => {
+    const [cityList, setCityList] = useState<City[]>([]);
+
+
+    useEffect(() => {
+        getCities();
+    }, [])
     
     const getLocationPermission = ()=>{
         Taro.getLocation({
@@ -19,6 +27,39 @@ const Index: React.FC<Props> = () => {
         }).catch(err =>{
             //TODO:获取权限失败的回调
         })
+    }
+
+    const getCities = ()=>{
+        API.StaticData.getCities().then(res =>{
+            if(res.statusCode === 200){
+                (res.data.data as City[]).sort((a,b) =>a.firstLetter.charCodeAt(0)-b.firstLetter.charCodeAt(0));
+                setCityList(res.data.data);
+            }
+            else{
+                //TODO:添加错误信息
+            }
+        })
+        .catch(err=>{
+            //TODO:添加错误信息
+        })
+    }
+
+    //渲染函数
+    const renderCityList = ()=>{
+        let initialFirstLetter:string;
+        return cityList.map(city => {
+            let isNewSection = initialFirstLetter !== city.firstLetter;
+            initialFirstLetter = city.firstLetter;
+            return <React.Fragment>
+                {isNewSection && 
+                <View className={s.section}>
+                    {city.firstLetter}
+                </View>}
+                <View className={s.item}>{city.name}</View>
+            </React.Fragment>
+        
+        })
+
     }
     
     return (
@@ -44,12 +85,7 @@ const Index: React.FC<Props> = () => {
                 <Tag size='normal' name='曼彻斯特' active onClick={null} /> 
                 </View>
                 <View className={s.list} >
-                    <View className={s.section}>A</View>
-                    <View className={s.item}>阿伯丁</View>
-                    <View className={s.item}>爱丁堡</View>
-                    <View className={s.section}>B</View>
-                    <View className={s.item}>伯恩茅斯</View>
-                    <View className={s.item}>伯明翰</View>
+                    {renderCityList()}
                 </View>
             </View>
         </View>

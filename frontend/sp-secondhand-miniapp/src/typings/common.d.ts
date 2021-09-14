@@ -29,6 +29,13 @@ declare interface Item  {
     order:number
   }
 
+  //地址列表
+  interface City {
+    id:number;
+    name:string;
+    firstLetter:string;
+    countryId:number;
+  }
 
 
   //API参数接口
