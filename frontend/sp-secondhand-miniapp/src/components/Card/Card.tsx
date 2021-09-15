@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import {View,Image, RichText} from '@tarojs/components'
 import { AtActionSheet, AtActionSheetItem } from "taro-ui"
@@ -26,6 +26,7 @@ interface Props {
 const Card: React.FC<Props> = (props) =>{
     //定义状态
     const [isOpened, setIsOpened] = useState(false);
+    const [isNewFav, setIsNewFav] = useState(false);
     const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite);
 
@@ -40,25 +41,29 @@ const Card: React.FC<Props> = (props) =>{
     //加入收藏
     const add = ()=>{
         dispatch(addFavorite({userId:333,item:props.item}))
+        setIsNewFav(true);
     }
 
     //删除收藏
     const del = ()=>{
         dispatch(deleteFavorite({userId:333,item:props.item}))
+        setIsNewFav(false);
     }
     
     const isFav = favorite.favorites.some(fav => fav.id === props.item.id);
     //渲染函数
-   
-   
-  
-
+    useEffect(() => {
+        if (!isFav) {
+            setIsNewFav(false);
+        }
+    }, [isFav])
+    
 
     return <View onClick={toDetail} className={s.container}>
     <View className={s.item} >
     <Image src={"http://120.79.59.51:8087/"+props.item.imgUrls} mode='aspectFill' className={s.image} >
     </Image>
-         <AtIcon className={s.icon} 
+         <AtIcon className={isNewFav? s.icon + " " + s.heartBeat : s.icon} 
            value={isFav?'heart-2':'heart'} 
            size='25' 
            color={isFav?'#e54d42':'#aaaaaa'}
