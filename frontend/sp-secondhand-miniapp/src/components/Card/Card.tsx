@@ -84,7 +84,7 @@ const Card: React.FC<Props> = (props) =>{
         
          {/* 商品名字 以及商品价格 */}
         <View className='flex flex-space-between' >
-            <View className={s.title}><RichText nodes={Utils.highlightKeyword(props.keyword,props.item.title,'#ffd101')} /></View>
+            <View className={s.title}><RichText nodes={Utils.highlightKeyword(props.keyword,props.item.title,'#ff8601')} /></View>
             {!props.isShopPage && <View className='price-yellow' >£{props.item.price}</View>}
         </View>
 

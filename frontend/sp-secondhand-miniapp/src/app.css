@@ -15,9 +15,9 @@ page {
   box-sizing: border-box;
 
 
-  --red: #e54d42;
+  	--red: #e54d42;
 	--orange: #ff8601;
-  --yellow: #ffd101;
+  	--yellow: #ffd101;
 	--olive: #8dc63f;
 	--green: #39b54a;
 	--cyan: #1cbbb4;
