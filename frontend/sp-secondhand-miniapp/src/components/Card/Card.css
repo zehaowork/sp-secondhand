@@ -66,11 +66,22 @@
   
 }
 
-.icon {
+.iconBackground{
   position: absolute;
-  left: 80%;
-  top: 10px;
+  top:0;
+  width:100%;
+  display:flex;
+  justify-content: flex-end;
+  padding: 10px 10px 0 10px;
+  background-image: linear-gradient(#aaaaaa, transparent);
+  z-index: 99;
+  box-sizing: border-box;
 }
+.icon {
+  
+  
+}
+
 
 /**
   Copied from https://juejin.cn/post/6949128356499554312#heading-3
