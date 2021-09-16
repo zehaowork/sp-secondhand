@@ -66,7 +66,7 @@ const Card: React.FC<Props> = (props) =>{
     <View className={s.icon} >
     <AtIcon className={isNewFav && s.heartBeat} 
            value={isFav?'heart-2':'heart'} 
-           size='23' 
+           size='20' 
            color={isFav?'#e54d42':'white'}
            onClick = {isFav?del:add}
          />
