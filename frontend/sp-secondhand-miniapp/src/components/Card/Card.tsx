@@ -63,10 +63,10 @@ const Card: React.FC<Props> = (props) =>{
     <View className={s.item} >
     <Image src={"http://120.79.59.51:8087/"+props.item.imgUrls} mode='aspectFill' className={s.image} >
     </Image>
-    <View className={s.iconBackground} >
-    <AtIcon className={isNewFav? s.icon + " " + s.heartBeat : s.icon} 
+    <View className={s.icon} >
+    <AtIcon className={isNewFav && s.heartBeat} 
            value={isFav?'heart-2':'heart'} 
-           size='25' 
+           size='23' 
            color={isFav?'#e54d42':'white'}
            onClick = {isFav?del:add}
          />

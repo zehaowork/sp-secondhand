@@ -7,7 +7,7 @@ import SearchBar from '../../../components/SearchBar/SearchBar';
 import GoodsList from '../../../components/GoodsList/GoodsList';
 import Header from '../../../components/Header/Header';
 import InlineLoader from '../../../components/InlineLoader/InlineLoader';
-import { Item } from 'src/typings/common';
+import { City, Item } from 'src/typings/common';
 import API from '../../../../utils/API';
 
 
@@ -19,6 +19,7 @@ const Result:React.FC<any> = ()=>{
     const [itemList, setItemList] = useState<Array<Item>>([]);
     const [keyword, setKeyword] = useState<string>(''); //搜索关键字
     const [page, setPage] = useState<number>(0);
+    const [city, setCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A'});
     const $instance = Taro.getCurrentInstance(); //页面对象
 
     const [isSortOptionOpened, setIsSortOptionOpened] = useState<boolean>(false);
@@ -36,7 +37,17 @@ const Result:React.FC<any> = ()=>{
     //初始化操作：继承之前的关键字和请求数据
     useEffect(() => {
         setKeyword($instance.router?.params.keyword === undefined?'':$instance.router?.params.keyword); // 继承搜索页面的关键字;
-        search(selectedSortOption[0],$instance.router?.params.keyword);
+        
+
+        Taro.getStorage({
+            key:'city'
+        }).then(res=>{
+            setCity(res.data as City);
+            search(selectedSortOption[0],(res.data as City).id,$instance.router?.params.keyword);
+        }).catch(()=>{
+            search(selectedSortOption[0],city.id,$instance.router?.params.keyword);
+        })
+
     }, [])
 
     const onInput = (input)=>{
@@ -44,17 +55,17 @@ const Result:React.FC<any> = ()=>{
     }
 
     //请求数据
-    const search = (option:string,input?:string)=>{
+    const search = (option:string,cityId:number,input?:string)=>{
         API.SecondHand.getSecondHands({
             catId:0,
-            cityId:469,
+            cityId:cityId,
             keyword:typeof input === 'string' ? input :keyword,
             page:page,
             size:5,
             sort:option
         }).then(res=>{
             if(res.statusCode === 200){
-                console.log(res);
+                
                 setItemList(res.data.data);
             }
             else{
@@ -69,7 +80,7 @@ const Result:React.FC<any> = ()=>{
         setIsSortOptionOpened(false);
         setSelectedSortOption(option);
         setPage(0);
-        search(option[0])
+        search(option[0],city.id)
       }
 
     const renderSortActions = sortOptions.map(option => <AtActionSheetItem onClick={()=>{onSelectSortOption(option)}} >{option[1]}</AtActionSheetItem>)

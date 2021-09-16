@@ -61,28 +61,37 @@ const Index: React.FC<Props> = ()=>{
   /*页面行为*/
   // 初始抓取数据
   useEffect(() => {
-  getList(page,catId);
   getCategories();
   getBanners();
   dispatch(getFavoriteList(333));
   }, []);
 
   useReachBottom(() => {
-    getList(page,catId);
+    getList(page,catId,selectedSortOption[0],city.id);
   })
 
   usePullDownRefresh(()=>{
     setPage(0);
-    getList(0,catId);
+    getList(0,catId,selectedSortOption[0],city.id);
   })
   
   useDidShow(()=>{
       Taro.getStorage({
         key:'city'
       }).then(res=>{
-        setCity(res.data as City);
+        let newCity:City = (res.data as City);
+        if(newCity.id !== city.id){
+          console.log(1)
+          setCity(res.data as City);
+          setPage(0);
+          setCatId(0);
+          setSelectedSortOption(['TimeDesc','排序']);
+          getList(0,0,'TimeDesc',(res.data as City).id);
+        }
       }).catch(()=>{
+        console.log(1)
         setCity({id:0,countryId:2,name:'英国',firstLetter:'A'});
+        getList(0,0,'TimeDesc',0);
       })
   });
   
@@ -103,31 +112,35 @@ const Index: React.FC<Props> = ()=>{
     let newCatId = Number(e.currentTarget.id);
     setCatId(newCatId);
     setPage(0);
-    getList(0,newCatId,selectedSortOption[0]);
+    getList(0,newCatId,selectedSortOption[0],city.id);
   }
 
   const onSelectSortOption = (option) =>{
     setIsSortOptionOpened(false);
     setSelectedSortOption(option);
     setPage(0);
-    getList(0,catId,option[0]);
+    getList(0,catId,option[0],city.id);
   }
 
   /* 数据抓取 */
   //获取商品列表
-  const getList = (page:number,catId:number,option:string = "TimeDesc")=>{
+  const getList = (
+      page:number = 0,
+      catId:number = 0,
+      option:string = "TimeDesc",
+      cityId:number = 0
+    )=>{
     setShowLoading(true);
     setLoadingText('努力加载中-o-');
     API.SecondHand.getSecondHands({
       catId:catId,
-      cityId:469,
+      cityId:cityId,
       keyword:'',
       page:page,
       size:5,
       sort:option
     }).then(res =>{
       if(res.statusCode === 200 && res.data.data.length){
-        
         setPage(page+1);
         if(page === 0){
           setItemList(res.data.data);

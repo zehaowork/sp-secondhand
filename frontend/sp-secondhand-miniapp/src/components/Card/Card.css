@@ -66,7 +66,7 @@
   
 }
 
-.iconBackground{
+.icon{
   position: absolute;
   top:0;
   width:100%;
@@ -74,13 +74,10 @@
   justify-content: flex-end;
   padding: 10px 10px 0 10px;
   background-image: linear-gradient(#aaaaaa, transparent);
-  z-index: 99;
+  
   box-sizing: border-box;
 }
-.icon {
-  
-  
-}
+
 
 
 /**
