@@ -140,8 +140,8 @@ const Index: React.FC<Props> = ()=>{
       size:5,
       sort:option
     }).then(res =>{
-      if(res.statusCode === 200 && res.data.data.length){
-        setPage(page+1);
+      if(res.statusCode === 200){
+        
         if(page === 0){
           setItemList(res.data.data);
         }
@@ -149,6 +149,9 @@ const Index: React.FC<Props> = ()=>{
           setItemList([...itemList,...res.data.data]);
         }
         
+        if(res.data.data.length){
+          setPage(page+1);
+        }
       }
       else{
         //TODO:添加错误信息
