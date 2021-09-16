@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react'
 import {useDispatch} from 'react-redux'
-import Taro,{useReachBottom,usePullDownRefresh} from '@tarojs/taro'
+import Taro,{useReachBottom,usePullDownRefresh,useDidShow} from '@tarojs/taro'
 import { View,Button } from '@tarojs/components'
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
@@ -13,7 +13,7 @@ import CitySelector from '../../components/CitySelector/CitySelector'
 import Fab from '../../components/Fab/Fab'
 import {AtDivider,AtActionSheet,AtActionSheetItem,AtIcon} from 'taro-ui'
 import API from '../../../utils/API'
-import { Banner, Item } from 'src/typings/common'
+import { Banner, City, Item } from 'src/typings/common'
 import { getFavoriteList } from '../../actions/favorite'
 
 
@@ -42,6 +42,7 @@ const Index: React.FC<Props> = ()=>{
   const [itemList, setItemList] = useState<Array<Item>>([]);
   const [page, setPage] = useState(0);
   const [catId, setCatId] = useState(0);
+  const [city, setCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A'});
   const [categoryList, setCategoryList] = useState([]);
   const [bannerList, setBannerList] = useState<Banner[]>([]);
   const [showLoading, setShowLoading] = useState(false);
@@ -74,6 +75,16 @@ const Index: React.FC<Props> = ()=>{
     setPage(0);
     getList(0,catId);
   })
+  
+  useDidShow(()=>{
+      Taro.getStorage({
+        key:'city'
+      }).then(res=>{
+        setCity(res.data as City);
+      }).catch(()=>{
+        setCity({id:0,countryId:2,name:'英国',firstLetter:'A'});
+      })
+  });
   
   //回到顶部
   const toTop = ()=>{
@@ -188,7 +199,7 @@ const Index: React.FC<Props> = ()=>{
 
   return <View className={s.container}>
     <View className={s.header} >
-      <CitySelector onClick={toCityPage} />
+      <CitySelector name={city.name} onClick={toCityPage} />
       <SearchBarPlaceholder onClick={toSearch} />
     </View>
   <BannerSwiper imageList ={bannerList} />

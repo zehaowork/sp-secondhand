@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react'
+import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Tag from '../../components/Tag/Tag'
 import SearchBar from '../../components/SearchBar/SearchBar'
@@ -44,6 +45,17 @@ const Index: React.FC<Props> = () => {
         })
     }
 
+    const onSelectCity = (city)=>{
+        Taro.setStorage({
+            key:'city',
+            data:city
+        }).then(()=>{
+            Taro.navigateBack();
+        }).catch(err=>{
+            //TODO:添加错误信息
+        })
+    }
+
     //渲染函数
     const renderCityList = ()=>{
         let initialFirstLetter:string;
@@ -55,7 +67,7 @@ const Index: React.FC<Props> = () => {
                 <View className={s.section}>
                     {city.firstLetter}
                 </View>}
-                <View className={s.item}>{city.name}</View>
+                <View onClick={()=>{onSelectCity(city)}} className={s.item}>{city.name}</View>
             </React.Fragment>
         
         })
