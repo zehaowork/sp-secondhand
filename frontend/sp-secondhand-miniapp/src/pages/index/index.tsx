@@ -81,17 +81,18 @@ const Index: React.FC<Props> = ()=>{
       }).then(res=>{
         let newCity:City = (res.data as City);
         if(newCity.id !== city.id){
-          console.log(1)
           setCity(res.data as City);
           setPage(0);
           setCatId(0);
+          setItemList([]);
           setSelectedSortOption(['TimeDesc','排序']);
           getList(0,0,'TimeDesc',(res.data as City).id);
         }
       }).catch(()=>{
-        console.log(1)
-        setCity({id:0,countryId:2,name:'英国',firstLetter:'A'});
-        getList(0,0,'TimeDesc',0);
+        if(!itemList.length){
+          setCity({id:0,countryId:2,name:'英国',firstLetter:'A'});
+          getList(0,0,'TimeDesc',0);
+        }
       })
   });
   
@@ -112,6 +113,7 @@ const Index: React.FC<Props> = ()=>{
     let newCatId = Number(e.currentTarget.id);
     setCatId(newCatId);
     setPage(0);
+    setItemList([]);
     getList(0,newCatId,selectedSortOption[0],city.id);
   }
 
@@ -119,6 +121,7 @@ const Index: React.FC<Props> = ()=>{
     setIsSortOptionOpened(false);
     setSelectedSortOption(option);
     setPage(0);
+    setItemList([]);
     getList(0,catId,option[0],city.id);
   }
 

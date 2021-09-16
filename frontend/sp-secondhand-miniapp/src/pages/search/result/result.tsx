@@ -76,10 +76,17 @@ const Result:React.FC<any> = ()=>{
         })
     }
 
+    //搜索按钮
+    const onClick = () =>{
+        setItemList([]);
+        search(selectedSortOption[0],city.id,keyword);
+    }
+
     const onSelectSortOption = (option) =>{
         setIsSortOptionOpened(false);
         setSelectedSortOption(option);
         setPage(0);
+        setItemList([]);
         search(option[0],city.id)
       }
 
@@ -92,7 +99,7 @@ const Result:React.FC<any> = ()=>{
         onInput={onInput} 
         keyword={keyword}
         onConfirm={search}
-        onClick={search}
+        onClick={onClick}
         placeholder="请输入商品关键词/名称/品牌" />
         </View>
         {/* 同城物品 */}
