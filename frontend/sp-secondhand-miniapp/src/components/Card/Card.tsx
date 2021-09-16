@@ -105,7 +105,7 @@ const Card: React.FC<Props> = (props) =>{
                 <Avatar size='sm' imageUrl={props.item.userProfileImgUrl} />
                 <View className={s.name} >{props.item.userName}</View>
             </View>
-            <View className={s.name}>{props.item.popularity}人想要</View>
+            <View className={s.name}>{props.item.popularity}人看过</View>
           </View>
         }
     </View>
