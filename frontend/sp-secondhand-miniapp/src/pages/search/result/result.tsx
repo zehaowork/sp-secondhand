@@ -61,7 +61,7 @@ const Result:React.FC<any> = ()=>{
             cityId:cityId,
             keyword:typeof input === 'string' ? input :keyword,
             page:page,
-            size:5,
+            size:6,
             sort:option
         }).then(res=>{
             if(res.statusCode === 200){

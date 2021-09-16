@@ -137,7 +137,7 @@ const Index: React.FC<Props> = ()=>{
       cityId:cityId,
       keyword:'',
       page:page,
-      size:10,
+      size:6,
       sort:option
     }).then(res =>{
       if(res.statusCode === 200){
