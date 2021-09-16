@@ -7,7 +7,6 @@ import {WebView} from '@tarojs/components';
     const $instance = Taro.getCurrentInstance(); //页面对象
 
     useEffect(() => {
-        console.log($instance.router?.params.url);
         setUrl($instance.router?.params.url === undefined?'':$instance.router?.params.url); 
     }, [])
 
