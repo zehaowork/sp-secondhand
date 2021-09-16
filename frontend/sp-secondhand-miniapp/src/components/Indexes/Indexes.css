@@ -1,6 +1,6 @@
 
 .btn{
-    composes:text-Explain from global;
+    composes:text-Body from global;
     margin: 10rpx;
     color:var(--orange);
 }

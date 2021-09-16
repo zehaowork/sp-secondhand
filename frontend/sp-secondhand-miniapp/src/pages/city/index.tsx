@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import Taro from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { ScrollView, View } from '@tarojs/components'
 import Tag from '../../components/Tag/Tag'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import s from './index.css'
@@ -14,6 +14,7 @@ import { City } from 'src/typings/common'
 interface Props{}
 const Index: React.FC<Props> = () => {
     const [cityList, setCityList] = useState<City[]>([]);
+    const [scrollAnchor, setScrollAnchor] = useState<string>('A');
 
 
     useEffect(() => {
@@ -64,7 +65,7 @@ const Index: React.FC<Props> = () => {
             initialFirstLetter = city.firstLetter;
             return <React.Fragment>
                 {isNewSection && 
-                <View className={s.section}>
+                <View id={city.firstLetter} className={s.section}>
                     {city.firstLetter}
                 </View>}
                 <View onClick={()=>{onSelectCity(city)}} className={s.item}>{city.name}</View>
@@ -74,9 +75,23 @@ const Index: React.FC<Props> = () => {
 
     }
     
+    const distinctChars = ()=>{
+        let chars:string[] = [];
+        cityList.forEach(city=>{
+            if(!chars.includes(city.firstLetter)){
+                chars.push(city.firstLetter)
+            }
+        })
+        return chars;
+    }
+
+    const onSelectChar = (char) =>{
+        setScrollAnchor(char);
+    }
+
     return (
-        <View className={s.page}>
-            <Indexes />
+        <ScrollView scrollIntoView={scrollAnchor}  scrollY className={s.page}>
+            <Indexes onSelectChar={onSelectChar} chars={distinctChars()} />
         <SearchBar placeholder="搜索城市名或Postcode (请输入英文)" />
             <View className={s.container}>
             <View className={s.title} >当前城市定位</View>
@@ -100,7 +115,7 @@ const Index: React.FC<Props> = () => {
                     {renderCityList()}
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
