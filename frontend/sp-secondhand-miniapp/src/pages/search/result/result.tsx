@@ -23,8 +23,8 @@ const Result:React.FC<any> = ()=>{
     const $instance = Taro.getCurrentInstance(); //页面对象
 
     const [isSortOptionOpened, setIsSortOptionOpened] = useState<boolean>(false);
-  const [selectedSortOption, setSelectedSortOption] = useState<[string,string]>(['TimeDesc','排序']);
-  const sortOptions:Array<[string,string]> = [
+    const [selectedSortOption, setSelectedSortOption] = useState<[string,string]>(['TimeDesc','排序']);
+    const sortOptions:Array<[string,string]> = [
     ['TimeDesc','最近发布'],
     ['PopularityDesc',"人气:高-低"],
     ['PopularityAsc',"人气:低-高"],

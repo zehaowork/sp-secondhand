@@ -7,7 +7,8 @@ export default {
     'pages/search/index',
     'pages/search/result/result',
     'pages/city/index',
-    'pages/shop/index'
+    'pages/shop/index',
+    'pages/webview/index'
   ],
   window: {
     backgroundTextStyle: 'light',
