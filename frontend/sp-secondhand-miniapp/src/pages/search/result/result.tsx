@@ -98,7 +98,7 @@ const Result:React.FC<any> = ()=>{
         <SearchBar 
         onInput={onInput} 
         keyword={keyword}
-        onConfirm={search}
+        onConfirm={onClick}
         onClick={onClick}
         placeholder="请输入商品关键词/名称/品牌" />
         </View>
