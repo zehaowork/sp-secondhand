@@ -43,8 +43,10 @@ const Index :React.FC<any> = ()=>{
 
     //点击搜索按钮事件
     const onSearch = ()=>{
-        addKeywordToHistory(keyword);
-        toResult(keyword);
+        if(keyword!=''){
+            addKeywordToHistory(keyword);
+            toResult(keyword);
+        }
     }
 
     // 点击Tag的事件
