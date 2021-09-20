@@ -112,6 +112,36 @@ namespace SpSecondHandApi.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("cities")]
+        public async Task<ActionResult<RespondObject<CityDto>>> SetCityPopular(int cityId, bool isPopular)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(SetCityPopular)} called.");
+
+                return Ok(new RespondObject<CityDto>()
+                {
+                    Message = "Success",
+                    Data = await _staticDataService.SetCityPopular(cityId, isPopular)
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to set city popular: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<CityDto>()
+                {
+                    Message = $"Failed to set city popular: {e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(SetCityPopular)} complete");
+            }
+        }
+
         [HttpGet]
         [Route("banners")]
         public async Task<ActionResult<RespondObject<List<BannerDto>>>> GetBanners()

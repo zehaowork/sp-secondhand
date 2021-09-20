@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SpSecondHandDb.Entities;
 using SpSecondHandModels;
+using SpSecondHandModels.Enums;
 
 namespace SpSecondHandApi.Profiles
 {
@@ -15,8 +16,10 @@ namespace SpSecondHandApi.Profiles
                 .ForMember(d => d.CityName, opt => opt.MapFrom(s => s.City.Name))
                 .ForMember(d => d.CategoryName, opt => opt.MapFrom(s => s.Category.Name))
                 .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.User.UserName))
-                .ForMember(d => d.UserProfileImgUrl, opt => opt.MapFrom(s => s.User.ProfileImgUrl));
-            CreateMap<SecondHandCreateDto, SecondHand>();
+                .ForMember(d => d.UserProfileImgUrl, opt => opt.MapFrom(s => s.User.ProfileImgUrl))
+                .ForMember(d => d.Status, opt => opt.MapFrom(s => (Status)s.Status));
+            CreateMap<SecondHandCreateDto, SecondHand>()
+                .ForMember(d => d.Status, opt => opt.MapFrom(s => (int)s.Status));
         }
     }
 }

@@ -91,7 +91,7 @@ namespace SpSecondHandApi.Services
             sh.Price = shDto.Price;
             sh.Type = shDto.Type;
             sh.Address = shDto.Address;
-            sh.IsSold = shDto.IsSold;
+            sh.Status = (int)shDto.Status;
 
             if (sh.Category.Id != shDto.CategoryId)
             {

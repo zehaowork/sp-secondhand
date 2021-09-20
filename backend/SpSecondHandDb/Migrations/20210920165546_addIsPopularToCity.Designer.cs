@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpSecondHandDb;
 
 namespace SpSecondHandDb.Migrations
 {
     [DbContext(typeof(SpShDbContext))]
-    partial class SpShDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210920165546_addIsPopularToCity")]
+    partial class addIsPopularToCity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,6 +176,9 @@ namespace SpSecondHandDb.Migrations
                     b.Property<string>("ImgUrls")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsSold")
+                        .HasColumnType("bit");
+
                     b.Property<long?>("Popularity")
                         .HasColumnType("bigint");
 
@@ -182,9 +187,6 @@ namespace SpSecondHandDb.Migrations
 
                     b.Property<DateTime?>("PublishTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<string>("Telephone")
                         .HasColumnType("nvarchar(max)");

@@ -12,6 +12,8 @@ namespace SpSecondHandDb.Interfaces
 
         Task<IEnumerable<City>> GetCitiesByCountryId(int id);
 
+        Task<City> UpdateCity(City city);
+
         Task<IEnumerable<Category>> GetCategories();
 
         Task<Category> GetCategoryById(int id);

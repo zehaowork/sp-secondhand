@@ -8,6 +8,7 @@ namespace SpSecondHandApi.Interfaces
     {
         Task<List<CategoryDto>> GetCategories();
         Task<List<CityDto>> GetCities();
+        Task<CityDto> SetCityPopular(int cityId, bool isPopular);
         Task<List<CityDto>> GetCitiesByCountryId(int countryId);
         Task<List<BannerDto>> GetBanners();
         Task<BannerDto> UpdateBanner(BannerDto bannerToUpdate);

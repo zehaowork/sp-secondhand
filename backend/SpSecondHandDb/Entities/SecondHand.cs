@@ -15,7 +15,7 @@ namespace SpSecondHandDb.Entities
         public int? Type { get; set; }
         public string Address { get; set; }
         public DateTime? PublishTime { get; set; }
-        public bool? IsSold { get; set; }
+        public int Status { get; set; }
         public long? Popularity { get; set; }
 
         public virtual User User { get; set; }

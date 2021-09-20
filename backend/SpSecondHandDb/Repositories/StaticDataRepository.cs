@@ -29,6 +29,14 @@ namespace SpSecondHandDb.Repositories
             return await Context.Cities.Where(c => c.CountryId == id).ToListAsync();
         }
 
+        public async Task<City> UpdateCity(City city)
+        {
+            Context.Update(city);
+            await Context.SaveChangesAsync();
+
+            return city;
+        }
+
         public async Task<IEnumerable<Category>> GetCategories()
         {
             return await Context.Categories.ToListAsync();

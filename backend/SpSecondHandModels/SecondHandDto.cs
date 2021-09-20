@@ -1,4 +1,5 @@
 ﻿using System;
+using SpSecondHandModels.Enums;
 
 namespace SpSecondHandModels
 {
@@ -17,7 +18,7 @@ namespace SpSecondHandModels
         public int CategoryId { get; set; }
         public DateTime? PublishTime { get; set; }
         public int CityId { get; set; }
-        public bool? IsSold { get; set; }
+        public Status Status { get; set; }
         public long? Popularity { get; set; }
 
         public string CityName { get; set; }

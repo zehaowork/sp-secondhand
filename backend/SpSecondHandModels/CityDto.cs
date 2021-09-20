@@ -1,6 +1,4 @@
-﻿using SpSecondHandDb.Entities;
-
-namespace SpSecondHandModels
+﻿namespace SpSecondHandModels
 {
     public class CityDto
     {
@@ -8,5 +6,6 @@ namespace SpSecondHandModels
         public string Name { get; set; }
         public string FirstLetter { get; set; }
         public int? CountryId { get; set; }
+        public bool IsPopular { get; set; }
     }
 }

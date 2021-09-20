@@ -35,6 +35,18 @@ namespace SpSecondHandApi.Services
             return cityList.Select(c => _mapper.Map<CityDto>(c)).ToList();
         }
 
+        public async Task<CityDto> SetCityPopular(int cityId, bool isPopular)
+        {
+            var city = await _staticDataRepo.GetCityById(cityId);
+            if (city == null)
+            {
+                throw new ArgumentException($"CityId {cityId} doesn't exit.");
+            }
+            city.IsPopular = isPopular;
+
+            return _mapper.Map<CityDto>(await _staticDataRepo.UpdateCity(city));
+        }
+
         public async Task<List<CityDto>> GetCitiesByCountryId(int countryId)
         {
             var cityList = await _staticDataRepo.GetCitiesByCountryId(countryId);
