@@ -58,6 +58,22 @@ namespace SpSecondHandApi.Services
             return shList.Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
         }
 
+        public async Task<List<SecondHandDto>> GetSecondHandExcludeCity(int cityId, string keyword, int page, int size, SortType sort)
+        {
+            Func<SecondHand, bool> predicate = sh =>
+            {
+                var match = sh.City.Id != cityId;
+                match = match && (string.IsNullOrWhiteSpace(keyword) || sh.Title.Contains(keyword));
+
+                return match;
+            };
+
+            ProcessSorting(sort, out var orderBy, out var isDesc);
+            var shList = await _shRepo.FindAllWithSorting(predicate, orderBy, isDesc, page, size);
+
+            return shList.Select(sh => _mapper.Map<SecondHandDto>(sh)).ToList();
+        }
+
         public async Task<List<SecondHandDto>> GetSecondHandByUser(long userId, int page, int size)
         {
             var shList = await _shRepo.FindAll(sh => sh.User.Id == userId , page, size);
@@ -191,6 +207,8 @@ namespace SpSecondHandApi.Services
             var yesterdayShIncrease = shList.Where(s => s.PublishTime == DateTime.Today.AddDays(-1)).ToList().Count;
             var weekShIncrease = shList.Where(s => s.PublishTime >= DateTime.Today.AddDays(-7)).ToList().Count;
 
+            var totalSold = shList.Where(s => s.Status == (int) Status.Sold).ToList().Count;
+
             var userList = (await _userRepo.GetAll()).ToList();
             var totalUsers = userList.Count;
             var yesterdayUserIncrease = userList.Where(s => s.JoinTime == DateTime.Today.AddDays(-1)).ToList().Count;
@@ -203,7 +221,8 @@ namespace SpSecondHandApi.Services
                 $"上周闲置新增：{weekShIncrease}",
                 $"总用户数：{totalUsers}",
                 $"昨日用户新增：{yesterdayUserIncrease}",
-                $"上周用户新增：{weekUserIncrease}"
+                $"上周用户新增：{weekUserIncrease}",
+                $"总成交量：{totalSold}",
             };
         }
 

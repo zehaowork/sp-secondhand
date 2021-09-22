@@ -13,6 +13,9 @@ namespace SpSecondHandApi.Interfaces
         Task<List<SecondHandDto>> GetSecondHand(int catId, int cityId, string keyword, int page, int size,
             SortType sort);
 
+        Task<List<SecondHandDto>> GetSecondHandExcludeCity(int cityId, string keyword, int page, int size,
+            SortType sort);
+
         Task<List<SecondHandDto>> GetSecondHandByUser(long userId, int page, int size);
 
         Task<SecondHandDto> PublishSecondHand(SecondHandCreateDto shDto);

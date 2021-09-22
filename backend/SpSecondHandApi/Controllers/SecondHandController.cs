@@ -86,6 +86,36 @@ namespace SpSecondHandApi.Controllers
         }
 
         [HttpGet]
+        [Route("excludeCity")]
+        public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandListExcludeCity(int cityId, string keyword, int page = 0, int size = 5, SortType sort = SortType.TimeDesc)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetSecondHandListExcludeCity)} called.");
+
+                return Ok(new RespondObject<List<SecondHandDto>>()
+                {
+                    Message = "Success",
+                    Data = await _shService.GetSecondHandExcludeCity(cityId, keyword, page, size, sort)
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get second hand items excluding city {cityId}: {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<List<SecondHandDto>>()
+                {
+                    Message = $"Failed to get second hand items excluding city {cityId}: {e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(GetSecondHandListExcludeCity)} complete");
+            }
+        }
+
+        [HttpGet]
         [Route("user/{userId:long}")]
         public async Task<ActionResult<RespondObject<List<SecondHandDto>>>> GetSecondHandListByUser(long userId, int page = 0, int size = 5)
         {
@@ -141,6 +171,43 @@ namespace SpSecondHandApi.Controllers
             finally
             {
                 _logger.LogInformation($"{nameof(PublishSecondHand)} complete.");
+            }
+        }
+
+        [HttpPost]
+        [Route("bundle")]
+        public async Task<ActionResult<RespondObject<string>>> PublishSecondHands(List<SecondHandCreateDto> secondHands)
+        {
+            var index = 0;
+            try
+            {
+                _logger.LogInformation($"{nameof(PublishSecondHands)} called.");
+
+                foreach (var sh in secondHands)
+                {
+                    await _shService.PublishSecondHand(sh);
+                    index++;
+                }
+
+                return Ok(new RespondObject<string>()
+                {
+                    Message = "Success",
+                    Data = "All second hand items successfully published."
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to publish second hand item: {e.Message}.");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<string>()
+                {
+                    Message = $"Failed to publish second hand items from index {index}: { e.Message}.",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(PublishSecondHands)} complete.");
             }
         }
 
