@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import Taro from '@tarojs/taro'
+import Taro, { checkIsSoterEnrolledInDevice } from '@tarojs/taro'
 import { ScrollView, View } from '@tarojs/components'
 import Tag from '../../components/Tag/Tag'
 import SearchBar from '../../components/SearchBar/SearchBar'
@@ -8,6 +8,7 @@ import { AtIcon } from 'taro-ui'
 import Indexes from '../../components/Indexes/Indexes'
 import API from '../../../utils/API';
 import { City } from 'src/typings/common'
+import InlineLoader from '../../components/InlineLoader/InlineLoader'
 
 
 
@@ -16,7 +17,7 @@ const Index: React.FC<Props> = () => {
     const [cityList, setCityList] = useState<City[]>([]);
     const [scrollAnchor, setScrollAnchor] = useState<string>('A');
     const [currentCity, setCurrentCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false});
-
+    const [showLoading, setShowLoading] = useState(false);
 
     useEffect(() => {
         getCities();
@@ -39,6 +40,7 @@ const Index: React.FC<Props> = () => {
     }
 
     const getCities = ()=>{
+        setShowLoading(true);
         API.StaticData.getCities().then(res =>{
             if(res.statusCode === 200){
                 (res.data.data as City[]).sort((a,b) =>a.firstLetter.charCodeAt(0)-b.firstLetter.charCodeAt(0));
@@ -51,6 +53,7 @@ const Index: React.FC<Props> = () => {
         .catch(err=>{
             //TODO:添加错误信息
         })
+        .finally(()=>setShowLoading(false));
     }
 
     const onSelectCity = (city)=>{
@@ -122,6 +125,7 @@ const Index: React.FC<Props> = () => {
                     {renderCityList()}
                 </View>
             </View>
+            {showLoading && <InlineLoader showLoading ={showLoading} message="加载城市列表中..."  />}
         </ScrollView>
     )
 }
