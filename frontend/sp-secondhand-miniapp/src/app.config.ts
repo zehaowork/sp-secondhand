@@ -8,7 +8,7 @@ export default {
     'pages/search/result/result',
     'pages/city/index',
     'pages/shop/index',
-    'pages/detail/index'
+    'pages/detail/index',
     'pages/webview/index'
   ],
   window: {

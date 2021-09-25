@@ -19,11 +19,7 @@ declare interface Item  {
     cityName:string;
     isSold:boolean;
     popularity:number;
-    userName:string;
-    userProfileImgUrl:string,
     description:string;
-    categoryName:string;
-
   }
 
   //Banner图片
@@ -40,6 +36,7 @@ declare interface Item  {
     name:string;
     firstLetter:string;
     countryId:number;
+    isPopular:boolean;
   }
 
 

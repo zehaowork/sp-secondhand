@@ -15,10 +15,17 @@ interface Props{}
 const Index: React.FC<Props> = () => {
     const [cityList, setCityList] = useState<City[]>([]);
     const [scrollAnchor, setScrollAnchor] = useState<string>('A');
+    const [currentCity, setCurrentCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false});
 
 
     useEffect(() => {
         getCities();
+        Taro.getStorage({
+            key:'city'
+        })
+        .then(res => setCurrentCity(res.data))
+        .catch(()=>setCurrentCity({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false}))
+
     }, [])
     
     const getLocationPermission = ()=>{
@@ -74,7 +81,10 @@ const Index: React.FC<Props> = () => {
         })
 
     }
-    
+
+    const renderPopularCity = cityList
+                                .filter(city => city.isPopular)
+                                .map(city => <Tag key={city.id} size='normal' name={city.name} active={currentCity.id === city.id} onClick={()=>{onSelectCity(city)}} />)
     const distinctChars = ()=>{
         let chars:string[] = [];
         cityList.forEach(city=>{
@@ -98,7 +108,7 @@ const Index: React.FC<Props> = () => {
                 <View className={` ${s.tagGroup} ${s.navigation}`} >
                     <Tag size='normal' active={true} onClick={null} > 
                         <View className='margin-right'><AtIcon value='map-pin' size='13' color='white'/></View>
-                        南安普顿
+                        {currentCity.name}
                     </Tag>
                     <View className='flex flex-row flex-align-center' >
                     <View className='margin-right'><AtIcon value='map-pin' size='12' color='#ff8601'/></View>
@@ -106,10 +116,7 @@ const Index: React.FC<Props> = () => {
                 </View>
                 <View className={s.title} >热门城市</View>
                 <View className={s.tagGroup} >
-                <Tag size='normal' name='全英国' active onClick={null} />
-                <Tag size='normal' name='南安普顿'  onClick={null} />
-                <Tag size='normal' name='诺丁汉'  onClick={null} />
-                <Tag size='normal' name='曼彻斯特' active onClick={null} /> 
+                {renderPopularCity}
                 </View>
                 <View className={s.list} >
                     {renderCityList()}
