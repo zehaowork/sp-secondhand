@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import Taro from '@tarojs/taro'
+import Taro,{useReachBottom} from '@tarojs/taro'
 import {View,Button} from '@tarojs/components';
 import { AtDivider,AtIcon,AtActionSheet,AtActionSheetItem} from 'taro-ui'
 import s from './result.css';
@@ -17,10 +17,13 @@ import API from '../../../../utils/API';
 const Result:React.FC<any> = ()=>{
     //定义状态
     const [itemList, setItemList] = useState<Array<Item>>([]);
+    const [itemRecommendationList, setItemRecommendationList] = useState<Array<Item>>([]);
     const [keyword, setKeyword] = useState<string>(''); //搜索关键字
     const [page, setPage] = useState<number>(0);
-    const [city, setCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A'});
+    const [city, setCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false});
     const $instance = Taro.getCurrentInstance(); //页面对象
+    const [isFinished, setIsFinished] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
 
     const [isSortOptionOpened, setIsSortOptionOpened] = useState<boolean>(false);
     const [selectedSortOption, setSelectedSortOption] = useState<[string,string]>(['TimeDesc','排序']);
@@ -49,6 +52,10 @@ const Result:React.FC<any> = ()=>{
         })
 
     }, [])
+    
+    useReachBottom(()=> {
+        search(selectedSortOption[0],city.id,keyword)
+    })
 
     const onInput = (input)=>{
         setKeyword(input);
@@ -56,6 +63,8 @@ const Result:React.FC<any> = ()=>{
 
     //请求数据
     const search = (option:string,cityId:number,input?:string)=>{
+        setShowLoading(true);
+       if(!isFinished){
         API.SecondHand.getSecondHands({
             catId:0,
             cityId:cityId,
@@ -64,16 +73,53 @@ const Result:React.FC<any> = ()=>{
             size:6,
             sort:option
         }).then(res=>{
+
             if(res.statusCode === 200){
-                
-                setItemList(res.data.data);
+                if(page === 0){
+                    setItemList(res.data.data);
+                }
+                else{
+                    setItemList([...itemList,...res.data.data]);
+                }
+                if(res.data.data.length === 6) {
+                    setPage(page+1);
+                }
+                else{
+                    setIsFinished(true);
+                    setPage(0);
+                }
             }
             else{
                 //TODO:添加错误信息
             }
         }).catch(err =>{
             //TODO:添加错误信息
-        })
+        }).finally(()=>setShowLoading(false));
+       }
+       else{
+           searchExcludeCity(option,cityId,input);
+       }
+    }
+
+    const searchExcludeCity = (option:string,cityId:number,input?:string) => {
+        API.SecondHand.getSecondHandExcludeCity({
+            catId:0,
+            cityId:cityId,
+            keyword:typeof input === 'string' ? input :keyword,
+            page:page,
+            size:6,
+            sort:option
+        }).then(res=>{
+            if(page === 0){
+                setItemRecommendationList(res.data.data);
+            }
+            else{
+                setItemRecommendationList([...itemRecommendationList,...res.data.data]);
+            }
+            if(res.data.data.length === 6) {
+                setPage(page+1);
+            }
+        }).finally(()=>setShowLoading(false))
     }
 
     //搜索按钮
@@ -112,12 +158,18 @@ const Result:React.FC<any> = ()=>{
             </View>
         </Header>
         <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemList} />
-        <View className={s.padding} >
-        <AtDivider content='周边好物' fontColor='#aaaaaa' lineColor='#aaaaaa' />
-        </View>
-        {/* 异地物品 */}
-        <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemList} />
-        <InlineLoader showLoading />
+        {
+            itemRecommendationList.length !==0
+            &&
+            <React.Fragment>
+                <View className={s.padding} >
+                <AtDivider content='周边好物' fontColor='#aaaaaa' lineColor='#aaaaaa' />
+                </View>
+                {/* 异地物品 */}
+                <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemRecommendationList} />
+            </React.Fragment>
+        }
+        <InlineLoader showLoading={showLoading} />
 
         <AtActionSheet 
             isOpened={isSortOptionOpened}

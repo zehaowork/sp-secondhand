@@ -22,17 +22,21 @@ const API = {
                 method:Method.GET,
             })
         },
-        getSecondHand: function(data) {
-            
-        },
-
-        getSecondHandByItemId: function(itemId:number){
+        getSecondHand: function(itemId) {
             return Taro.request({
                 url:BASE_URL+'secondHand/id/'+itemId,
                 header:header,
                 method:Method.GET,
             })
+        },
 
+        getSecondHandExcludeCity: (data:searchSecondHandParam)=>{
+            return Taro.request({
+                url:BASE_URL+'secondHand/excludeCity',
+                data:data,
+                header:header,
+                method:Method.GET,
+            })
         },
 
         //通过用户id获取收藏列表

@@ -18,7 +18,7 @@ const Index: React.FC = () => {
   },[])
 
   const getItem = () => {
-    API.SecondHand.getSecondHandByItemId(
+    API.SecondHand.getSecondHand(
       parseInt(itemId, 10)
     ).then(res => {
       if (res.statusCode === 200) {

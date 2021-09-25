@@ -115,7 +115,7 @@ const Index :React.FC<any> = ()=>{
         {/* 搜索栏 */}
         <SearchBar 
         placeholder="请输入商品关键词/名称/品牌"
-        onConfirm={toResult}
+        onConfirm={onSearch}
         onClick={onSearch}
         onInput={onInput}
         keyword={keyword}
