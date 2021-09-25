@@ -27,8 +27,17 @@ const API = {
             
         },
 
+        getSecondHandByItemId: function(itemId:number){
+            return Taro.request({
+                url:BASE_URL+'secondHand/id/'+itemId,
+                header:header,
+                method:Method.GET,
+            })
+
+        },
+
         //通过用户id获取收藏列表
-        getFavorites: function(userId: string){
+        getFavoritesByUserId: function(userId: string){
             return Taro.request({
                 url:BASE_URL+'secondHand/favorite/'+userId,
                 header:header,

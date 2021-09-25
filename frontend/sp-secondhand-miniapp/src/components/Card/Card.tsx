@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Taro from '@tarojs/taro';
 import {View,Image, OpenData, RichText} from '@tarojs/components'
 import { AtActionSheet, AtActionSheetItem } from "taro-ui"
 import "taro-ui/dist/style/components/action-sheet.scss";
@@ -32,7 +33,9 @@ const Card: React.FC<Props> = (props) =>{
     
     // 打开商品详情
     const toDetail = ()=>{
-        //TODO:添加商品详情路径
+        Taro.navigateTo({
+            url:'../detail/index?id='+props.item.id
+          })
     }
 
     

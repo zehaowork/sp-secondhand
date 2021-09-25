@@ -13,8 +13,14 @@ declare interface Item  {
     categoryId:number;
     publishTime:string;
     cityId:number;
+    cityName:string;
     isSold:boolean;
     popularity:number;
+    userName:string;
+    userProfileImgUrl:string,
+    description:string;
+    categoryName:string;
+
   }
 
   //API参数接口
