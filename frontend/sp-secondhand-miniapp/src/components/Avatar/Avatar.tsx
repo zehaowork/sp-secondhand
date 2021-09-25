@@ -7,14 +7,16 @@ interface Props{
     
     size:"lg"|"sm"|"md"
     isAuthorized?:boolean
+    imageUrl?:string
 }
 
 const Avatar: React.FC<Props> = (props)=>{
     
-
+    
     return props.isAuthorized ?<OpenData type="userAvatarUrl" className={props.size === 'lg'?s.avatar_lg:s.avatar_sm} ></OpenData>:
-    <Image src={AvatarPlaceHolder} className={props.size === 'lg'?s.avatar_lg:s.avatar_sm} />
-
-
+    <Image 
+    src={props.imageUrl? props.imageUrl :AvatarPlaceHolder} 
+    className={props.size === 'lg'?s.avatar_lg:s.avatar_sm} 
+    />
 }
 export default Avatar;

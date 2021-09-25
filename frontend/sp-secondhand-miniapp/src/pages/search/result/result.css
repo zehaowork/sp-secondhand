@@ -8,3 +8,44 @@
 	z-index: 1;
     background-color: white;
 }
+
+/* 排序按钮 */
+.btn {
+    composes: bg-gradual-peach from global;
+    composes: shadow-blur from global;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0 30rpx;
+    height: 64rpx;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    overflow: visible;
+    margin-left: initial;
+    transform: translate(0rpx, 0rpx);
+    margin-right: initial;
+  }
+  
+  .btn_sm {
+    composes: btn;
+    composes: text-Support from global;
+    padding: 0 20px;
+    
+    height: 48rpx;
+  }
+  
+  .sort {
+    height: 55rpx;
+    font-size: 36rpx;
+    position: relative;
+    bottom: -1px;
+    font-weight: bold;
+    padding-left: 10px;
+    margin-bottom: 4px;
+    color:grey;
+    font-size:32rpx
+  }
+  

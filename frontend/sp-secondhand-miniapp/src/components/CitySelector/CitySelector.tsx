@@ -8,12 +8,13 @@ import s from './CitySelector.css'
 
 interface Props{
  onClick:any
+ name:string
 }
 
 const CitySelector: React.FC<Props> = (props)=>{
 
     return <View onClick={props.onClick} className={s.container} >
-   <Text>南安普顿</Text>
+   <Text>{props.name}</Text>
    <AtIcon value='chevron-down' size='16' color='F00' />
 </View>
 }

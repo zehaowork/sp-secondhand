@@ -11,7 +11,6 @@ enum Method {
     DELETE = 'DELETE',
 }
 
-
 const API = {
     //二手相关API
     SecondHand:{
@@ -37,9 +36,10 @@ const API = {
         },
 
         //通过用户id获取收藏列表
-        getFavoritesByUserId: function(userId: string){
+        getFavorites: function(userId:number) {
             return Taro.request({
-                url:BASE_URL+'secondHand/favorite/'+userId,
+                url:BASE_URL+'secondHand/favorite/'+ userId,
+                data:userId,
                 header:header,
                 method:Method.GET,
             })
@@ -48,7 +48,7 @@ const API = {
         //加入收藏
         postFavorite: function(data:toggleFavoriteParam){
             return Taro.request({
-                url:BASE_URL+'secondHand/favorite/',
+                url:BASE_URL+'secondHand/favorite',
                 data:data,
                 header:header,
                 method:Method.POST,
@@ -58,8 +58,7 @@ const API = {
         //取消收藏
         deleteFavorite: function(data:toggleFavoriteParam){
             return Taro.request({
-                url:BASE_URL+'secondHand/favorite/',
-                data:data,
+                url:BASE_URL+'secondHand/favorite?secondHandId='+data.secondHandId+'&userId='+data.userId,
                 header:header,
                 method:Method.DELETE,
             })
@@ -73,6 +72,27 @@ const API = {
                 url:BASE_URL+'staticData/categories',
                 header:header,
                 method:Method.GET,
+            })
+        },
+        getBanners:()=>{
+            return Taro.request({
+                url:BASE_URL+'staticData/banners',
+                header:header,
+                method:Method.GET,
+            })
+        },
+        getSearchRecommendations:()=>{
+            return Taro.request({
+                url:BASE_URL+'staticData/recommendedSearch',
+                method:Method.GET,
+                header:header,
+            })
+        },
+        getCities:()=>{
+            return Taro.request({
+                url:BASE_URL+'staticData/cities',
+                method:Method.GET,
+                header:header,
             })
         }
     },

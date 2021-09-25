@@ -1,31 +1,27 @@
 import React from 'react';
 import {View} from '@tarojs/components'
 import s from './Indexes.css'
-import { AtIcon } from 'taro-ui';
+
 
 
 
 interface Props{
     //事件
+    onSelectChar:any;
    
     //参数
-    
+    chars:string[];
 }
 
 const Indexes: React.FC<Props> = (props)=>{
 
-    const renderAlphabet = (charA,charZ) =>{
-        var a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
-        for (; i <= j; ++i) {
-            a.push(<View className={s.btn} >{String.fromCharCode(i).toUpperCase()}</View>);
-        }
-        return a;
-    }
+    const renderAlphabet = props.chars.map(char=>{
+        return <View onClick={()=>{props.onSelectChar(char)}} className={s.btn}>{char}</View>
+    });
 
 
     return <View className={s.container} >
-       {renderAlphabet('a', 'z')}
-
+       {renderAlphabet}
     </View>
 }
 export default Indexes;

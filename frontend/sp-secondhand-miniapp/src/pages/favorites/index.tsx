@@ -1,47 +1,39 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
+import {usePullDownRefresh} from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import GoodsList from '../../components/GoodsList/GoodsList'
-import { Item } from 'src/typings/common'
 import { getFavoriteList } from '../../actions/favorite'
 
-//Pass in the prop isFavorites variable as TRUE in this GoodsList component
+
 
 interface Props {
     userId:string
 }
-const Index: React.FC<Props> = (props) => {
+const Index: React.FC<Props> = () => {
     //定义状态、变量
     const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite); // 储存着reducer里面的三个state
-    
+    let testUser = 333; //userID 333, itemId 960, 963
+
     //这里使用action获取数据
     useEffect(() => {
-        dispatch(getFavoriteList('1'));
+        if(favorite.favorites === [] && !favorite.isLoading) {
+            getFavList(testUser);
+        }
     }, [])
 
-     //获取商品列表
-//   const getFavoriteList = ()=>{
+    usePullDownRefresh(()=>{
+        getFavList( testUser);
+    })
 
-    
-
-     //这个部分已经移动到action了，记得查看
-//     // API.SecondHand.getFavoritesByUserId("0").then(
-//     //     res => {
-//     //     if(res.statusCode === 200){
-//     //         console.log(res.data.data);
-//     //         setItemList(res.data.data);
-//     //       }
-//     // }).catch(
-//     //     err =>{
-//     //         console.log(err)
-//     // })
-//   }
-
+    const getFavList = (userId:number) => {
+        dispatch(getFavoriteList(userId));
+    }
 
     return (
         <View>
-            <GoodsList isFavouritesPage itemList={favorite.favorite} isShopPage={false}></GoodsList>
+            <GoodsList isFavouritesPage itemList={favorite.favorites} isShopPage={false}  ></GoodsList>
         </View>
     )
 }

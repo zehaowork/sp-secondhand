@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from 'react'
-import Taro,{useReachBottom,usePullDownRefresh} from '@tarojs/taro'
+import {useDispatch} from 'react-redux'
+import Taro,{useReachBottom,usePullDownRefresh,useDidShow} from '@tarojs/taro'
 import { View,Button } from '@tarojs/components'
 import s from './index.css'
 import GoodsList from '../../components/GoodsList/GoodsList'
@@ -12,7 +13,8 @@ import CitySelector from '../../components/CitySelector/CitySelector'
 import Fab from '../../components/Fab/Fab'
 import {AtDivider,AtActionSheet,AtActionSheetItem,AtIcon} from 'taro-ui'
 import API from '../../../utils/API'
-import { Item } from 'src/typings/common'
+import { Banner, City, Item } from 'src/typings/common'
+import { getFavoriteList } from '../../actions/favorite'
 
 
 
@@ -26,37 +28,73 @@ export enum GoodType {
   Shop = 2,
 }
 
+
+
+
+
+
 //Pass in FALSE as the isFavourites boolean into GoodsList component
 
 interface Props {}
 const Index: React.FC<Props> = ()=>{
   //定义状态
+  const dispatch  = useDispatch();
   const [itemList, setItemList] = useState<Array<Item>>([]);
   const [page, setPage] = useState(0);
   const [catId, setCatId] = useState(0);
+  const [city, setCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A'});
   const [categoryList, setCategoryList] = useState([]);
+  const [bannerList, setBannerList] = useState<Banner[]>([]);
   const [showLoading, setShowLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState('别太放肆，我们可是有底线的噢-o-');
+  const [loadingText, setLoadingText] = useState<string>('别太放肆，我们可是有底线的噢-o-');
 
-  const [isSortOptionOpened, setIsSortOptionOpened] = useState(false);
-  const [sortText, setSortText] = useState('排序');
-  const sortOptions = ["最近发布","价格:低-高","价格:高-低","人气:高-低","人气:低-高"];
+  const [isSortOptionOpened, setIsSortOptionOpened] = useState<boolean>(false);
+  const [selectedSortOption, setSelectedSortOption] = useState<[string,string]>(['TimeDesc','排序']);
+  const sortOptions:Array<[string,string]> = [
+    ['TimeDesc','最近发布'],
+    ['PopularityDesc',"人气:高-低"],
+    ['PopularityAsc',"人气:低-高"],
+    ['PriceDesc',"价格:高-低"],
+    ['PriceAsc',"价格:低-高"],
+  ]
 
   /*页面行为*/
   // 初始抓取数据
   useEffect(() => {
-  getList(page,catId);
   getCategories();
+  getBanners();
+  dispatch(getFavoriteList(333));
   }, []);
 
   useReachBottom(() => {
-    getList(page,catId);
+    getList(page,catId,selectedSortOption[0],city.id);
   })
 
   usePullDownRefresh(()=>{
     setPage(0);
-    getList(0,catId);
+    getList(0,catId,selectedSortOption[0],city.id);
   })
+  
+  useDidShow(()=>{
+      Taro.getStorage({
+        key:'city'
+      }).then(res=>{
+        let newCity:City = (res.data as City);
+        if(newCity.id !== city.id){
+          setCity(res.data as City);
+          setPage(0);
+          setCatId(0);
+          setItemList([]);
+          setSelectedSortOption(['TimeDesc','排序']);
+          getList(0,0,'TimeDesc',(res.data as City).id);
+        }
+      }).catch(()=>{
+        if(!itemList.length){
+          setCity({id:0,countryId:2,name:'英国',firstLetter:'A'});
+          getList(0,0,'TimeDesc',0);
+        }
+      })
+  });
   
   //回到顶部
   const toTop = ()=>{
@@ -75,25 +113,38 @@ const Index: React.FC<Props> = ()=>{
     let newCatId = Number(e.currentTarget.id);
     setCatId(newCatId);
     setPage(0);
-    getList(0,newCatId);
+    setItemList([]);
+    getList(0,newCatId,selectedSortOption[0],city.id);
   }
 
-  
+  const onSelectSortOption = (option) =>{
+    setIsSortOptionOpened(false);
+    setSelectedSortOption(option);
+    setPage(0);
+    setItemList([]);
+    getList(0,catId,option[0],city.id);
+  }
 
   /* 数据抓取 */
   //获取商品列表
-  const getList = (page:number,catId:number)=>{
+  const getList = (
+      page:number = 0,
+      catId:number = 0,
+      option:string = "TimeDesc",
+      cityId:number = 0
+    )=>{
     setShowLoading(true);
     setLoadingText('努力加载中-o-');
     API.SecondHand.getSecondHands({
       catId:catId,
-      cityId:469,
+      cityId:cityId,
       keyword:'',
       page:page,
-      size:5,
+      size:6,
+      sort:option
     }).then(res =>{
-      if(res.statusCode === 200 && res.data.data.length){
-        setPage(page+1);
+      if(res.statusCode === 200){
+        
         if(page === 0){
           setItemList(res.data.data);
         }
@@ -101,6 +152,9 @@ const Index: React.FC<Props> = ()=>{
           setItemList([...itemList,...res.data.data]);
         }
         
+        if(res.data.data.length){
+          setPage(page+1);
+        }
       }
       else{
         //TODO:添加错误信息
@@ -126,10 +180,28 @@ const Index: React.FC<Props> = ()=>{
        //TODO:添加错误信息
     })
   }
-  //渲染函数
-  const imageList = ['https://picsum.photos/200/300'];
+  
+  //获取Banner图片
+  const getBanners = ()=>{
+    API.StaticData.getBanners().then(res =>{
+      if(res.statusCode === 200){
+        console.log(res.data.data);
+        setBannerList(res.data.data);
+      }
+      else{
 
-  const renderSortActions = sortOptions.map(option => <AtActionSheetItem onClick={()=>{setSortText(option);setIsSortOptionOpened(false)}} >{option}</AtActionSheetItem>)
+      }
+    }).catch(err=>{
+
+    })
+  }
+
+
+
+  //渲染函数
+  
+
+  const renderSortActions = sortOptions.map(option => <AtActionSheetItem onClick={()=>{onSelectSortOption(option)}} >{option[1]}</AtActionSheetItem>)
 
   //打开搜索页面
   const toSearch = ()=>{
@@ -146,17 +218,17 @@ const Index: React.FC<Props> = ()=>{
 
   return <View className={s.container}>
     <View className={s.header} >
-      <CitySelector onClick={toCityPage} />
+      <CitySelector name={city.name} onClick={toCityPage} />
       <SearchBarPlaceholder onClick={toSearch} />
     </View>
-  <BannerSwiper imageList ={imageList} />
+  <BannerSwiper imageList ={bannerList} />
 
   {/* 类型栏目 */}
   <Categories current={catId} onClick={onSelectCategory} categoryList={categoryList} />
   <Header title ='闲置好物' >
   <View className={s.sort} >
   <Button onClick={()=>{setIsSortOptionOpened(true)}} className={s.btn_sm}>
-      {sortText}
+      {selectedSortOption[1]}
       <AtIcon value='chevron-down' size='10' color='white'></AtIcon>
       </Button>
     </View>
@@ -164,7 +236,7 @@ const Index: React.FC<Props> = ()=>{
 
   {/* 商品列表 */}
 
-  <GoodsList itemList={itemList} isFavouritesPage={false} isShopPage={false}/>
+  <GoodsList itemList={itemList} isFavouritesPage={false} isShopPage={false} />
   {/* 加载组件 */}
   <View className={s.loader} >
     <AtDivider>
@@ -186,12 +258,14 @@ const Index: React.FC<Props> = ()=>{
     </Fab>
   </View>
 
-  <AtActionSheet isOpened={isSortOptionOpened}
-                 cancelText='取消' 
-                 onCancel={()=>{setIsSortOptionOpened(false)}} 
-                 onClose={()=>{setIsSortOptionOpened(false)}} >
-                {renderSortActions}
-        </AtActionSheet>
+  <AtActionSheet 
+  isOpened={isSortOptionOpened}
+  cancelText='取消' 
+  onCancel={()=>{setIsSortOptionOpened(false)}} 
+  onClose={()=>{setIsSortOptionOpened(false)}} 
+  >
+    {renderSortActions}
+  </AtActionSheet>
 </View>
 }
 

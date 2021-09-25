@@ -1,15 +1,25 @@
-import { View } from '@tarojs/components'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
+import Taro from '@tarojs/taro'
+import { ScrollView, View } from '@tarojs/components'
 import Tag from '../../components/Tag/Tag'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import s from './index.css'
 import { AtIcon } from 'taro-ui'
 import Indexes from '../../components/Indexes/Indexes'
+import API from '../../../utils/API';
+import { City } from 'src/typings/common'
 
 
 
 interface Props{}
 const Index: React.FC<Props> = () => {
+    const [cityList, setCityList] = useState<City[]>([]);
+    const [scrollAnchor, setScrollAnchor] = useState<string>('A');
+
+
+    useEffect(() => {
+        getCities();
+    }, [])
     
     const getLocationPermission = ()=>{
         Taro.getLocation({
@@ -20,10 +30,68 @@ const Index: React.FC<Props> = () => {
             //TODO:获取权限失败的回调
         })
     }
+
+    const getCities = ()=>{
+        API.StaticData.getCities().then(res =>{
+            if(res.statusCode === 200){
+                (res.data.data as City[]).sort((a,b) =>a.firstLetter.charCodeAt(0)-b.firstLetter.charCodeAt(0));
+                setCityList(res.data.data);
+            }
+            else{
+                //TODO:添加错误信息
+            }
+        })
+        .catch(err=>{
+            //TODO:添加错误信息
+        })
+    }
+
+    const onSelectCity = (city)=>{
+        Taro.setStorage({
+            key:'city',
+            data:city
+        }).then(()=>{
+            Taro.navigateBack();
+        }).catch(err=>{
+            //TODO:添加错误信息
+        })
+    }
+
+    //渲染函数
+    const renderCityList = ()=>{
+        let initialFirstLetter:string;
+        return cityList.map(city => {
+            let isNewSection = initialFirstLetter !== city.firstLetter;
+            initialFirstLetter = city.firstLetter;
+            return <React.Fragment>
+                {isNewSection && 
+                <View id={city.firstLetter} className={s.section}>
+                    {city.firstLetter}
+                </View>}
+                <View onClick={()=>{onSelectCity(city)}} className={s.item}>{city.name}</View>
+            </React.Fragment>
+        
+        })
+
+    }
     
+    const distinctChars = ()=>{
+        let chars:string[] = [];
+        cityList.forEach(city=>{
+            if(!chars.includes(city.firstLetter)){
+                chars.push(city.firstLetter)
+            }
+        })
+        return chars;
+    }
+
+    const onSelectChar = (char) =>{
+        setScrollAnchor(char);
+    }
+
     return (
-        <View className={s.page}>
-            <Indexes />
+        <ScrollView scrollIntoView={scrollAnchor}  scrollY className={s.page}>
+            <Indexes onSelectChar={onSelectChar} chars={distinctChars()} />
         <SearchBar placeholder="搜索城市名或Postcode (请输入英文)" />
             <View className={s.container}>
             <View className={s.title} >当前城市定位</View>
@@ -44,15 +112,10 @@ const Index: React.FC<Props> = () => {
                 <Tag size='normal' name='曼彻斯特' active onClick={null} /> 
                 </View>
                 <View className={s.list} >
-                    <View className={s.section}>A</View>
-                    <View className={s.item}>阿伯丁</View>
-                    <View className={s.item}>爱丁堡</View>
-                    <View className={s.section}>B</View>
-                    <View className={s.item}>伯恩茅斯</View>
-                    <View className={s.item}>伯明翰</View>
+                    {renderCityList()}
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 

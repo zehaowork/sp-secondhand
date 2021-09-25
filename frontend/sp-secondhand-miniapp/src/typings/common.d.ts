@@ -10,7 +10,10 @@ declare interface Item  {
     type:number;
     address:string;
     userId:number;
+    userName:string;
+    userProfileImgUrl:string;
     categoryId:number;
+    categoryName:string;
     publishTime:string;
     cityId:number;
     cityName:string;
@@ -23,6 +26,23 @@ declare interface Item  {
 
   }
 
+  //Banner图片
+  interface Banner {
+    id:number;
+    imgUrl:string;
+    link:string;
+    order:number
+  }
+
+  //地址列表
+  interface City {
+    id:number;
+    name:string;
+    firstLetter:string;
+    countryId:number;
+  }
+
+
   //API参数接口
   declare interface searchSecondHandParam {
     catId:number;
@@ -30,7 +50,9 @@ declare interface Item  {
     keyword?:string;
     page:number;
     size:number
+    sort:string;
   }
+
 
   declare interface toggleFavoriteParam {
     userId:number;
