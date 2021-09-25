@@ -19,6 +19,11 @@ declare interface Item  {
     cityName:string;
     isSold:boolean;
     popularity:number;
+    userName:string;
+    userProfileImgUrl:string,
+    description:string;
+    categoryName:string;
+
   }
 
   //Banner图片
