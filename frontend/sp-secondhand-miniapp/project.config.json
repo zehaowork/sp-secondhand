@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "sp-secondhand-miniapp",
   "description": "小土豆科技: 二手闲置交易平台小程序",
-  "appid": "wx09bf1e123c72d9dc",
+  "appid": "wx10d7986d55886da6",
   "setting": {
     "urlCheck": true,
     "es6": false,

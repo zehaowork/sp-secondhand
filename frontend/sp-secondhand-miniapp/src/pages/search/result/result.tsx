@@ -17,6 +17,7 @@ import API from '../../../../utils/API';
 const Result:React.FC<any> = ()=>{
     //定义状态
     const [itemList, setItemList] = useState<Array<Item>>([]);
+    const [historyList, setHistoryList] = useState<string[]>([]); //搜索历史记录数组
     const [itemRecommendationList, setItemRecommendationList] = useState<Array<Item>>([]);
     const [keyword, setKeyword] = useState<string>(''); //搜索关键字
     const [page, setPage] = useState<number>(0);
@@ -46,15 +47,24 @@ const Result:React.FC<any> = ()=>{
             key:'city'
         }).then(res=>{
             setCity(res.data as City);
-            search(selectedSortOption[0],(res.data as City).id,$instance.router?.params.keyword);
+            search(isFinished,page,selectedSortOption[0],(res.data as City).id,$instance.router?.params.keyword);
         }).catch(()=>{
-            search(selectedSortOption[0],city.id,$instance.router?.params.keyword);
+            search(isFinished,page,selectedSortOption[0],city.id,$instance.router?.params.keyword);
         })
 
+        getSearchHistory();
     }, [])
+
+    const getSearchHistory = ()=>{
+        Taro.getStorage({
+            key:'searchHistory'
+        }).then(res =>{
+            setHistoryList(JSON.parse(res.data));
+        }).catch(err=> setHistoryList([]));
+    }
     
     useReachBottom(()=> {
-        search(selectedSortOption[0],city.id,keyword)
+        search(isFinished,page,selectedSortOption[0],city.id,keyword)
     })
 
     const onInput = (input)=>{
@@ -62,7 +72,7 @@ const Result:React.FC<any> = ()=>{
     }
 
     //请求数据
-    const search = (option:string,cityId:number,input?:string)=>{
+    const search = (isFinished: boolean,page:number,option:string,cityId:number,input?:string)=>{
         setShowLoading(true);
        if(!isFinished){
         API.SecondHand.getSecondHands({
@@ -75,19 +85,18 @@ const Result:React.FC<any> = ()=>{
         }).then(res=>{
 
             if(res.statusCode === 200){
+                setPage(page+1);
                 if(page === 0){
                     setItemList(res.data.data);
                 }
                 else{
                     setItemList([...itemList,...res.data.data]);
                 }
-                if(res.data.data.length === 6) {
-                    setPage(page+1);
-                }
-                else{
+                if(res.data.data.length !== 6) {
                     setIsFinished(true);
                     setPage(0);
                 }
+                
             }
             else{
                 //TODO:添加错误信息
@@ -99,6 +108,24 @@ const Result:React.FC<any> = ()=>{
        else{
            searchExcludeCity(option,cityId,input);
        }
+    }
+
+    const addKeywordToHistory = (keyword)=>{
+        if(!historyList.includes(keyword)){ //查看关键词时候有重复，不重复则添加
+            let newList:Array<string> = [];
+            if(historyList.length){
+                newList = [keyword,...historyList];
+            }
+            else{
+                newList.push(keyword);
+            }
+
+            setHistoryList(newList);
+            Taro.setStorage({
+                key:'searchHistory',
+                data:JSON.stringify(newList)
+            });
+        }
     }
 
     const searchExcludeCity = (option:string,cityId:number,input?:string) => {
@@ -116,24 +143,29 @@ const Result:React.FC<any> = ()=>{
             else{
                 setItemRecommendationList([...itemRecommendationList,...res.data.data]);
             }
-            if(res.data.data.length === 6) {
-                setPage(page+1);
-            }
+            setPage(page+1);
         }).finally(()=>setShowLoading(false))
     }
 
     //搜索按钮
     const onClick = () =>{
+        setIsFinished(false);
+        setPage(0);
+        setSelectedSortOption(['TimeDesc','排序']);
         setItemList([]);
-        search(selectedSortOption[0],city.id,keyword);
+        setItemRecommendationList([]);
+        search(false,0,'TimeDesc',city.id);
+        addKeywordToHistory(keyword);
     }
 
     const onSelectSortOption = (option) =>{
+        setIsFinished(false);
         setIsSortOptionOpened(false);
         setSelectedSortOption(option);
         setPage(0);
         setItemList([]);
-        search(option[0],city.id)
+        setItemRecommendationList([]);
+        search(false,0,option[0],city.id)
       }
 
     const renderSortActions = sortOptions.map(option => <AtActionSheetItem onClick={()=>{onSelectSortOption(option)}} >{option[1]}</AtActionSheetItem>)
@@ -149,7 +181,7 @@ const Result:React.FC<any> = ()=>{
         placeholder="请输入商品关键词/名称/品牌" />
         </View>
         {/* 同城物品 */}
-        <Header title ='闲置好物' >
+        <Header title ='闲置好物' subtitle='同城商品'>
             <View className={s.sort} >
                 <Button onClick={()=>{setIsSortOptionOpened(true)}} className={s.btn_sm}>
                     {selectedSortOption[1]}

@@ -1,6 +1,6 @@
 
 import React,{useState,useEffect} from 'react';
-import Taro from '@tarojs/taro';
+import Taro,{useDidShow} from '@tarojs/taro';
 import {View} from '@tarojs/components';
 import { AtIcon } from 'taro-ui'
 import s from './index.css';
@@ -23,10 +23,10 @@ const Index :React.FC<any> = ()=>{
     
     // 定义行为
     useEffect(() => {
-       getSearchHistory();
        getRecommendations();
     }, []);
 
+    useDidShow(()=> getSearchHistory());
     
 
     const onInput = (input:string)=>{
