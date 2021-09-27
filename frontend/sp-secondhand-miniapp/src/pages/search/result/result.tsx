@@ -85,7 +85,7 @@ const Result:React.FC<any> = ()=>{
         }).then(res=>{
 
             if(res.statusCode === 200){
-                setPage(page+1);
+                
                 if(page === 0){
                     setItemList(res.data.data);
                 }
@@ -93,10 +93,13 @@ const Result:React.FC<any> = ()=>{
                     setItemList([...itemList,...res.data.data]);
                 }
                 if(res.data.data.length !== 6) {
+                    if(page === 0){
+                        searchExcludeCity(option,cityId,input);
+                    }
                     setIsFinished(true);
                     setPage(0);
                 }
-                
+                setPage(page+1);
             }
             else{
                 //TODO:添加错误信息
