@@ -189,7 +189,7 @@ const Result:React.FC<any> = ()=>{
                 </Button>
             </View>
         </Header>
-        <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemList} />
+        <GoodsList showPlaceholder keyword={keyword} isFavouritesPage={false} itemList={itemList} />
         {
             itemRecommendationList.length !==0
             &&

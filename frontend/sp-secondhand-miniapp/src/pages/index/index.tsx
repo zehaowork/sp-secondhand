@@ -236,7 +236,7 @@ const Index: React.FC<Props> = ()=>{
 
   {/* 商品列表 */}
 
-  <GoodsList itemList={itemList} isFavouritesPage={false} isShopPage={false} />
+  <GoodsList showPlaceholder itemList={itemList} isFavouritesPage={false} isShopPage={false} />
   {/* 加载组件 */}
   <View className={s.loader} >
     <AtDivider>

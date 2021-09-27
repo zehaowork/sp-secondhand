@@ -10,7 +10,6 @@ import GoodsList from '../../components/GoodsList/GoodsList'
 interface Props {}
 const Index: React.FC<Props> = () => {
     return(
-        
             <View className={s.container}>
                 <View className={s.indicator}>
                     <View className={s.tags}>
@@ -22,7 +21,7 @@ const Index: React.FC<Props> = () => {
                         <Text>下架商品</Text>
                     </View> 
                 </View>
-                <GoodsList isFavouritesPage={false} itemList={[]} isShopPage={true}></GoodsList>
+                <GoodsList showPlaceholder isFavouritesPage={false} itemList={[]} isShopPage={true}></GoodsList>
             
             </View>
            

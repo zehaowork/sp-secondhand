@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
-import {View} from '@tarojs/components'
+import React from 'react';
+import {View,Image} from '@tarojs/components'
 import { Item } from 'src/typings/common';
 import s from './GoodsList.css'
 import Card from '../Card/Card';
-import {useSelector} from 'react-redux'
-
+import EmptyListIcon from '../../images/box3.png'
 
 
 interface Props {
@@ -12,6 +11,7 @@ interface Props {
     isShopPage?:boolean;
     itemList:Array<Item>;
     keyword?:string;
+    showPlaceholder?:boolean;
 }
 
 //容器组件
@@ -29,9 +29,11 @@ const GoodsList: React.FC<Props> = (props)=>{
     
     return<View className={s.container} >
         {/* 列表 */}
-        <View className={s.list} >
+        {props.itemList.length?<View className={s.list} >
         {renderList}
         </View>
+        :
+        props.showPlaceholder && <Image className={s.img} src={EmptyListIcon} ></Image>}
     </View>
 }
 export default GoodsList;

@@ -33,7 +33,7 @@ const Index: React.FC<Props> = () => {
 
     return (
         <View>
-            <GoodsList isFavouritesPage itemList={favorite.favorites} isShopPage={false}  ></GoodsList>
+            <GoodsList showPlaceholder isFavouritesPage itemList={favorite.favorites} isShopPage={false}  ></GoodsList>
         </View>
     )
 }
