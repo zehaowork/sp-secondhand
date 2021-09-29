@@ -97,6 +97,7 @@ namespace SpSecondHandApi
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserContactRepository, UserContactRepository>();
             services.AddScoped<IStaticDataRepository, StaticDataRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
         }
 
         private void AddControllerServices(IServiceCollection services)

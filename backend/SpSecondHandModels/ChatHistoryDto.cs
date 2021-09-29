@@ -10,5 +10,8 @@ namespace SpSecondHandModels
         public string Message { get; set; }
         public DateTime Time { get; set; }
         public bool IsRead { get; set; }
+        public string UserName { get; set; }
+        public string ProfileImgUrl { get; set; }
+        public int UnreadMsgNum { get; set; }
     }
 }
