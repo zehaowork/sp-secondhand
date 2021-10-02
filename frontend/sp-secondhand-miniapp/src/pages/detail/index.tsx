@@ -6,12 +6,18 @@ import Avatar from '../../components/Avatar/Avatar'
 import API from '../../../utils/API'
 import { Item } from 'src/typings/common'
 import { AtIcon } from 'taro-ui';
+import WeixinIcon from '../../images/weixin.png';
+import MobileIcon from '../../images/phone.png';
+import MessageIcon from '../../images/chat.png';
+import SellerShopIcon from '../../images/shop1.png';
+
 
 const Index: React.FC = () => {
   const [item, setItem] = useState<Item>(); //商品信息
   const $instance = Taro.getCurrentInstance(); //页面对象
   const itemId = $instance.router?.params.id === undefined ? '' : $instance.router?.params.id;
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imgList, setImgList] = useState<String[]>();
 
   useEffect(() => {
     getItem();
@@ -24,6 +30,11 @@ const Index: React.FC = () => {
       if (res.statusCode === 200) {
         setItem(res.data.data)
         console.log(res.data.data)
+        var imgs = res.data.data.imgUrls
+        if(imgs != undefined && imgs != null){
+          console.log(imgs)
+          setImgList(imgs)
+        }
       }
     }).catch(
       err => {
@@ -50,6 +61,28 @@ const Index: React.FC = () => {
     })
   }
 
+  //TODO: 跳转到聊天室
+  const toChatroom = () =>{
+    Taro.navigateTo({
+      url:'../chatboard/index'
+    })
+  }
+
+  //TODO: 跳转到商家店铺
+  const toShopPage = () =>{
+    Taro.navigateTo({
+      url:'../shop/index?id='+item?.userId
+    })
+  }
+
+  const hideNumbers = (number:string) =>{
+    var hiddenString='';
+    for (var i = 0; i < number.length; i++) {
+      hiddenString += '*'
+    }
+    return hiddenString
+  }
+
   return <View className={s.container}>
     <View className={s.header}>
       <View className={s.content}>
@@ -64,7 +97,7 @@ const Index: React.FC = () => {
             {item?.publishTime} 发布于 
             <Text style={{fontWeight:500}}> {item?.cityName}</Text>
           </View>
-          <AtIcon className={s.icon} 
+          <AtIcon className={s.heart} 
            value={isFavorite?'heart-2':'heart'} 
            size='25' 
            color={isFavorite?'#e54d42':'#aaaaaa'}
@@ -73,10 +106,11 @@ const Index: React.FC = () => {
         </View>
       </View>
     </View>
+
     <View className={s.thin_divider}></View>
 
     {/* 商品信息 */}
-    <View className={s.info_details}>
+    <View className={s.body_details}>
       <View className={s.price}>£ {item?.price}</View>
       <Text className={'.text-Body'}>{item?.description}</Text>
       
@@ -87,28 +121,34 @@ const Index: React.FC = () => {
       <View className={s.category_label}> 新旧程度 
         <View className={s.category}>{item?.categoryName} </View>
       </View>
-      {/* TODO: loop image list */}
-      <Image src={"http://120.79.59.51:8087/"+item?.imgUrls} mode="widthFix" className={s.image} >
-      </Image>
+      {imgList!=undefined && imgList.map((img) => ( 
+        <Image src={"http://120.79.59.51:8087/"+img} mode="widthFix" className={s.image} >
+        </Image>
+      ))}
     </View>
+
     <View className={s.regular_divider}></View>
 
     {/* 卖家信息 */}
-    <View className={s.contact_details}>
+    <View className={s.contact_body}>
       <View className={s.header}>
         <View className={s.content}>
           <View className={s.user} >
             <Image src={item?.userProfileImgUrl != undefined? item?.userProfileImgUrl: ""} 
             className={s.avatar_lg} />
-
             <View className={s.name} >
               {item?.userName}
             </View>
           </View>
           <View className={s.btn}>
-            {/* TODO: add corresponding icons */}
-            <View>联系卖家</View>
-            <View>Ta的店铺</View>
+            <View className={s.btn_with_icon} onClick={toChatroom}>
+              <Image src={MessageIcon} className={s.icon} />
+              联系卖家
+            </View>
+            <View className={s.btn_with_icon} onClick={toShopPage}>
+              <Image src={SellerShopIcon} className={s.icon} /> 
+              <Text>Ta的店铺</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -125,16 +165,17 @@ const Index: React.FC = () => {
         <View className={s.contact}> (加好友时请注明是【小土豆二手】上看到的) </View>
       </View>
 
-      {/* TODO: add icons */}
-        {item?.weChatId != undefined && <View className={s.user} ><View className={s.contact_content} 
-        onClick={() => copyToClipboard(item.weChatId)}>
-          <Text >{item.weChatId} </Text>
-          <View className={s.copy}> 点击复制卖家微信</View>
-        </View></View>}
+        {(item?.weChatId != undefined && item.telephone != "") && <View className={s.user} >
+          <View className={s.contact_content} onClick={() => copyToClipboard(item.weChatId)}>
+            <View><Image src={WeixinIcon} className={s.icon}/>
+              <Text> {hideNumbers(item.weChatId)} </Text></View>
+              <View className={s.copy}> 点击复制卖家微信</View>
+          </View></View>}
 
-        {item?.telephone != undefined && <View className={s.user} > <View className={s.contact_content} 
+        {(item?.telephone != undefined && item.telephone != "") &&<View className={s.user} > <View className={s.contact_content} 
         onClick={() => copyToClipboard(item.telephone)}>
-          <Text >{item.telephone} </Text>
+          <View><Image src={MobileIcon} className={s.icon}/>
+          <Text> {hideNumbers(item.telephone)} </Text></View>
           <View className={s.copy}> 点击复制卖家电话</View>
         </View></View>}
         

@@ -1,13 +1,11 @@
 .container{
   position: flex;
-  background: #f6f6fa;
-  height: 100vh;
+  background: #fff;
 }
 
 .header {
   display: flex;
   height: 166rpx;
-  background-color: #fff;
   align-items: center;
   position: relative;
 }
@@ -20,23 +18,27 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 0 0 0 42rpx;
+  padding: 0 42rpx;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .user {
   display: flex;
-  flex-flow: row;
+  flex-direction: row;
   padding-top: 10px;
   align-items: center;
 }
 
 .btn{
-  display: inherit;
-  flex-direction: row;
-  gap: 10rpx;
-  padding-right: 20rpx;
+  display: inline-flex;
+  gap: 50rpx;
+}
+
+.btn_with_icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .infotag{
@@ -50,16 +52,15 @@
   composes: text-SubHeading from global;
 }
 
-.icon {
+.heart {
   position: absolute;
   left: 85%;
 }
 
-.info_details{
+.body_details{
   display: grid;
   gap: 20rpx;
   padding: 20rpx;
-  background-color: #fff;
 }
 
 .price{
@@ -85,12 +86,6 @@
   width: 100%;
 }
 
-.contact_details{
-  display:flex;
-  flex-direction: column;
-  background-color: #fff;
-}
-
 .thin_divider{
   height: 3rpx;
   background-color: #f6f6fa;
@@ -106,7 +101,7 @@
   font-weight: bold;
   border-left: 5px solid var(--orange);
   padding-left: 20rpx;
-  margin: 0 0 15px 20px;
+  margin: 0 0 15px 20px; 
 }
 
 .contact{
@@ -115,6 +110,7 @@
   color: var(--bwAlpha05);
   font-weight: var(--fontWeightMedium);
   padding-left: 20rpx;
+  margin-bottom: 15rpx; /* margin-bottom should align with the margin set in contact_label */
 }
 
 .copy{
@@ -154,4 +150,10 @@
   margin-right: 30px;
   width: 114px;
   height: 114px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 10rpx;
 }
