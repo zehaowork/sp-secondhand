@@ -7,5 +7,6 @@ namespace SpSecondHandChatRoom.Interfaces
         Task ShowMessage(int fromUId, int toUId, string message);
         Task Warn(string message);
         Task ShowItem(int fromUId, int toUId, string serializedItem);
+        Task ReceiveMessage(string user, string msg);
     }
 }

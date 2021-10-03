@@ -100,12 +100,12 @@ namespace SpSecondHandApi.Services
             }
 
             sh.Title = shDto.Title;
-            sh.ImgUrls = shDto.ImgUrls;
+            sh.ImgUrls = string.Join(',', shDto.ImgUrls);
             sh.Description = shDto.Description;
             sh.WeChatId = shDto.WeChatId;
             sh.Telephone = shDto.Telephone;
             sh.Price = shDto.Price;
-            sh.Type = shDto.Type;
+            sh.Condition = (int) shDto.Condition;
             sh.Address = shDto.Address;
             sh.Status = (int)shDto.Status;
 

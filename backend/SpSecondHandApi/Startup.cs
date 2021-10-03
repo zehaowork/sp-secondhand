@@ -106,6 +106,7 @@ namespace SpSecondHandApi
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStaticDataServices, StaticDataService>();
             services.AddScoped<IWeChatService, WeChatService>();
+            services.AddScoped<IChatService, ChatService>();
         }
 
         #endregion

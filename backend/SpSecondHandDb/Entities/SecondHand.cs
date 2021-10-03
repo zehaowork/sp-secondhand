@@ -12,7 +12,7 @@ namespace SpSecondHandDb.Entities
         public string WeChatId { get; set; }
         public string Telephone { get; set; }
         public decimal? Price { get; set; }
-        public int? Type { get; set; }
+        public int Condition { get; set; }
         public string Address { get; set; }
         public DateTime? PublishTime { get; set; }
         public int Status { get; set; }

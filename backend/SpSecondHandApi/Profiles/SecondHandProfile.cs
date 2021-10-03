@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using SpSecondHandDb.Entities;
 using SpSecondHandModels;
 using SpSecondHandModels.Enums;
@@ -17,9 +18,13 @@ namespace SpSecondHandApi.Profiles
                 .ForMember(d => d.CategoryName, opt => opt.MapFrom(s => s.Category.Name))
                 .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.User.UserName))
                 .ForMember(d => d.UserProfileImgUrl, opt => opt.MapFrom(s => s.User.ProfileImgUrl))
-                .ForMember(d => d.Status, opt => opt.MapFrom(s => (Status)s.Status));
+                .ForMember(d => d.Status, opt => opt.MapFrom(s => (Status)s.Status))
+                .ForMember(d => d.Condition, opt => opt.MapFrom(s => (Condition)s.Condition))
+                .ForMember(d => d.ImgUrls, opt => opt.MapFrom(s => s.ImgUrls.Split(',', StringSplitOptions.None)));
             CreateMap<SecondHandCreateDto, SecondHand>()
-                .ForMember(d => d.Status, opt => opt.MapFrom(s => (int)s.Status));
+                .ForMember(d => d.Status, opt => opt.MapFrom(s => (int)s.Status))
+                .ForMember(d => d.Condition, opt => opt.MapFrom(s => (int)s.Condition))
+                .ForMember(d => d.ImgUrls, opt => opt.MapFrom(s => string.Join(',', s.ImgUrls)));
         }
     }
 }

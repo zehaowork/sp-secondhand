@@ -1,4 +1,5 @@
 ﻿using System;
+using SpSecondHandModels.Enums;
 
 namespace SpSecondHandModels
 {
@@ -13,5 +14,7 @@ namespace SpSecondHandModels
         public string UserName { get; set; }
         public string ProfileImgUrl { get; set; }
         public int UnreadMsgNum { get; set; }
+        public string ItemImgUrl { get; set; }
+        public Status ItemStatus { get; set; }
     }
 }

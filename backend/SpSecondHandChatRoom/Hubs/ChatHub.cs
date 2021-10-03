@@ -38,7 +38,6 @@ namespace SpSecondHandChatRoom.Hubs
 
                 if (!UserConnections.ContainsKey(toUId))
                 {
-                    await Clients.Caller.Warn(toUId + " is not online");
                     await Clients.Client(UserConnections[fromUId]).ShowMessage(fromUId, toUId, message);
                 }
                 else
@@ -64,22 +63,20 @@ namespace SpSecondHandChatRoom.Hubs
             try
             {
                 var serializedItem = JsonConvert.SerializeObject(item);
-                var utcNow = DateTime.UtcNow;
-                var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
-                var britishLocalTime = TimeZoneInfo.ConvertTime(utcNow, timeZoneInfo);
+                //var utcNow = DateTime.UtcNow;
+                //var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
+                //var britishLocalTime = TimeZoneInfo.ConvertTime(utcNow, timeZoneInfo);
                 var chat = new ChatHistory()
                 {
                     FromUid = fromUId,
                     ToUid = toUId,
                     Message = serializedItem,
-                    Time = britishLocalTime,
+                    Time = DateTime.UtcNow,
                     IsRead = false
                 };
-                await _chatRepository.Add(chat);
 
                 if (!UserConnections.ContainsKey(toUId))
                 {
-                    await Clients.Caller.Warn(toUId + " is not online");
                     await Clients.Client(UserConnections[fromUId]).ShowItem(fromUId, toUId, serializedItem);
                 }
                 else
@@ -90,7 +87,6 @@ namespace SpSecondHandChatRoom.Hubs
                         UserConnections[fromUId]
                     };
                     await Clients.Clients(connIds).ShowItem(fromUId, toUId, serializedItem);
-                    chat.IsRead = true;
                 }
 
                 await _chatRepository.Add(chat);
@@ -98,21 +94,6 @@ namespace SpSecondHandChatRoom.Hubs
             catch (Exception e)
             {
                 _logger.LogError($"Failed to share item from {fromUId} to {toUId}: {e.Message}");
-            }
-        }
-
-        public async Task SetRead(int fromUId, int toUId)
-        {
-            try
-            {
-                var unreadMsg = await _chatRepository.FindAll(c => c.FromUid == fromUId && c.ToUid == toUId && c.IsRead == false);
-                var messagesToUpdate = unreadMsg.ToList();
-                messagesToUpdate.ForEach(m => m.IsRead = true);
-                await _chatRepository.UpdateAll(messagesToUpdate);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"Failed to set message read: {e.Message}");
             }
         }
 
@@ -126,16 +107,28 @@ namespace SpSecondHandChatRoom.Hubs
             {
                 UserConnections.Add(uId, Context.ConnectionId);
             }
+            else
+            {
+                UserConnections[uId] = Context.ConnectionId;
+            }
 
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var connection = UserConnections.First(c => c.Value == Context.ConnectionId);
-            UserConnections.Remove(connection.Key);
-
+            var connection = UserConnections.FirstOrDefault(c => c.Value == Context.ConnectionId);
+            if (!connection.Equals(default(KeyValuePair<int, string>)))
+            {
+                UserConnections.Remove(connection.Key);
+            }
+            
             await base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task SendMessageTest(string user, string message)
+        {
+            await Clients.All.ReceiveMessage(user, message);
         }
 
         #region private
