@@ -8,6 +8,17 @@
   height: 166rpx;
   align-items: center;
   position: relative;
+
+  z-index: 99;
+  flex: none;
+  width: 100%;
+  transition: all 400ms;
+}
+
+.header_hide {
+  composes: header;
+  height: 0;
+  overflow: hidden;
 }
 
 .content {

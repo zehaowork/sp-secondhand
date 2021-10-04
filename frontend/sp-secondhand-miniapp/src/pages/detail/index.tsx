@@ -1,6 +1,6 @@
 import React, { useEffect, useState, } from 'react'
 import Taro from '@tarojs/taro';
-import { View, Text, Image } from "@tarojs/components"
+import { View, Text, Image, ScrollView } from "@tarojs/components"
 import s from './index.css'
 import Avatar from '../../components/Avatar/Avatar'
 import API from '../../../utils/API'
@@ -10,6 +10,7 @@ import WeixinIcon from '../../images/weixin.png';
 import MobileIcon from '../../images/phone.png';
 import MessageIcon from '../../images/chat.png';
 import SellerShopIcon from '../../images/shop1.png';
+import { Utils } from '../../../utils/Utils';
 
 
 const Index: React.FC = () => {
@@ -17,6 +18,7 @@ const Index: React.FC = () => {
   const $instance = Taro.getCurrentInstance(); //页面对象
   const itemId = $instance.router?.params.id === undefined ? '' : $instance.router?.params.id;
   const [isFavorite, setIsFavorite] = useState(false);
+  const [showTopHeader, setShowTopHeader] = useState(true);
   const [imgList, setImgList] = useState<String[]>();
 
   useEffect(() => {
@@ -80,11 +82,25 @@ const Index: React.FC = () => {
     for (var i = 0; i < number.length; i++) {
       hiddenString += '*'
     }
-    return hiddenString
+    return hiddenString;
+  }
+
+  const onScroll = (e) => {
+    //convert rpx tp px
+    var px = 166 / 750 * wx.getSystemInfoSync().windowWidth;
+    console.log(e.detail.scrollTop)
+
+    if(e.detail.scrollTop < px ) {
+      setShowTopHeader(true)
+    } else {
+      setShowTopHeader(false)
+    }
   }
 
   return <View className={s.container}>
-    <View className={s.header}>
+    <ScrollView scrollY 
+    onScroll={Utils.throttle(onScroll, 10)}>
+    <View className={showTopHeader ? s.header : s.header_hide}>
       <View className={s.content}>
         <View className={s.user} >
         <Image src={item?.userProfileImgUrl != undefined? item?.userProfileImgUrl: ""} 
@@ -188,6 +204,7 @@ const Index: React.FC = () => {
       <Text className={s.sp_label}>Produced by: 小土豆技术团队2021</Text>
 
     </View>
+    </ScrollView>
   </View>
 }
 
