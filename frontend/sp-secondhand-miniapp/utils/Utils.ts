@@ -22,18 +22,4 @@ export const Utils = {
         }, {});
     },
 
-    throttle: function(fn,delay) {
-		let valid = true
-		return function() {
-			let args = arguments
-		   if(!valid){
-			   return false 
-		   }
-			valid = false
-			setTimeout(() => {
-				fn.apply(null,args);
-				valid = true;
-			}, delay)
-		}
-	},
 }
