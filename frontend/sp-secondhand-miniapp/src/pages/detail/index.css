@@ -15,6 +15,12 @@
   transition: all 400ms;
 }
 
+.header_top{
+  composes:header;
+  /* position:fixed; */
+  background-color: #fff;
+}
+
 .header_hide {
   composes: header;
   height: 0;
@@ -72,6 +78,7 @@
   display: grid;
   gap: 20rpx;
   padding: 20rpx;
+  /* height: 166rpx; */
 }
 
 .price{
