@@ -181,7 +181,7 @@ const Index: React.FC = () => {
         <View className={s.contact}> (加好友时请注明是【小土豆二手】上看到的) </View>
       </View>
 
-        {(item?.weChatId != undefined && item.telephone != "") && <View className={s.user} >
+        {(item?.weChatId != undefined && item.weChatId != "") && <View className={s.user} >
           <View className={s.contact_content} onClick={() => copyToClipboard(item.weChatId)}>
             <View><Image src={WeixinIcon} className={s.icon}/>
               <Text> {hideNumbers(item.weChatId)} </Text></View>
