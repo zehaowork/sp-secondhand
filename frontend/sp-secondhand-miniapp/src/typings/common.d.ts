@@ -37,6 +37,7 @@ declare interface Item  {
     firstLetter:string;
     countryId:number;
     isPopular:boolean;
+    englishName:string;
   }
 
 
