@@ -15,7 +15,8 @@ export default {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: '聊天板',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'black',
+    enablePullDownRefresh: true
   },
 
   tabBar: {
@@ -28,6 +29,5 @@ export default {
       pagePath: "pages/personal/index",
       text: "个人" }]
     
-    } 
-  
+    }
 }

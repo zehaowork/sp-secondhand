@@ -21,11 +21,10 @@ enum Conditions {
 }
 
 const Index: React.FC = () => {
-  const [item, setItem] = useState<Item>(); //商品信息
   const $instance = Taro.getCurrentInstance(); //页面对象
-  const itemId = $instance.router?.params.id === undefined
+  const item = $instance.router?.params.item === undefined
       ? ""
-      : $instance.router?.params.id;
+      : JSON.parse($instance.router?.params.item);
   const [showTopHeader, setShowTopHeader] = useState(true);
   const [imgList, setImgList] = useState<String[]>();
   const [previousPosition, setPreviousPosition] = useState(0);
@@ -35,29 +34,16 @@ const Index: React.FC = () => {
 
   //渲染函数
   useEffect(() => {
-    getItem();
+    // Image List
+    var imgs = item.imgUrls;
+    if (imgs != undefined && imgs != null) {
+      setImgList(imgs);
+    }
   }, []);
 
   const isFav = item != undefined
       ? favorite.favorites.some((fav) => fav.id === item.id)
       : false;
-
-  const getItem = () => {
-    API.SecondHand.getSecondHand(parseInt(itemId, 10))
-      .then((res) => {
-        if (res.statusCode === 200) {
-          setItem(res.data.data);
-          console.log(res.data.data);
-          var imgs = res.data.data.imgUrls;
-          if (imgs != undefined && imgs != null) {
-            setImgList(imgs);
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   //加入收藏
   const add = () => {
