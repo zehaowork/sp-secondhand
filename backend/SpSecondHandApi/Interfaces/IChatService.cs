@@ -11,5 +11,7 @@ namespace SpSecondHandApi.Interfaces
         Task<List<ChatHistoryDto>> GetChatRoomList(long fromUId);
 
         Task<List<ChatHistoryDto>> SearchChatHistory(long fromUId, string keyword);
+
+        Task DeleteChatHistory(long fromUId, long toUId);
     }
 }

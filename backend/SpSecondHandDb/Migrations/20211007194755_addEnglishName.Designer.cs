@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpSecondHandDb;
 
 namespace SpSecondHandDb.Migrations
 {
     [DbContext(typeof(SpShDbContext))]
-    partial class SpShDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211007194755_addEnglishName")]
+    partial class addEnglishName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,9 +70,6 @@ namespace SpSecondHandDb.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("FromDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<long>("FromUid")
                         .HasColumnName("FromUId")
                         .HasColumnType("bigint");
@@ -84,9 +83,6 @@ namespace SpSecondHandDb.Migrations
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime");
-
-                    b.Property<bool>("ToDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<long>("ToUid")
                         .HasColumnName("ToUId")

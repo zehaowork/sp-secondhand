@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using SpSecondHandApi.Interfaces;
+using SpSecondHandDb.Entities;
 using SpSecondHandDb.Interfaces;
 using SpSecondHandModels;
 using SpSecondHandModels.Enums;
@@ -31,7 +32,7 @@ namespace SpSecondHandApi.Services
             {
                 var fromToCond = c.FromUid == fromUId && c.ToUid == toUId;
                 var toFromCond = c.FromUid == toUId && c.ToUid == fromUId;
-                return fromToCond || toFromCond;
+                return IsNotDeleted(c, fromUId) && (fromToCond || toFromCond);
             }, page, 15);
 
             return chatHistories.Select(c => new ChatHistoryDto()
@@ -46,7 +47,8 @@ namespace SpSecondHandApi.Services
 
         public async Task<List<ChatHistoryDto>> GetChatRoomList(long fromUId)
         {
-            var chatHistoryList = await _chatRepository.FindAll(c => c.FromUid == fromUId || c.ToUid == fromUId);
+            var chatHistoryList = await _chatRepository.FindAll(c => IsNotDeleted(c, fromUId) &&
+                                                                     (c.FromUid == fromUId || c.ToUid == fromUId));
             var chatRooms = chatHistoryList.GroupBy(ch => new
                 {
                     MinId = ch.FromUid <= ch.ToUid ? ch.FromUid : ch.ToUid,
@@ -70,7 +72,7 @@ namespace SpSecondHandApi.Services
                 var chatList = await _chatRepository.FindAll(c =>
                     c.FromUid == senderId && c.ToUid == fromUId && c.IsRead == false);
                 room.UnreadMsgNum = chatList.Count();
-                var lastShareItem = (await _chatRepository.FindAll(c => c.Message.StartsWith("{\"id\":"))).FirstOrDefault();
+                var lastShareItem = (await _chatRepository.FindAll(c => IsNotDeleted(c, fromUId) && c.Message.StartsWith("{\"id\":"))).FirstOrDefault();
                 if (lastShareItem != null)
                 {
                     var item = JObject.Parse(lastShareItem.Message);
@@ -85,7 +87,7 @@ namespace SpSecondHandApi.Services
 
         public async Task<List<ChatHistoryDto>> SearchChatHistory(long fromUId, string keyword)
         {
-            var chatHistories = await _chatRepository.FindAll(c => (c.FromUid == fromUId || c.ToUid == fromUId) && c.Message.Contains(keyword));
+            var chatHistories = await _chatRepository.FindAll(c => (IsNotDeleted(c, fromUId) &&c.FromUid == fromUId || c.ToUid == fromUId) && c.Message.Contains(keyword));
 
             return chatHistories.Select(c => new ChatHistoryDto()
             {
@@ -95,6 +97,24 @@ namespace SpSecondHandApi.Services
                 Message = c.Message,
                 Time = c.Time,
             }).ToList();
+        }
+
+        public async Task DeleteChatHistory(long fromUId, long toUId)
+        {
+            var chatHistoriesFrom = (await _chatRepository.FindAll(c => c.FromUid == fromUId && c.ToUid == toUId)).ToList();
+            var chatHistoriesTo = (await _chatRepository.FindAll(c => c.FromUid == toUId && c.ToUid == fromUId)).ToList();
+            chatHistoriesFrom.ForEach(c => c.FromDeleted = true);
+            chatHistoriesTo.ForEach(c => c.ToDeleted = true);
+
+            await _chatRepository.UpdateAll(chatHistoriesFrom);
+            await _chatRepository.UpdateAll(chatHistoriesTo);
+        }
+
+        private bool IsNotDeleted(ChatHistory chat, long fromUId)
+        {
+            var matchFrom = chat.FromUid == fromUId && chat.FromDeleted == false;
+            var matchTo = chat.ToUid == fromUId && chat.ToDeleted == false;
+            return matchFrom || matchTo;
         }
     }
 }

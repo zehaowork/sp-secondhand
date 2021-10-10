@@ -10,6 +10,8 @@ namespace SpSecondHandDb.Entities
         public string Message { get; set; }
         public DateTime Time { get; set; }
         public bool IsRead { get; set; }
+        public bool FromDeleted { get; set; }
+        public bool ToDeleted { get; set; }
 
         public virtual User FromU { get; set; }
         public virtual User ToU { get; set; }

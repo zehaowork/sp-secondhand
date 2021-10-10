@@ -36,7 +36,7 @@ namespace SpSecondHandApi.Controllers
             {
                 _logger.LogError($"Failed to get chat history for id {fromUId}: ", e.Message);
 
-                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<SecondHandDto>()
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<ChatHistoryDto>()
                 {
                     Message = $"Failed to get chat history: {e.Message}",
                     Data = null
@@ -67,7 +67,7 @@ namespace SpSecondHandApi.Controllers
             {
                 _logger.LogError($"Failed to get chat rooms for id {fromUId}: ", e.Message);
 
-                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<SecondHandDto>()
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<ChatHistoryDto>()
                 {
                     Message = $"Failed to get chat history: {e.Message}",
                     Data = null
@@ -97,7 +97,7 @@ namespace SpSecondHandApi.Controllers
             {
                 _logger.LogError($"Failed to search chat history for user {fromUId}: ", e.Message);
 
-                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<SecondHandDto>()
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<ChatHistoryDto>()
                 {
                     Message = $"Failed to search chat history: {e.Message}",
                     Data = null
@@ -106,6 +106,37 @@ namespace SpSecondHandApi.Controllers
             finally
             {
                 _logger.LogInformation($"{nameof(SearchKeyword)} complete");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<RespondObject<string>>> DeleteChatHistory(int fromUId, int toUId)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(DeleteChatHistory)} called.");
+
+                await _chatService.DeleteChatHistory(fromUId, toUId);
+
+                return Ok(new RespondObject<string>()
+                {
+                    Message = "Success",
+                    Data = "Successfully deleted."
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to delete chat history for user {fromUId}: ", e.Message);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new RespondObject<string>()
+                {
+                    Message = $"Failed to delete chat history: {e.Message}",
+                    Data = null
+                });
+            }
+            finally
+            {
+                _logger.LogInformation($"{nameof(DeleteChatHistory)} complete");
             }
         }
 
