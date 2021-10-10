@@ -12,6 +12,7 @@ interface Props {
     itemList:Array<Item>;
     keyword?:string;
     showPlaceholder?:boolean;
+    showLoading:boolean;
 }
 
 //容器组件
@@ -29,11 +30,11 @@ const GoodsList: React.FC<Props> = (props)=>{
     
     return<View className={s.container} >
         {/* 列表 */}
-        {props.itemList.length?<View className={s.list} >
+        {props.itemList.length ?<View className={s.list} >
         {renderList}
         </View>
         :
-        props.showPlaceholder && <Image className={s.img} src={EmptyListIcon} ></Image>}
+        props.showPlaceholder  && !props.showLoading && <Image className={s.img} src={EmptyListIcon} ></Image>}
     </View>
 }
 export default GoodsList;

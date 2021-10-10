@@ -189,7 +189,7 @@ const Result:React.FC<any> = ()=>{
                 </Button>
             </View>
         </Header>
-        <GoodsList showPlaceholder keyword={keyword} isFavouritesPage={false} itemList={itemList} />
+        <GoodsList showLoading={showLoading} showPlaceholder keyword={keyword} isFavouritesPage={false} itemList={itemList} />
         {
             itemRecommendationList.length !==0
             &&
@@ -198,7 +198,7 @@ const Result:React.FC<any> = ()=>{
                 <AtDivider content='周边好物' fontColor='#aaaaaa' lineColor='#aaaaaa' />
                 </View>
                 {/* 异地物品 */}
-                <GoodsList keyword={keyword} isFavouritesPage={false} itemList={itemRecommendationList} />
+                <GoodsList showLoading={showLoading} keyword={keyword} isFavouritesPage={false} itemList={itemRecommendationList} />
             </React.Fragment>
         }
         <InlineLoader showLoading={showLoading} />

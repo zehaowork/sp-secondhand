@@ -1,7 +1,9 @@
 import Taro from '@tarojs/taro';
 import { searchSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
 //服务器地址
-const BASE_URL:String = 'http://test.smallpotatoestech.com:8087/api/';
+const BASE_URL:string = 'http://test.smallpotatoestech.com:8087/api/';
+const GOOGLE_MAP_BASE_URL:string ="https://maps.googleapis.com/";
+const GOOGLE_MAP_API_KEY:string = "AIzaSyAPHHJa3I5sdAOkJPxL0j3XkuhPkZkQEY4";
 const header:String = 'application/x-www-form-urlencoded';
 
 enum Method {
@@ -100,6 +102,34 @@ const API = {
             })
         }
     },
+    GoogleMaps:{
+        getGeocoding:()=>{
+            return Taro.request({
+                url:GOOGLE_MAP_BASE_URL+"geolocation/v1/geolocate?key="+GOOGLE_MAP_API_KEY
+            })
+        },
+        getPlaceAutocomplete:(keyword:string)=>{
+            return Taro.request({
+                url:GOOGLE_MAP_BASE_URL+"maps/api/place/autocomplete/json"+
+                "?input="+keyword+
+                "&components=country:gb"+
+                "&language=zh-CN"+
+                "&key="+GOOGLE_MAP_API_KEY,
+                method:Method.GET,
+                header:header,
+            })
+        },
+        getReverseGeoEncoding:(latlng:string)=>{
+            return Taro.request({
+                url:GOOGLE_MAP_BASE_URL+'maps/api/geocode/json'+
+                "?latlng="+latlng+
+                "&language=zh-CN"+
+                "&key="+GOOGLE_MAP_API_KEY,
+                header:header,
+                method:Method.GET
+            })
+        }
+    }
     
 }
 export default API;
