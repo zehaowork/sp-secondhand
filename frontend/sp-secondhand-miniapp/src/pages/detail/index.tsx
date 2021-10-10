@@ -9,8 +9,9 @@ import WeixinIcon from "../../images/weixin.png";
 import MobileIcon from "../../images/phone.png";
 import MessageIcon from "../../images/chat.png";
 import SellerShopIcon from "../../images/shop1.png";
-import { addFavorite,deleteFavorite } from '../../actions/favorite';
-import {useDispatch,useSelector} from 'react-redux';
+import { addFavorite, deleteFavorite } from "../../actions/favorite";
+import { useDispatch, useSelector } from "react-redux";
+import { Utils } from "../../../utils/Utils";
 
 enum Conditions {
   BrandNew = "全新",
@@ -30,14 +31,16 @@ const Index: React.FC = () => {
   const [previousPosition, setPreviousPosition] = useState(0);
   const [isNewFav, setIsNewFav] = useState(false);
   const dispatch = useDispatch();
-  const favorite = useSelector(({favorite}) => favorite);
+  const favorite = useSelector(({ favorite }) => favorite);
 
-  //渲染函数 
+  //渲染函数
   useEffect(() => {
     getItem();
   }, []);
 
-  const isFav = item!=undefined? favorite.favorites.some(fav => fav.id === item.id) : false
+  const isFav = item != undefined
+      ? favorite.favorites.some((fav) => fav.id === item.id)
+      : false;
 
   const getItem = () => {
     API.SecondHand.getSecondHand(parseInt(itemId, 10))
@@ -57,20 +60,20 @@ const Index: React.FC = () => {
   };
 
   //加入收藏
-  const add = ()=>{
-    if(item!=undefined){
-      dispatch(addFavorite({userId:333, item:item}))
+  const add = () => {
+    if (item != undefined) {
+      dispatch(addFavorite({ userId: 333, item: item }));
       setIsNewFav(true);
     }
-  }
+  };
 
   //删除收藏
-  const del = ()=>{
-    if(item!=undefined){
-      dispatch(deleteFavorite({userId:333,item:item}))
+  const del = () => {
+    if (item != undefined) {
+      dispatch(deleteFavorite({ userId: 333, item: item }));
       setIsNewFav(false);
     }
-  }
+  };
 
   //复制卖家联系方式
   const copyToClipboard = (contactDetail: string) => {
@@ -119,9 +122,9 @@ const Index: React.FC = () => {
     setPreviousPosition(currentPosition);
   };
 
-  const getCondition = (condition:string)=>{
+  const getCondition = (condition: string) => {
     return Conditions[condition];
-  }
+  };
 
   return (
     <View className={s.container}>
@@ -138,9 +141,11 @@ const Index: React.FC = () => {
             />
             <View className={s.infotag}>
               <View className={s.name}>{item?.userName}</View>
-              {/* TODO: time formatter */}
-              {item?.publishTime} 发布于
-              <Text style={{ fontWeight: 500 }}> {item?.cityName}</Text>
+              <View>
+                {Utils.formatDate(item?.publishTime)}
+                发布于
+                <Text style={{ fontWeight: 500 }}> {item?.cityName}</Text>
+              </View>
             </View>
             <AtIcon
               className={s.heart}
@@ -166,15 +171,22 @@ const Index: React.FC = () => {
           <View className={s.price}>£ {item?.price}</View>
           <Text className={".text-Body"}>{item?.description}</Text>
 
-          {item?.categoryName!=undefined && <View className={s.category_label}>
-            产品类型
-            <View className={s.category}> {item.categoryName} </View>
-          </View>}
+          {item?.categoryName != undefined && (
+            <View className={s.category_label}>
+              产品类型
+              <View className={s.category}> {item.categoryName} </View>
+            </View>
+          )}
 
-          {item?.condition!=undefined && <View className={s.category_label}>
-            新旧程度
-            <View className={s.category}> { getCondition(item?.condition) } </View>
-          </View>}
+          {item?.condition != undefined && (
+            <View className={s.category_label}>
+              新旧程度
+              <View className={s.category}>
+                {" "}
+                {getCondition(item?.condition)}{" "}
+              </View>
+            </View>
+          )}
 
           {imgList != undefined &&
             imgList.map((img) => (
