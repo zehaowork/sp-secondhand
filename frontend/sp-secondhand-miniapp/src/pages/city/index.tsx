@@ -4,7 +4,8 @@ import { ScrollView, View } from '@tarojs/components'
 import Tag from '../../components/Tag/Tag'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import s from './index.css'
-import { AtIcon } from 'taro-ui'
+import { AtIcon, AtToast } from 'taro-ui'
+import "taro-ui/dist/style/components/toast.scss";
 import Indexes from '../../components/Indexes/Indexes'
 import API from '../../../utils/API';
 import { City } from 'src/typings/common'
@@ -18,6 +19,8 @@ const Index: React.FC<Props> = () => {
     const [scrollAnchor, setScrollAnchor] = useState<string>('A');
     const [currentCity, setCurrentCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false,englishName:"United Kingdom"});
     const [showLoading, setShowLoading] = useState(false);
+    const [locateSuccess, setLocateSuccess] = useState(false);
+    const [locateFail, setLocateFail] = useState(false);
     const [keyword, setKeyword] = useState("");
 
     useEffect(() => {
@@ -26,17 +29,18 @@ const Index: React.FC<Props> = () => {
     }, [])
     
     const getLocationPermission = ()=>{
-        console.log('hello')
         Taro.getLocation({
             type: 'wgs84'
         }).then(res =>{
-            console.log(res);
             API.GoogleMaps.getReverseGeoEncoding(res.latitude+","+res.longitude)
             .then(res => {
                 const locateCity = res.data.results[0].address_components[2].short_name;
                 const foundCity = cityList.find(city => city.englishName == locateCity);
                 if(foundCity != undefined){
-                    setCurrentCity(foundCity)
+                    setCurrentCity(foundCity);
+                    setLocateSuccess(true);
+                }else {
+                    setLocateFail(true);
                 }
             })
         }).catch(err =>{
@@ -146,6 +150,8 @@ const Index: React.FC<Props> = () => {
                 </View>
             </View>
             {showLoading && <InlineLoader showLoading ={showLoading} message="加载城市列表中..."  />}
+            <AtToast status="success" text={` $你已成功定位到${currentCity?.name}`} isOpened={locateSuccess} onClose={() => setLocateSuccess(false)}></AtToast>
+            <AtToast status="error" text="无法找到对应的城市，请利用搜索或下滑点选所在城市" isOpened={locateFail} onClose={() => setLocateFail(false)}></AtToast>
         </ScrollView>
     )
 }
