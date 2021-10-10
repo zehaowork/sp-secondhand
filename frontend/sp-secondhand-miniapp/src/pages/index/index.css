@@ -25,7 +25,16 @@
   padding: 10rpx 20rpx;
   z-index: 999;
   border-radius: 30rpx;
+  opacity: 0;
+  animation: fade 3s;
 }
+
+@keyframes fade {
+  0% { opacity: 1 }
+  80% { opacity: 1 }
+  100% { opacity: 0 }
+}
+
 .addText {
   color: #fff;
   font-size: 24rpx;
