@@ -12,6 +12,13 @@ import SellerShopIcon from "../../images/shop1.png";
 import { addFavorite,deleteFavorite } from '../../actions/favorite';
 import {useDispatch,useSelector} from 'react-redux';
 
+enum Conditions {
+  BrandNew = "全新",
+  LikeNew = "几乎全新",
+  MinorFlaw = "轻微划痕",
+  ObviousFlaw = "明显划痕",
+}
+
 const Index: React.FC = () => {
   const [item, setItem] = useState<Item>(); //商品信息
   const $instance = Taro.getCurrentInstance(); //页面对象
@@ -112,6 +119,10 @@ const Index: React.FC = () => {
     setPreviousPosition(currentPosition);
   };
 
+  const getCondition = (condition:string)=>{
+    return Conditions[condition];
+  }
+
   return (
     <View className={s.container}>
       <View className={showTopHeader ? s.header_top : s.header_hide}>
@@ -155,17 +166,16 @@ const Index: React.FC = () => {
           <View className={s.price}>£ {item?.price}</View>
           <Text className={".text-Body"}>{item?.description}</Text>
 
-          {/* TODO: 要等新的数据api 再更具有什么category去显示 */}
-          <View className={s.category_label}>
-            {" "}
+          {item?.categoryName!=undefined && <View className={s.category_label}>
             产品类型
-            <View className={s.category}> {item?.categoryName} </View>
-          </View>
-          <View className={s.category_label}>
-            {" "}
+            <View className={s.category}> {item.categoryName} </View>
+          </View>}
+
+          {item?.condition!=undefined && <View className={s.category_label}>
             新旧程度
-            <View className={s.category}>{item?.categoryName} </View>
-          </View>
+            <View className={s.category}> { getCondition(item?.condition) } </View>
+          </View>}
+
           {imgList != undefined &&
             imgList.map((img) => (
               <Image
