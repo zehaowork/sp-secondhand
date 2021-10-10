@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 export const Utils = {
     /**
      * 
@@ -21,4 +22,11 @@ export const Utils = {
             return rv;
         }, {});
     },
+
+    formatDate:function(time) {
+		var format = 'YYYY-MM-DD';
+		const formatted_time = moment(time).format(format);
+		return formatted_time
+	},
+
 }

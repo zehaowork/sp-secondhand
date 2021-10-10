@@ -20,6 +20,7 @@ declare interface Item  {
     isSold:boolean;
     popularity:number;
     description:string;
+    condition:string;
   }
 
   //Banner图片

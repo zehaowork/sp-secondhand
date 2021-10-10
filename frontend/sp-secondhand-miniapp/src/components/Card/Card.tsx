@@ -33,14 +33,13 @@ const Card: React.FC<Props> = (props) =>{
     const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite);
 
-
     //定义行为
     
     // 打开商品详情
     const toDetail = ()=>{
         Taro.navigateTo({
-            url:'../detail/index?id='+props.item.id
-          })
+            url:'../detail/index?item='+JSON.stringify(props.item)
+        })
     }
 
     //加入收藏
@@ -63,17 +62,21 @@ const Card: React.FC<Props> = (props) =>{
         }
     }, [isFav])
     
+    var onClick = (e) => {
+        e[0].stopPropagation();
+        isFav? del() : add();
+    }
 
     return <View onClick={toDetail} className={s.container}>
     <View className={s.item} >
-    <Image src={"http://120.79.59.51:8087/"+props.item.imgUrls} mode='aspectFill' className={s.image} >
+    <Image src={"http://120.79.59.51:8087/"+props.item.imgUrls[0]} mode='aspectFill' className={s.image} >
     </Image>
     <View className={s.icon} >
     <AtIcon className={isNewFav && s.heartBeat} 
            value={isFav?'heart-2':'heart'} 
            size='20' 
            color={isFav?'#e54d42':'white'}
-           onClick = {isFav?del:add}
+           onClick = {onClick.bind(this)}
          />
     </View>
          
