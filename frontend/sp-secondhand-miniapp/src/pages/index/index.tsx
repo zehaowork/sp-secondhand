@@ -72,7 +72,10 @@ const Index: React.FC<Props> = ()=>{
 
   usePullDownRefresh(()=>{
     setPage(0);
+    setShowLoading(true);
+    setItemList([]);
     getList(0,catId,selectedSortOption[0],city.id);
+    Taro.stopPullDownRefresh()
   })
   
   useDidShow(()=>{
