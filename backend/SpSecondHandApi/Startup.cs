@@ -6,9 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SpSecondHandApi.HouseRent;
 using SpSecondHandApi.Interfaces;
 using SpSecondHandApi.Services;
 using SpSecondHandDb;
+using SpSecondHandDb.HouseRent;
 using SpSecondHandDb.Interfaces;
 using SpSecondHandDb.Repositories;
 
@@ -98,6 +100,7 @@ namespace SpSecondHandApi
             services.AddScoped<IUserContactRepository, UserContactRepository>();
             services.AddScoped<IStaticDataRepository, StaticDataRepository>();
             services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
         }
 
         private void AddControllerServices(IServiceCollection services)
@@ -107,6 +110,7 @@ namespace SpSecondHandApi
             services.AddScoped<IStaticDataServices, StaticDataService>();
             services.AddScoped<IWeChatService, WeChatService>();
             services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IPropertyService, PropertyService>();
         }
 
         #endregion

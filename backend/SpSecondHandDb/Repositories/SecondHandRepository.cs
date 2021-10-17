@@ -56,6 +56,8 @@ namespace SpSecondHandDb.Repositories
             return await Task.FromResult(secondHands);
         }
 
+        #region Favorites
+
         public async Task<IEnumerable<SecondHand>> GetFavoriteSecondHands(long userId)
         {
             var fav = Context.Favorites.Where(f => f.UserId == userId);
@@ -112,5 +114,7 @@ namespace SpSecondHandDb.Repositories
         {
             return await Context.Favorites.AnyAsync(f => f.UserId == userId && f.SecondHandId == secondHandId);
         }
+
+        #endregion
     }
 }

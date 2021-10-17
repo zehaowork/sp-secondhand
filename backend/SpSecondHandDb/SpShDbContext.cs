@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpSecondHandDb.Entities;
+using SpSecondHandDb.Entities.HouseRent;
 
 namespace SpSecondHandDb
 {
@@ -19,6 +20,7 @@ namespace SpSecondHandDb
         public virtual DbSet<UserContact> UserContacts { get; set; }
         public virtual DbSet<Favorite> Favorites { get; set; }
         public virtual DbSet<RecommendedSearch> RecommendedSearches { get; set; }
+        public virtual DbSet<Property> Properties { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
