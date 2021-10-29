@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { View, Image, OpenData, RichText } from "@tarojs/components";
+import { View, Image, RichText } from "@tarojs/components";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,6 +15,7 @@ import CategoryTag from "./CategoryTag/CategoryTag";
 import { Utils } from "../../../utils/Utils";
 
 import { addFavorite, deleteFavorite } from "../../actions/favorite";
+import API from "../../../utils/API";
 
 interface Props {
   item: Item;
@@ -42,13 +43,13 @@ const Card: React.FC<Props> = (props) => {
 
   //加入收藏
   const add = () => {
-    dispatch(addFavorite({ userId: 333, item: props.item }));
+    dispatch(addFavorite({ userId: 4, item: props.item }));
     setIsNewFav(true);
   };
 
   //删除收藏
   const del = () => {
-    dispatch(deleteFavorite({ userId: 333, item: props.item }));
+    dispatch(deleteFavorite({ userId: 4, item: props.item }));
     setIsNewFav(false);
   };
 
@@ -66,12 +67,42 @@ const Card: React.FC<Props> = (props) => {
   };
 
   const handleDots = (e) => {
-    console.log(e);
     e.stopPropagation();
     setIsOpened(!isOpened);
   };
 
+  const toPublish = () => {
+    Taro.redirectTo({
+      url: "/src/pages/publish/index?itemId=" + props.item.id,
+    });
+  };
+
+  const modifyStatus = (status: string) => {
+    API.SecondHand.modifySecondHand({ ...props.item, status: status }).then(
+      (res) => {
+        if (res.statusCode === 200) {
+          Taro.showToast({
+            title: "修改成功",
+            icon: "success",
+          });
+        }
+      }
+    );
+  };
+
+  const handleDelete = () => {
+    API.SecondHand.deleteSecondHand(props.item.id).then((res) => {
+      if (res.statusCode === 200) {
+        Taro.showToast({
+          title: "删除成功",
+          icon: "success",
+        });
+      }
+    });
+  };
+
   return (
+    // TODO: 已售UI
     <View onClick={toDetail} className={s.container}>
       <View className={s.item}>
         <Image
@@ -140,17 +171,37 @@ const Card: React.FC<Props> = (props) => {
         )}
       </View>
       {/* 编辑商品 */}
-      <AtActionSheet
-        isOpened={isOpened}
-        cancelText="取消"
-        onCancel={() => {setIsOpened(false)}}
-        onClose={() => setIsOpened(!isOpened)}
-      >
-        <AtActionSheetItem>重新编辑</AtActionSheetItem>
-        <AtActionSheetItem>已经售出</AtActionSheetItem>
-        <AtActionSheetItem>暂时下架</AtActionSheetItem>
-        <AtActionSheetItem>彻底删除</AtActionSheetItem>
-      </AtActionSheet>
+      <View onClick={(e) => e.stopPropagation()}>
+        <AtActionSheet
+          isOpened={isOpened}
+          cancelText="取消"
+          onCancel={() => setIsOpened(false)}
+          onClose={() => setIsOpened(!isOpened)}
+        >
+          {/* TODO: REDUX */}
+          <AtActionSheetItem onClick={() => toPublish()}>
+            重新编辑
+          </AtActionSheetItem>
+          {props.item.status == "OnSale" && (
+            <AtActionSheetItem onClick={() => modifyStatus("Sold")}>
+              已经售出
+            </AtActionSheetItem>
+          )}
+          {props.item.status == "OnSale" && (
+            <AtActionSheetItem onClick={() => modifyStatus("Unpublished")}>
+              暂时下架
+            </AtActionSheetItem>
+          )}
+          {props.item.status == "Unpublished" && (
+            <AtActionSheetItem onClick={() => modifyStatus("OnSale")}>
+            上架商品
+          </AtActionSheetItem>
+          )}
+          <AtActionSheetItem onClick={() => handleDelete()}>
+            彻底删除
+          </AtActionSheetItem>
+        </AtActionSheet>
+      </View>
     </View>
   );
 };
