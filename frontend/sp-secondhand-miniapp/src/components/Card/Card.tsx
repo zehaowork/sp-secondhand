@@ -102,7 +102,6 @@ const Card: React.FC<Props> = (props) => {
   };
 
   return (
-    // TODO: 已售UI
     <View onClick={toDetail} className={s.container}>
       <View className={s.item}>
         <Image
@@ -110,6 +109,7 @@ const Card: React.FC<Props> = (props) => {
           mode="aspectFill"
           className={s.image}
         ></Image>
+        {props.item.status == "Sold" && <View className={s.sold}>已出售</View>}
         <View className={s.icon}>
           <AtIcon
             className={isNewFav && s.heartBeat}
