@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
 import { View, Text, Image, ScrollView } from "@tarojs/components";
 import s from "./index.css";
-import API from "../../../utils/API";
-import { Item } from "src/typings/common";
 import { AtIcon } from "taro-ui";
 import WeixinIcon from "../../images/weixin.png";
 import MobileIcon from "../../images/phone.png";
@@ -20,11 +18,21 @@ enum Conditions {
   ObviousFlaw = "明显划痕",
 }
 
+enum RoomTypes {
+  Single = "单人间",
+  Ensuite = "单人间包独立卫浴",
+  Studio = "单间公寓",
+  Entire = "整套",
+}
+
 const Index: React.FC = () => {
   const $instance = Taro.getCurrentInstance(); //页面对象
   const item = $instance.router?.params.item === undefined
       ? ""
       : JSON.parse($instance.router?.params.item);
+  const isProperty = $instance.router?.params.isProperty === undefined
+      ? ""
+      : $instance.router?.params.isProperty === 'true';
   const [showTopHeader, setShowTopHeader] = useState(true);
   const [imgList, setImgList] = useState<String[]>();
   const [previousPosition, setPreviousPosition] = useState(0);
@@ -34,6 +42,7 @@ const Index: React.FC = () => {
 
   //渲染函数
   useEffect(() => {
+    console.log("prop: " + isProperty)
     // Image List
     var imgs = item.imgUrls;
     if (imgs != undefined && imgs != null) {
@@ -112,6 +121,10 @@ const Index: React.FC = () => {
     return Conditions[condition];
   };
 
+  const getRoomType = (roomType: string) => {
+    return RoomTypes[roomType];
+  };
+
   return (
     <View className={s.container}>
       <View className={showTopHeader ? s.header_top : s.header_hide}>
@@ -153,7 +166,7 @@ const Index: React.FC = () => {
         style={{ height: "100vh" }}
       >
         {/* 商品信息 */}
-        <View className={s.body_details}>
+        {!isProperty && <View className={s.body_details}>
           <View className={s.price}>£ {item?.price}</View>
           <Text className={".text-Body"}>{item?.description}</Text>
 
@@ -182,7 +195,59 @@ const Index: React.FC = () => {
                 className={s.image}
               ></Image>
             ))}
-        </View>
+        </View> }
+
+        {isProperty && <View className={s.body_details}>
+        <View className={s.price}>£ {item?.pricePerWeek}/每周</View>
+          <Text className={".text-Body"}>{item?.description}</Text>
+
+          {item?.startDate != undefined && (
+            <View className={s.category_label}>
+              租期
+              <View className={s.category}>
+                 {Utils.formatDate(item.startDate)}
+              </View>
+              至
+              <View className={s.category}>
+                 {Utils.formatDate(item.endDate)}
+              </View>
+            </View>
+          )} 
+
+          {item?.buildingType != undefined && (
+            <View className={s.category_label}>
+              房源类型
+              <View className={s.category}> {item.buildingType} </View>
+            </View>
+          )}
+
+          {item?.facilities != undefined && (
+            <View className={s.category_label}>
+              房源设施
+              <View className={s.category}>
+                {item.facilities}
+              </View>
+            </View>
+          )}
+
+          {item?.roomType != undefined && (
+            <View className={s.category_label}>
+              房间类型
+              <View className={s.category}>
+                {getRoomType(item.roomType)}
+              </View>
+            </View>
+          )} 
+
+          {imgList != undefined &&
+            imgList.map((img) => (
+              <Image
+                src={"http://120.79.59.51:8087/" + img}
+                mode="widthFix"
+                className={s.image}
+              />
+            ))}
+        </View> }        
 
         <View className={s.regular_divider}></View>
 
@@ -201,7 +266,7 @@ const Index: React.FC = () => {
                 />
                 <View className={s.name}>{item?.userName}</View>
               </View>
-              <View className={s.btn}>
+              {!isProperty && <View className={s.btn}>
                 <View className={s.btn_with_icon} onClick={toChatroom}>
                   <Image src={MessageIcon} className={s.icon} />
                   联系卖家
@@ -210,14 +275,14 @@ const Index: React.FC = () => {
                   <Image src={SellerShopIcon} className={s.icon} />
                   <Text>Ta的店铺</Text>
                 </View>
-              </View>
+              </View>}
             </View>
           </View>
 
           <View className={s.thin_divider}></View>
 
           <View className={s.user}>
-            <View className={s.contact_label}>交易地址</View>
+            <View className={s.contact_label}> {!isProperty ? "交易地址" : "房源地址" } </View>
             <View className={s.contact}> {item?.address}</View>
           </View>
 
@@ -238,7 +303,7 @@ const Index: React.FC = () => {
                   <Image src={WeixinIcon} className={s.icon} />
                   <Text> {hideNumbers(item.weChatId)} </Text>
                 </View>
-                <View className={s.copy}> 点击复制卖家微信</View>
+                <View className={s.copy}> 点击复制用户微信</View>
               </View>
             </View>
           )}
@@ -253,7 +318,7 @@ const Index: React.FC = () => {
                   <Image src={MobileIcon} className={s.icon} />
                   <Text> {hideNumbers(item.telephone)} </Text>
                 </View>
-                <View className={s.copy}> 点击复制卖家电话</View>
+                <View className={s.copy}> 点击复制用户电话</View>
               </View>
             </View>
           )}

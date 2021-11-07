@@ -23,6 +23,7 @@ interface Props {
     isFavouritesPage?:boolean;
     isShopPage?:boolean;
     keyword?:string;
+    isProperty:boolean;
 }
 
 //商品显示组件
@@ -38,7 +39,7 @@ const Card: React.FC<Props> = (props) =>{
     // 打开商品详情
     const toDetail = ()=>{
         Taro.navigateTo({
-            url:'../detail/index?item='+JSON.stringify(props.item)
+            url:'../detail/index?isProperty=' + props.isProperty + '&&item='+JSON.stringify(props.item)
         })
     }
 

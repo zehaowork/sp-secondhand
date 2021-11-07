@@ -57,6 +57,15 @@ declare interface Item  {
     userId:number;
     secondHandId:number
   }
+
+  declare interface searchPropertyParam {
+    catId:number;
+    cityId:number;
+    keyword?:string;
+    page:number;
+    size:number
+    sort:string;
+  }
   
   //Reducer接口
   declare interface favoriteReducer{

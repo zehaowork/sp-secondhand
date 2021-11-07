@@ -13,6 +13,7 @@ interface Props {
     keyword?:string;
     showPlaceholder?:boolean;
     showLoading:boolean;
+    isProperty:boolean;
 }
 
 //容器组件
@@ -24,6 +25,7 @@ const GoodsList: React.FC<Props> = (props)=>{
           item={item} 
           isFavouritesPage={props.isFavouritesPage}
           isShopPage={props.isShopPage}
+          isProperty={props.isProperty}
         />
     })
 

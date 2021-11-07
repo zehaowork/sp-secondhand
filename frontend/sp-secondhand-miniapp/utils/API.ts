@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { searchSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
+import { searchSecondHandParam, toggleFavoriteParam, searchPropertyParam } from 'src/typings/common';
 //服务器地址
 const BASE_URL:string = 'http://test.smallpotatoestech.com:8087/api/';
 const GOOGLE_MAP_BASE_URL:string ="https://maps.googleapis.com/";
@@ -71,6 +71,19 @@ const API = {
         }
 
     },
+
+    //Property related AI
+    PropertyData: {
+        getProperties: function(data:searchPropertyParam) {
+            return Taro.request({
+                url:BASE_URL+'property',
+                data:data,
+                header:header,
+                method:Method.GET,   
+            }) 
+        }
+    }, 
+
     //主页相关动态资源API
     StaticData:{
         getCategories: function() {

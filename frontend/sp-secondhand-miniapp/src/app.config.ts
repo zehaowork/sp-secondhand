@@ -9,7 +9,7 @@ export default {
     'pages/city/index',
     'pages/shop/index',
     'pages/detail/index',
-    'pages/webview/index'
+    'pages/webview/index',
   ],
   permission: {
     "scope.userLocation": {
