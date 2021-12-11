@@ -8,7 +8,6 @@ export default {
     'pages/search/result/result',
     'pages/city/index',
     'pages/shop/index',
-    'pages/shop/unpublished/index',
     'pages/detail/index',
     'pages/webview/index'
   ],

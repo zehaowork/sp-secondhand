@@ -1,62 +1,53 @@
 import { View, Text } from "@tarojs/components";
 import React, { useState, useEffect } from "react";
-import Taro from '@tarojs/taro';
 import s from "./index.css";
 import Tag from "../../components/Tag/Tag";
 import GoodsList from "../../components/GoodsList/GoodsList";
-import API from "../../../utils/API";
 import { Item } from "src/typings/common";
+import { useDispatch, useSelector } from "react-redux";
+import { getMyItemList } from "../../actions/myItemList";
+import {usePullDownRefresh} from '@tarojs/taro';
+
 
 interface Props {}
 const Index: React.FC<Props> = () => {
-  const [items, setItems] = useState<Item[]>(); //item list
-  const [itemList, setItemList] = useState<Item[]>();
+  const [itemList, setItemList] = useState<Item[]>([]);
   const [activeId, setActiveId] = useState(0);
   const [tagSize, setTagSize] = useState<number>();
 
+  const dispatch = useDispatch();
+  const myItemList = useSelector(({myItemList}) => myItemList); // 储存着reducer里面的三个state
 
   useEffect(() => {
-    getItems();
-  }, []);
+    if(myItemList.itemList.length === 0 && !myItemList.isLoading) {
+      getItemList(4); //testUser
+    }
+  }, []); 
 
-  //TODO: 下拉刷新
-  //TODO: 分页
+  useEffect(() => {
+    if(myItemList.itemList.length != 0) {
+      setItemList(myItemList.itemList.filter((item) => item.status != "Unpublished"));
+    }
+  }, [myItemList.itemList]); 
 
-  const getItems = () => {
-    API.SecondHand.getSecondHandByUserId({
-      userId:4, 
-      page:0,
-      size:10,
-    })
-      .then((res) => {
-        if (res.statusCode === 200) {
-          // console.log(res.data.data);
-          setItems(res.data.data);
-          setItemList(res.data.data.filter((item) => item.status != "Unpublished"));
-        }
-      })
-      .catch((err) => {
-        //TODO:添加错误信息
-      });
-  };
+  usePullDownRefresh(()=>{
+    getMyItemList( 4);
+})
+
+  const getItemList = (userId:number) => {
+    dispatch(getMyItemList(userId));
+}
 
   const handleFilter = (status: string) => {
-    var itemList;
+    var itemList = [];
       if (status == "All") {
-        itemList = items?.filter((item) => item.status != "Unpublished");
+        itemList = myItemList.itemList.filter((item) => item.status != "Unpublished");
       } else {
-        itemList = items?.filter((item) => item.status == status);
+        itemList = myItemList.itemList.filter((item) => item.status == status);
       }
       setItemList(itemList);
       setTagSize(itemList.length);
   };
-
-  const handleUnpublished = () => {
-    var itemList = items?.filter((item) => item.status == "Unpublished");
-    Taro.navigateTo({
-        url: "./unpublished/index?itemlist=" + JSON.stringify(itemList),
-      });
-  }
 
   return (
     <View className={s.container}>
@@ -70,7 +61,7 @@ const Index: React.FC<Props> = () => {
             }}
             active={activeId == 0 ? true : false}
           >
-            全部商品
+            全部商品 {activeId == 0? tagSize: ""}
           </Tag>
           <Tag
             size="normal"
@@ -93,19 +84,17 @@ const Index: React.FC<Props> = () => {
             已售 {activeId == 2? tagSize: ""}
           </Tag>
         </View>
-        <View className={s.archive} onClick={() => handleUnpublished()}>
+        <View className={s.archive} onClick={() => {handleFilter("Unpublished"); setActiveId(4);}}>
           <Text>下架商品</Text>
         </View>
       </View>
-      {itemList != undefined && (
         <GoodsList
-          showLoading
+          showLoading={myItemList.isLoading}
           showPlaceholder
           isFavouritesPage={false}
           itemList={itemList}
           isShopPage={true}
         ></GoodsList>
-      )}
     </View>
   );
 };

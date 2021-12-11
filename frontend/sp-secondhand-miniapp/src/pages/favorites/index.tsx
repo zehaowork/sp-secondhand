@@ -21,6 +21,7 @@ const Index: React.FC<Props> = () => {
         if(favorite.favorites === [] && !favorite.isLoading) {
             getFavList(testUser);
         }
+
     }, [])
 
     usePullDownRefresh(()=>{

@@ -16,6 +16,7 @@ import { Utils } from "../../../utils/Utils";
 
 import { addFavorite, deleteFavorite } from "../../actions/favorite";
 import API from "../../../utils/API";
+import { updateItemStatus, deleteItem } from "../../actions/myItemList";
 
 interface Props {
   item: Item;
@@ -31,8 +32,6 @@ const Card: React.FC<Props> = (props) => {
   const [isNewFav, setIsNewFav] = useState(false);
   const dispatch = useDispatch();
   const favorite = useSelector(({ favorite }) => favorite);
-
-  //定义行为
 
   // 打开商品详情
   const toDetail = () => {
@@ -78,27 +77,11 @@ const Card: React.FC<Props> = (props) => {
   };
 
   const modifyStatus = (status: string) => {
-    API.SecondHand.modifySecondHand({ ...props.item, status: status }).then(
-      (res) => {
-        if (res.statusCode === 200) {
-          Taro.showToast({
-            title: "修改成功",
-            icon: "success",
-          });
-        }
-      }
-    );
+    dispatch(updateItemStatus(props.item, status));
   };
 
   const handleDelete = () => {
-    API.SecondHand.deleteSecondHand(props.item.id).then((res) => {
-      if (res.statusCode === 200) {
-        Taro.showToast({
-          title: "删除成功",
-          icon: "success",
-        });
-      }
-    });
+    dispatch(deleteItem(props.item.id));
   };
 
   return (
@@ -188,12 +171,16 @@ const Card: React.FC<Props> = (props) => {
             </AtActionSheetItem>
           )}
           {props.item.status == "OnSale" && (
-            <AtActionSheetItem onClick={() => modifyStatus("Unpublished")}>
+            <AtActionSheetItem onClick={() => {
+              modifyStatus("Unpublished");
+              setIsOpened(!isOpened);
+            }}
+          >
               暂时下架
             </AtActionSheetItem>
           )}
           {props.item.status == "Unpublished" && (
-            <AtActionSheetItem onClick={() => modifyStatus("OnSale")}>
+            <AtActionSheetItem onClick={() => {modifyStatus("OnSale"); setIsOpened(!isOpened);}}>
             上架商品
           </AtActionSheetItem>
           )}

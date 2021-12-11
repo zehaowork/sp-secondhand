@@ -51,7 +51,7 @@ const API = {
             })
         },
 
-        deleteSecondHand: function(itemId) {
+        deleteSecondHand: function(itemId:number) {
             return Taro.request({
                 url:BASE_URL+'secondHand',
                 data:itemId,
