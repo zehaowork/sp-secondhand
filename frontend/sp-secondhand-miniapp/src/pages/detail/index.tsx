@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
 import { View, Text, Image, ScrollView } from "@tarojs/components";
 import s from "./index.css";
-import API from "../../../utils/API";
-import { Item } from "src/typings/common";
 import { AtIcon } from "taro-ui";
 import WeixinIcon from "../../images/weixin.png";
 import MobileIcon from "../../images/phone.png";
@@ -48,7 +46,7 @@ const Index: React.FC = () => {
   //加入收藏
   const add = () => {
     if (item != undefined) {
-      dispatch(addFavorite({ userId: 333, item: item }));
+      dispatch(addFavorite({ userId: 4, item: item }));
       setIsNewFav(true);
     }
   };
@@ -56,7 +54,7 @@ const Index: React.FC = () => {
   //删除收藏
   const del = () => {
     if (item != undefined) {
-      dispatch(deleteFavorite({ userId: 333, item: item }));
+      dispatch(deleteFavorite({ userId: 4, item: item }));
       setIsNewFav(false);
     }
   };
@@ -65,7 +63,7 @@ const Index: React.FC = () => {
   const copyToClipboard = (contactDetail: string) => {
     Taro.setClipboardData({
       data: contactDetail,
-      success: function (res) {
+      success: function() {
         Taro.showToast({
           title: "复制成功",
           icon: "success",

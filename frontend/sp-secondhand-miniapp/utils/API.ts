@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { searchSecondHandParam, toggleFavoriteParam } from 'src/typings/common';
+import { Item, searchSecondHandParam, getSecondHandByUserParam, toggleFavoriteParam } from 'src/typings/common';
 //服务器地址
 const BASE_URL:string = 'http://test.smallpotatoestech.com:8087/api/';
 const GOOGLE_MAP_BASE_URL:string ="https://maps.googleapis.com/";
@@ -24,11 +24,39 @@ const API = {
                 method:Method.GET,
             })
         },
+
         getSecondHand: function(itemId) {
             return Taro.request({
                 url:BASE_URL+'secondHand/id/'+itemId,
                 header:header,
                 method:Method.GET,
+            })
+        },
+
+        getSecondHandByUserId: function(data:getSecondHandByUserParam) {
+            return Taro.request({
+                url:BASE_URL+'secondHand/user/'+data.userId,
+                data:data,
+                header:header,
+                method:Method.GET,
+            })
+        },
+
+        modifySecondHand: function(item:Item) {
+            return Taro.request({
+                url:BASE_URL+'secondHand',
+                data:item,
+                header:header,
+                method:Method.PUT,
+            })
+        },
+
+        deleteSecondHand: function(itemId:number) {
+            return Taro.request({
+                url:BASE_URL+'secondHand',
+                data:itemId,
+                header:header,
+                method:Method.DELETE,
             })
         },
 

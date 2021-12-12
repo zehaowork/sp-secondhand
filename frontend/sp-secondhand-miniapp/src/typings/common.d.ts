@@ -21,6 +21,7 @@ declare interface Item  {
     popularity:number;
     description:string;
     condition:string;
+    status:string;
   }
 
   //Banner图片
@@ -52,6 +53,11 @@ declare interface Item  {
     sort:string;
   }
 
+  declare interface getSecondHandByUserParam {
+    userId:number;
+    page:number;
+    size:number;
+  }
 
   declare interface toggleFavoriteParam {
     userId:number;
