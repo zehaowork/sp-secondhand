@@ -42,6 +42,13 @@ declare interface Item  {
     englishName:string;
   }
 
+  // 商品分类
+  declare interface Category {
+    id:number;
+    name:string;
+    logoUrl:string;
+    order:1;
+}
 
   //API参数接口
   declare interface searchSecondHandParam {

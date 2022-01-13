@@ -9,7 +9,8 @@ export default {
     'pages/city/index',
     'pages/shop/index',
     'pages/detail/index',
-    'pages/webview/index'
+    'pages/webview/index',
+    'pages/publish/index',
   ],
   permission: {
     "scope.userLocation": {
@@ -24,12 +25,14 @@ export default {
     enablePullDownRefresh: true
   },
 
-  tabBar: {
-    
+  tabBar: { 
     list: [
     {
       pagePath: "pages/index/index",
       text: "首页" },
+    // {
+    //   pagePath: "pages/publish/index",
+    //   text: "发布" },
     {
       pagePath: "pages/personal/index",
       text: "个人" }]

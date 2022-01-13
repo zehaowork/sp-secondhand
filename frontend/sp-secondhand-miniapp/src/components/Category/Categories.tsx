@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {ScrollView, View, Image} from '@tarojs/components'
 import s from './Categories.css'
-
+import { Category } from 'src/typings/common';
 
 
 
@@ -12,14 +12,6 @@ interface Props {
     //参数
     categoryList:Array<Category>;
     current:number;
-    
-}
-
-interface Category {
-    id:number;
-    name:string;
-    logoUrl:string;
-    order:1;
 }
 
 //容器组件

@@ -10,22 +10,23 @@ import Indexes from '../../components/Indexes/Indexes'
 import API from '../../../utils/API';
 import { City } from 'src/typings/common'
 import InlineLoader from '../../components/InlineLoader/InlineLoader'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCityList } from "../../actions/cities";
 
 
 
 interface Props{}
 const Index: React.FC<Props> = () => {
-    const [cityList, setCityList] = useState<City[]>([]);
+    const dispatch = useDispatch();
+    const cities = useSelector(({ cityList }) => cityList);
     const [scrollAnchor, setScrollAnchor] = useState<string>('A');
     const [currentCity, setCurrentCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false,englishName:"United Kingdom"});
-    const [showLoading, setShowLoading] = useState(false);
     const [locateSuccess, setLocateSuccess] = useState(false);
     const [locateFail, setLocateFail] = useState(false);
     const [keyword, setKeyword] = useState("");
 
     useEffect(() => {
         getCities();
-
     }, [])
     
     const getLocationPermission = ()=>{
@@ -35,7 +36,7 @@ const Index: React.FC<Props> = () => {
             API.GoogleMaps.getReverseGeoEncoding(res.latitude+","+res.longitude)
             .then(res => {
                 const locateCity = res.data.results[0].address_components[2].short_name;
-                const foundCity = cityList.find(city => city.englishName == locateCity);
+                const foundCity = cities.cityList.find(city => city.englishName == locateCity);
                 if(foundCity != undefined){
                     setCurrentCity(foundCity);
                     setLocateSuccess(true);
@@ -50,21 +51,9 @@ const Index: React.FC<Props> = () => {
 
 
     const getCities = ()=>{
-        setShowLoading(true);
-        API.StaticData.getCities().then(res =>{
-            if(res.statusCode === 200){
-                console.log(res.data.data);
-                (res.data.data as City[]).sort((a,b) =>a.firstLetter.charCodeAt(0)-b.firstLetter.charCodeAt(0));
-                setCityList(res.data.data);
-            }
-            else{
-                //TODO:添加错误信息
-            }
-        })
-        .catch(err=>{
-            //TODO:添加错误信息
-        })
-        .finally(()=>setShowLoading(false));
+        if((cities.cityList as City[]).length === 0){
+            dispatch(getCityList());
+        }
     }
 
     const onSelectCity = (city:City)=>{
@@ -81,7 +70,7 @@ const Index: React.FC<Props> = () => {
     //渲染函数
     const renderCityList = ()=>{
         let initialFirstLetter:string;
-        return cityList.map(city => {
+        return cities.cityList.map(city => {
             let isNewSection = initialFirstLetter !== city.firstLetter;
             initialFirstLetter = city.firstLetter;
             return <React.Fragment>
@@ -96,7 +85,7 @@ const Index: React.FC<Props> = () => {
 
     }
 
-    const renderPopularCity = cityList
+    const renderPopularCity = cities.cityList
                                 .filter(city => city.isPopular)
                                 .map(city => <Tag 
                                     key={city.id} 
@@ -106,7 +95,7 @@ const Index: React.FC<Props> = () => {
                                     onClick={()=>{onSelectCity(city)}} />)
     const distinctChars = ()=>{
         let chars:string[] = [];
-        cityList.forEach(city=>{
+        cities.cityList.forEach(city=>{
             if(!chars.includes(city.firstLetter)){
                 chars.push(city.firstLetter)
             }
@@ -149,7 +138,7 @@ const Index: React.FC<Props> = () => {
                     {renderCityList()}
                 </View>
             </View>
-            {showLoading && <InlineLoader showLoading ={showLoading} message="加载城市列表中..."  />}
+            {cities.isLoading && <InlineLoader showLoading ={cities.isLoading} message="加载城市列表中..."  />}
             <AtToast status="success" text={` $你已成功定位到${currentCity?.name}`} isOpened={locateSuccess} onClose={() => setLocateSuccess(false)}></AtToast>
             <AtToast status="error" text="无法找到对应的城市，请利用搜索或下滑点选所在城市" isOpened={locateFail} onClose={() => setLocateFail(false)}></AtToast>
         </ScrollView>
