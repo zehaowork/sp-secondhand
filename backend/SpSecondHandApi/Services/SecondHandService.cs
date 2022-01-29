@@ -35,7 +35,7 @@ namespace SpSecondHandApi.Services
                 throw new ArgumentException($"Second hand item {id} doesn't exist.");
             }
 
-            shItem.Popularity++;
+            shItem.View++;
             await _shRepo.Update(shItem);
 
             return _mapper.Map<SecondHandDto>(shItem);

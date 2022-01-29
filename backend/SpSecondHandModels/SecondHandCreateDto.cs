@@ -19,6 +19,5 @@ namespace SpSecondHandModels
         public DateTime? PublishTime { get; set; }
         public int CityId { get; set; }
         public Status Status { get; set; }
-        public long? Popularity { get; set; }
     }
 }
