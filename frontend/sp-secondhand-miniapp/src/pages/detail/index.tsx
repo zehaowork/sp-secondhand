@@ -10,6 +10,7 @@ import SellerShopIcon from "../../images/shop1.png";
 import { addFavorite, deleteFavorite } from "../../actions/favorite";
 import { useDispatch, useSelector } from "react-redux";
 import { Utils } from "../../../utils/Utils";
+// import { Condition } from "src/typings/common";
 
 enum Conditions {
   BrandNew = "全新",

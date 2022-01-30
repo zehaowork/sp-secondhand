@@ -78,6 +78,13 @@ declare interface Item  {
     errMsg:string
   }
 
+  declare enum Condition {
+    BrandNew = "全新",
+    LikeNew = "几乎全新",
+    MinorFlaw = "轻微划痕",
+    ObviousFlaw = "明显划痕",
+  }
+
 declare module "*.png";
 declare module "*.gif";
 declare module "*.jpg";
