@@ -43,24 +43,14 @@ const API = {
       });
     },
 
-        // secondhand type ??
-        postSecondHand: function(item) {
-            return Taro.request({
-                url:BASE_URL+'secondHand',
-                data:item,
-                header:header,
-                method:Method.POST,
-            })
-        },
-
-        modifySecondHand: function(item:Item) {
-            return Taro.request({
-                url:BASE_URL+'secondHand',
-                data:item,
-                header:header,
-                method:Method.PUT,
-            })
-        },
+    modifySecondHand: function (item: Item) {
+      return Taro.request({
+        url: BASE_URL + "secondHand",
+        data: item,
+        header: header,
+        method: Method.PUT,
+      });
+    },
 
     deleteSecondHand: function (itemId: number) {
       return Taro.request({
