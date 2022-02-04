@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro';
+import appConfig from 'src/app.config';
 import { Item, searchSecondHandParam, getSecondHandByUserParam, toggleFavoriteParam } from 'src/typings/common';
 import secondHandData from '../src/pages/publish';
 //服务器地址
@@ -107,8 +108,19 @@ const API = {
                 header:header,
                 method:Method.DELETE,
             })
-        }
+        },
 
+        uploadImage: function(imageUrl, formData) {
+            return Taro.uploadFile({
+                url: BASE_URL + 'secondHand/uploadImage',
+                filePath: imageUrl,
+                header: {
+                    'content-type': 'multipart/form-data'
+                },
+                  name: 'image',  
+                  formData: formData
+            })
+        }
     },
     //主页相关动态资源API
     StaticData:{

@@ -99,13 +99,23 @@ const Index: React.FC<Props> = () => {
   // need fixing
   const setImage = (imagePath, operationType, index) => {
     if(operationType === 'add'){
-      console.log(imagePath)
-      setImages(images.concat(imagePath));
-      setState({ ...state, imgUrls: state.imgUrls.concat(imagePath)});
-      console.log(state.imgUrls)
+      // find images added by comparing arrays
+      const photosAdded = imagePath.slice(images.length);
+      setImages(imagePath);
+      var addIndex = images.length;
+      for (const image of photosAdded) {
+        API.SecondHand.uploadImage(image.url, {
+          uid: 4,
+          i: addIndex
+        })
+        .then((res) => {
+          setState({...state, imgUrls: state.imgUrls.concat(JSON.parse(res.data).data[0].imgUrl)})
+          addIndex += 1;
+        })
+      }
     } else if (operationType === 'remove'){
+      setState({...state, imgUrls: state.imgUrls.splice(index)})
       setImages(imagePath)
-      console.log(index)
     }
   };
 
