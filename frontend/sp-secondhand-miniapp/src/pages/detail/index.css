@@ -95,9 +95,8 @@
 }
 
 .category{
-  composes: text-Body from global;
-  font-size: 32rpx;
-  padding-left: 20rpx;
+  composes: text-SubHeading from global;
+  padding-left: 60px;
 }
 
 .image{
