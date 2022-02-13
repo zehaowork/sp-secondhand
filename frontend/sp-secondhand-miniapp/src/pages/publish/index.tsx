@@ -16,15 +16,15 @@ import { City } from "src/typings/common";
 import { getCityList } from "../../actions/cities";
 import API from "../../../utils/API";
 
-import PriceSymbol from '../../images/price-symbol.png';
-import CategorySymbol from '../../images/categories.png';
-import StatusSymbol from '../../images/status.png';
-import CitySymbol from '../../images/city.png';
-import AddressSymbol from '../../images/place-marker.png';
-import ContactSymbol from '../../images/contacts.png';
-import WechatIcon from '../../images/weixin.png';
-import TelIcon from '../../images/phone.png';
-
+import PriceSymbol from "../../images/price-symbol.png";
+import CategorySymbol from "../../images/categories.png";
+import StatusSymbol from "../../images/status.png";
+import CitySymbol from "../../images/city.png";
+import AddressSymbol from "../../images/place-marker.png";
+import ContactSymbol from "../../images/contacts.png";
+import WechatIcon from "../../images/weixin.png";
+import TelIcon from "../../images/phone.png";
+import Tag from "../../components/Tag/Tag";
 
 enum Conditions {
   BrandNew = "全新",
@@ -52,17 +52,17 @@ interface Props {}
 const Index: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState<secondHandData>({
-  title: undefined,
-  imgUrls: [],
-  description: undefined,
-  weChatId: undefined,
-  telephone: undefined,
-  price: undefined,
-  condition: undefined,
-  address: undefined,
-  userId: undefined,
-  categoryId: undefined,
-  cityId: undefined,
+    title: undefined,
+    imgUrls: [],
+    description: undefined,
+    weChatId: undefined,
+    telephone: undefined,
+    price: undefined,
+    condition: undefined,
+    address: undefined,
+    userId: undefined,
+    categoryId: undefined,
+    cityId: undefined,
   });
 
   const [images, setImages] = useState([]);
@@ -98,7 +98,7 @@ const Index: React.FC<Props> = () => {
 
   // need fixing
   const setImage = (imagePath, operationType, index) => {
-    if(operationType === 'add'){
+    if (operationType === "add") {
       // find images added by comparing arrays
       const photosAdded = imagePath.slice(images.length);
       setImages(imagePath);
@@ -106,16 +106,18 @@ const Index: React.FC<Props> = () => {
       for (const image of photosAdded) {
         API.SecondHand.uploadImage(image.url, {
           uid: 4,
-          i: addIndex
-        })
-        .then((res) => {
-          setState({...state, imgUrls: state.imgUrls.concat(JSON.parse(res.data).data[0].imgUrl)})
+          i: addIndex,
+        }).then((res) => {
+          setState({
+            ...state,
+            imgUrls: state.imgUrls.concat(JSON.parse(res.data).data[0].imgUrl),
+          });
           addIndex += 1;
-        })
+        });
       }
-    } else if (operationType === 'remove'){
-      setState({...state, imgUrls: state.imgUrls.splice(index)})
-      setImages(imagePath)
+    } else if (operationType === "remove") {
+      setState({ ...state, imgUrls: state.imgUrls.splice(index) });
+      setImages(imagePath);
     }
   };
 
@@ -134,9 +136,9 @@ const Index: React.FC<Props> = () => {
   };
 
   function getEnumKeyByEnumValue(myEnum, enumValue) {
-    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);
+    let keys = Object.keys(myEnum).filter((x) => myEnum[x] == enumValue);
     return keys.length > 0 ? keys[0] : undefined;
-}
+  }
 
   const handleCondition = (conditionValue) => {
     let conditionKey = getEnumKeyByEnumValue(Conditions, conditionValue);
@@ -198,16 +200,17 @@ const Index: React.FC<Props> = () => {
         <AtImagePicker
           multiple
           count={8}
-          sizeType={['compressed']}
+          sizeType={["compressed"]}
           files={images}
           onFail={onFail}
           onChange={setImage}
         />
 
         <View className={s.input_item}>
-          <View style={"width: 100%; font-size:32rpx"}> 
-            <Image src={PriceSymbol} className={s.icon} /> 
-          价格</View>
+          <View style={"width: 100%; font-size:32rpx"}>
+            <Image src={PriceSymbol} className={s.icon} />
+            价格
+          </View>
           <Input
             className={s.input_style}
             type="digit"
@@ -217,9 +220,10 @@ const Index: React.FC<Props> = () => {
         </View>
 
         <View className={s.input_item}>
-        <View style={"width: 100%; font-size:32rpx"}> 
-            <Image src={CategorySymbol} className={s.icon} /> 
-            商品类型</View>
+          <View style={"width: 100%; font-size:32rpx"}>
+            <Image src={CategorySymbol} className={s.icon} />
+            商品类型
+          </View>
           <Picker
             className={s.input_style}
             mode="selector"
@@ -230,33 +234,38 @@ const Index: React.FC<Props> = () => {
             <View style={"color:#666"}>
               {state.categoryId == undefined
                 ? "请选择类型"
-                : catList.find(c => c.id == state.categoryId).name}
+                : catList.find((c) => c.id == state.categoryId).name}
             </View>
           </Picker>
         </View>
 
         <View className={s.input_item}>
-        <View style={"width: 100%; font-size:32rpx"}> 
-            <Image src={StatusSymbol} className={s.icon} /> 
-            商品状态</View>
-          <View>
+          <View style={"width: 100%; font-size:32rpx"}>
+            <Image src={StatusSymbol} className={s.icon} />
+            商品状态
+          </View>
+          <View className={s.status_container} >
             {Object.values(Conditions).map((c) => (
-              <AtTag
-                type="primary"
+              <Tag
+                size="normal"
                 circle
+                name={c}
                 onClick={() => handleCondition(c)}
-                active={state.condition == getEnumKeyByEnumValue(Conditions, c) ? true : false}
-              >
-                {c}
-              </AtTag>
+                active={
+                  state.condition == getEnumKeyByEnumValue(Conditions, c)
+                    ? true
+                    : false
+                }
+              />
             ))}
           </View>
         </View>
 
         <View className={s.input_item}>
-        <View style={"width: 100%; font-size:32rpx"}> 
-            <Image src={CitySymbol} className={s.icon} /> 
-            城市</View>
+          <View style={"width: 100%; font-size:32rpx"}>
+            <Image src={CitySymbol} className={s.icon} />
+            城市
+          </View>
           <Picker
             className={s.input_style}
             mode="selector"
@@ -265,15 +274,18 @@ const Index: React.FC<Props> = () => {
             onChange={handleCity.bind(this)}
           >
             <View style={"color:#666"}>
-              {state.cityId == undefined ? "请选择城市" : cities.find(c => c.id === state.cityId).name}
+              {state.cityId == undefined
+                ? "请选择城市"
+                : cities.find((c) => c.id === state.cityId).name}
             </View>
           </Picker>
         </View>
 
         <View className={s.input_item}>
-        <View style={"width: 100%; font-size:32rpx"}> 
-            <Image src={AddressSymbol} className={s.icon} /> 
-            地址</View>
+          <View style={"width: 100%; font-size:32rpx"}>
+            <Image src={AddressSymbol} className={s.icon} />
+            地址
+          </View>
           <Input
             className={s.input_style}
             type="text"
@@ -283,15 +295,16 @@ const Index: React.FC<Props> = () => {
         </View>
 
         <View className={s.input_item}>
-        <View style={"font-size:32rpx"}> 
-            <Image src={ContactSymbol} className={s.icon} /> 
-            联系方式 （手机和微信至少填写一个）</View>
+          <View style={"font-size:32rpx"}>
+            <Image src={ContactSymbol} className={s.icon} />
+            联系方式 （手机和微信至少填写一个）
+          </View>
         </View>
 
         <View style={"border-top: 1rpx solid #e8e8e8;"}></View>
 
         <View style={"padding: 20rpx; display: inline-flex;"}>
-        <Image src={WechatIcon} className={s.icon_inline} /> 
+          <Image src={WechatIcon} className={s.icon_inline} />
           <Input
             style="width:100%;"
             className={s.input_text}
@@ -303,7 +316,7 @@ const Index: React.FC<Props> = () => {
 
         <View style={"border-top: 1rpx solid #e8e8e8;"}></View>
         <View style={"padding: 20rpx; display: inline-flex;"}>
-        <Image src={TelIcon} className={s.icon_inline} /> 
+          <Image src={TelIcon} className={s.icon_inline} />
           <Input
             style="width:100%;"
             className={s.input_text}
@@ -323,9 +336,14 @@ const Index: React.FC<Props> = () => {
         </View>
         <View style={"border-top: 1rpx solid #e8e8e8; padding: 20rpx"}></View>
 
-        <Button style={"margin: 0 20%;background: #F99852;border-radius: 46rpx;color: white;"}
-      onClick={onSubmit.bind(this)}
-    >提交</Button>
+        <Button
+          style={
+            "margin: 0 20%;background: #F99852;border-radius: 46rpx;color: white;"
+          }
+          onClick={onSubmit.bind(this)}
+        >
+          提交
+        </Button>
       </Form>
       <View style={"padding: 70rpx"}></View>
     </View>
