@@ -7,6 +7,7 @@ interface Props {
   size: "lg" | "sm" | "md";
   isAuthorized?: boolean;
   imageUrl?: string;
+  onClick?: any;
 }
 
 const Avatar: React.FC<Props> = (props) => {
@@ -17,6 +18,7 @@ const Avatar: React.FC<Props> = (props) => {
     ></OpenData>
   ) : (
     <Image
+      onClick={props.onClick}
       src={props.imageUrl ? props.imageUrl : AvatarPlaceHolder}
       className={props.size === "lg" ? s.avatar_lg : s.avatar_sm}
     />

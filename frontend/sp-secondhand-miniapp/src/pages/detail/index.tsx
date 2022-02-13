@@ -118,7 +118,11 @@ const Index: React.FC = () => {
       <View className={showTopHeader ? s.header_top : s.header_hide}>
         <View className={s.content}>
           <View className={s.user}>
-            <Avatar size="lg" imageUrl={item?.userProfileImgUrl} />
+            <Avatar
+              onClick={toShopPage}
+              size="lg"
+              imageUrl={item?.userProfileImgUrl}
+            />
             <View className={s.infotag}>
               <View className={s.name}>{item?.userName}</View>
               <View>
@@ -185,7 +189,11 @@ const Index: React.FC = () => {
           <View className={s.header}>
             <View className={s.content}>
               <View className={s.user}>
-                <Avatar size="lg" imageUrl={item?.userProfileImgUrl} />
+                <Avatar
+                  onClick={toShopPage}
+                  size="lg"
+                  imageUrl={item?.userProfileImgUrl}
+                />
                 <View className={s.name}>{item?.userName}</View>
               </View>
               <View className={s.btn}>
