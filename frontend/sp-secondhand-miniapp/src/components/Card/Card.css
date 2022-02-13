@@ -3,7 +3,6 @@
   margin: 10px;
   position: relative;
   box-sizing: border-box;
-  
 }
 .item {
   position: relative;
@@ -25,7 +24,7 @@
   padding: 6px;
 }
 .title {
-  composes:text-Body from global;
+  composes: text-Body from global;
   width: 230px;
   overflow: hidden;
   white-space: nowrap;
@@ -47,38 +46,34 @@
   text-overflow: ellipsis;
 }
 
-.dot{
+.dot {
   display: inline-block;
   margin: 5px;
   height: 8px;
   width: 8px;
   background-color: var(--bwAlphaOpacity30);
   border-radius: 50%;
-  
 }
 
-.options{
+.options {
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center
-  
+  justify-content: center;
 }
 
-.icon{
+.icon {
   position: absolute;
-  top:0;
-  width:100%;
-  display:flex;
+  top: 0;
+  width: 100%;
+  display: flex;
   justify-content: flex-end;
   padding: 10px 10px 10px 10px;
   background-image: linear-gradient(#aaaaaa, transparent);
-  
+
   box-sizing: border-box;
 }
-
-
 
 /**
   Copied from https://juejin.cn/post/6949128356499554312#heading-3
@@ -112,15 +107,15 @@
 }
 
 .sold {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #A5A5A5;
-    font-size: 30rpx;
-    opacity:0.9;
-  }
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #a5a5a5;
+  font-size: 30rpx;
+  opacity: 0.9;
+}

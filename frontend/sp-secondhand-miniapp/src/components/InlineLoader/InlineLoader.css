@@ -11,7 +11,7 @@
   composes: text-Support from global;
 }
 
-.messageLoading{
-  composes:message;
+.messageLoading {
+  composes: message;
   margin-left: 20px;
 }

@@ -1,9 +1,9 @@
 .container {
-    composes: text-Explain,bg-orange,round,shadow-blur from global;
-    width: 100rpx;
-    height: 100rpx;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  composes: text-Explain, bg-orange, round, shadow-blur from global;
+  width: 100rpx;
+  height: 100rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

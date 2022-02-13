@@ -15,7 +15,6 @@ import CategoryTag from "./CategoryTag/CategoryTag";
 import { Utils } from "../../../utils/Utils";
 
 import { addFavorite, deleteFavorite } from "../../actions/favorite";
-import API from "../../../utils/API";
 import { updateItemStatus, deleteItem } from "../../actions/myItemList";
 
 interface Props {
@@ -171,18 +170,24 @@ const Card: React.FC<Props> = (props) => {
             </AtActionSheetItem>
           )}
           {props.item.status == "OnSale" && (
-            <AtActionSheetItem onClick={() => {
-              modifyStatus("Unpublished");
-              setIsOpened(!isOpened);
-            }}
-          >
+            <AtActionSheetItem
+              onClick={() => {
+                modifyStatus("Unpublished");
+                setIsOpened(!isOpened);
+              }}
+            >
               暂时下架
             </AtActionSheetItem>
           )}
           {props.item.status == "Unpublished" && (
-            <AtActionSheetItem onClick={() => {modifyStatus("OnSale"); setIsOpened(!isOpened);}}>
-            上架商品
-          </AtActionSheetItem>
+            <AtActionSheetItem
+              onClick={() => {
+                modifyStatus("OnSale");
+                setIsOpened(!isOpened);
+              }}
+            >
+              上架商品
+            </AtActionSheetItem>
           )}
           <AtActionSheetItem onClick={() => handleDelete()}>
             彻底删除

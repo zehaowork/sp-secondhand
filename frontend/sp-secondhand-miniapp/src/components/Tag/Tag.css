@@ -1,29 +1,28 @@
-.container{
-    
-    composes: text-Support from global;
-    composes: radius from global;
-    padding: 10rpx 30rpx;
-    max-width: 120rpx;
-    white-space: nowrap;
-    margin: 20rpx;
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+.container {
+  composes: text-Support from global;
+  composes: radius from global;
+  padding: 10rpx 30rpx;
+  max-width: 120rpx;
+  white-space: nowrap;
+  margin: 20rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
-.circle{
-    border-radius: 5000rpx;
+.circle {
+  border-radius: 5000rpx;
 }
 
-.small{
-    width: 50rpx;
-    height: 25rpx;
+.small {
+  width: 50rpx;
+  height: 25rpx;
 }
 
-.active{
-    composes:bg-gradual-peach from global;
+.active {
+  composes: bg-gradual-peach from global;
 }
-.passive{
-    composes: bg-gray from global;
+.passive {
+  composes: bg-gray from global;
 }

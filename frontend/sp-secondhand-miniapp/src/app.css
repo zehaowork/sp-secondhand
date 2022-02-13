@@ -1,4 +1,3 @@
-
 :global(.price-yellow) {
   font-size: 30px;
   line-height: 50px;
@@ -14,86 +13,83 @@ page {
   flex-direction: column;
   box-sizing: border-box;
 
+  --red: #e54d42;
+  --orange: #ff8601;
+  --yellow: #ffd101;
+  --olive: #8dc63f;
+  --green: #39b54a;
+  --cyan: #1cbbb4;
+  --blue: #0081ff;
+  --purple: #6739b6;
+  --mauve: #9c26b0;
+  --pink: #e03997;
+  --brown: #a5673f;
+  --grey: #8799a3;
+  --black: #333333;
+  --darkGray: #666666;
+  --gray: #aaaaaa;
+  --ghostWhite: #f1f1f1;
+  --white: #ffffff;
+  /* 浅色 */
+  --redLight: #fadbd9;
+  --orangeLight: #fde6d2;
+  --yellowLight: #fef2ce;
+  --oliveLight: #e8f4d9;
+  --greenLight: #d7f0db;
+  --cyanLight: #d2f1f0;
+  --blueLight: #cce6ff;
+  --purpleLight: #e1d7f0;
+  --mauveLight: #ebd4ef;
+  --pinkLight: #f9d7ea;
+  --brownLight: #ede1d9;
+  --greyLight: #e7ebed;
+  /* 渐变色 */
+  --gradualRed: linear-gradient(45deg, #f43f3b, #ec008c);
+  --gradualOrange: linear-gradient(45deg, #ff9700, #ed1c24);
+  --gradualGreen: linear-gradient(45deg, #39b54a, #8dc63f);
+  --gradualPurple: linear-gradient(45deg, #9000ff, #5e00ff);
+  --gradualPink: linear-gradient(45deg, #ec008c, #6739b6);
+  --gradualBlue: linear-gradient(45deg, #0081ff, #1cbbb4);
+  --gradualPeach: linear-gradient(45deg, #f6d365, #fda085);
+  /* 阴影透明色 */
+  --ShadowSize: 6rpx 6rpx 8rpx;
+  --redShadow: rgba(204, 69, 59, 0.2);
+  --orangeShadow: rgba(217, 109, 26, 0.2);
+  --yellowShadow: rgba(224, 170, 7, 0.2);
+  --oliveShadow: rgba(124, 173, 55, 0.2);
+  --greenShadow: rgba(48, 156, 63, 0.2);
+  --cyanShadow: rgba(28, 187, 180, 0.2);
+  --blueShadow: rgba(0, 102, 204, 0.2);
+  --purpleShadow: rgba(88, 48, 156, 0.2);
+  --mauveShadow: rgba(133, 33, 150, 0.2);
+  --pinkShadow: rgba(199, 50, 134, 0.2);
+  --brownShadow: rgba(140, 88, 53, 0.2);
+  --greyShadow: rgba(114, 130, 138, 0.2);
+  --grayShadow: rgba(114, 130, 138, 0.2);
+  --blackShadow: rgba(26, 26, 26, 0.2);
 
-  	--red: #e54d42;
-	--orange: #ff8601;
-  	--yellow: #ffd101;
-	--olive: #8dc63f;
-	--green: #39b54a;
-	--cyan: #1cbbb4;
-	--blue: #0081ff;
-	--purple: #6739b6;
-	--mauve: #9c26b0;
-	--pink: #e03997;
-	--brown: #a5673f;
-	--grey: #8799a3;
-	--black: #333333;
-	--darkGray: #666666;
-	--gray: #aaaaaa;
-	--ghostWhite: #f1f1f1;
-	--white: #ffffff;
-	/* 浅色 */
-	--redLight: #fadbd9;
-	--orangeLight: #fde6d2;
-	--yellowLight: #fef2ce;
-	--oliveLight: #e8f4d9;
-	--greenLight: #d7f0db;
-	--cyanLight: #d2f1f0;
-	--blueLight: #cce6ff;
-	--purpleLight: #e1d7f0;
-	--mauveLight: #ebd4ef;
-	--pinkLight: #f9d7ea;
-	--brownLight: #ede1d9;
-	--greyLight: #e7ebed;
-	/* 渐变色 */
-	--gradualRed: linear-gradient(45deg, #f43f3b, #ec008c);
-	--gradualOrange: linear-gradient(45deg, #ff9700, #ed1c24);
-	--gradualGreen: linear-gradient(45deg, #39b54a, #8dc63f);
-	--gradualPurple: linear-gradient(45deg, #9000ff, #5e00ff);
-	--gradualPink: linear-gradient(45deg, #ec008c, #6739b6);
-	--gradualBlue: linear-gradient(45deg, #0081ff, #1cbbb4);
-	--gradualPeach: linear-gradient(45deg, #F6D365, #FDA085);
-	/* 阴影透明色 */
-	--ShadowSize: 6rpx 6rpx 8rpx;
-	--redShadow: rgba(204, 69, 59, 0.2);
-	--orangeShadow: rgba(217, 109, 26, 0.2);
-	--yellowShadow: rgba(224, 170, 7, 0.2);
-	--oliveShadow: rgba(124, 173, 55, 0.2);
-	--greenShadow: rgba(48, 156, 63, 0.2);
-	--cyanShadow: rgba(28, 187, 180, 0.2);
-	--blueShadow: rgba(0, 102, 204, 0.2);
-	--purpleShadow: rgba(88, 48, 156, 0.2);
-	--mauveShadow: rgba(133, 33, 150, 0.2);
-	--pinkShadow: rgba(199, 50, 134, 0.2);
-	--brownShadow: rgba(140, 88, 53, 0.2);
-	--greyShadow: rgba(114, 130, 138, 0.2);
-	--grayShadow: rgba(114, 130, 138, 0.2);
-	--blackShadow: rgba(26, 26, 26, 0.2);
+  /* 微信规范 */
+  --bwAlpha09: #181818;
+  --bwAlpha05: #7b7b7b;
+  --bwAlphaOpacity30: #acacac;
+  --bwAlphaOpacity15: #d2d2d2;
+  --bwAlphaOpacity10: #dddddd;
 
-	/* 微信规范 */
-	--bwAlpha09:#181818;
-	--bwAlpha05:#7B7B7B;
-	--bwAlphaOpacity30:#ACACAC;
-	--bwAlphaOpacity15:#D2D2D2;
-	--bwAlphaOpacity10:#DDDDDD;
+  --fontWeightMedium: 500;
+  --fontWeightRegular: 400;
 
-	--fontWeightMedium:500;
-	--fontWeightRegular:400;
+  /* background-color: var(--ghostWhite); */
 
-	/* background-color: var(--ghostWhite); */
-
-	font-size: 28rpx;
-	color: var(--black);
-	font-family: Helvetica Neue, Helvetica, sans-serif;
+  font-size: 28rpx;
+  color: var(--black);
+  font-family: Helvetica Neue, Helvetica, sans-serif;
 }
-
-
 
 :global(.round) {
-	border-radius: 5000rpx;
+  border-radius: 5000rpx;
 }
 :global(.radius) {
-	border-radius: 6rpx;
+  border-radius: 6rpx;
 }
 
 :global(.flex) {
@@ -105,8 +101,8 @@ page {
   box-sizing: border-box;
 }
 
-:global(.flex-row){
-	flex-direction: row;
+:global(.flex-row) {
+  flex-direction: row;
 }
 :global(.flex-align-center) {
   /*元素垂直居中*/
@@ -150,62 +146,60 @@ page {
   -ms-flex-direction: column;
 }
 
-
 /* -- 阴影 -- */
 
-:global .shadow[class*='white'] {
-	--ShadowSize: 0 1rpx 6rpx;
+:global .shadow[class*="white"] {
+  --ShadowSize: 0 1rpx 6rpx;
 }
 
 :global .shadow-lg {
-	--ShadowSize: 0rpx 40rpx 100rpx 0rpx;
+  --ShadowSize: 0rpx 40rpx 100rpx 0rpx;
 }
 
 :global .shadow-warp {
-	position: relative;
-	box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.1);
+  position: relative;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.1);
 }
 
 :global .shadow-warp:before,
 :global .shadow-warp:after {
-	position: absolute;
-	content: "";
-	top: 20rpx;
-	bottom: 30rpx;
-	left: 20rpx;
-	width: 50%;
-	box-shadow: 0 30rpx 20rpx rgba(0, 0, 0, 0.2);
-	transform: rotate(-3deg);
-	z-index: -1;
+  position: absolute;
+  content: "";
+  top: 20rpx;
+  bottom: 30rpx;
+  left: 20rpx;
+  width: 50%;
+  box-shadow: 0 30rpx 20rpx rgba(0, 0, 0, 0.2);
+  transform: rotate(-3deg);
+  z-index: -1;
 }
 
 :global .shadow-warp:after {
-	right: 20rpx;
-	left: auto;
-	transform: rotate(3deg);
+  right: 20rpx;
+  left: auto;
+  transform: rotate(3deg);
 }
 
 :global .shadow-blur {
-	position: relative;
+  position: relative;
 }
 
 :global .shadow-blur::before {
-	content: "";
-	display: block;
-	background: inherit;
-	filter: blur(10rpx);
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 10rpx;
-	left: 10rpx;
-	z-index: -1;
-	opacity: 0.4;
-	transform-origin: 0 0;
-	border-radius: inherit;
-	transform: scale(1, 1);
+  content: "";
+  display: block;
+  background: inherit;
+  filter: blur(10rpx);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 10rpx;
+  left: 10rpx;
+  z-index: -1;
+  opacity: 0.4;
+  transform-origin: 0 0;
+  border-radius: inherit;
+  transform: scale(1, 1);
 }
-
 
 /* ==================
           文本
@@ -213,156 +207,152 @@ page {
 
 /* 页面大标题 */
 :global .text-Headline {
-	font-size: 36rpx;
-	font-weight: var(--fontWeightMedium);
-	color:var(--bwAlpha09);
+  font-size: 36rpx;
+  font-weight: var(--fontWeightMedium);
+  color: var(--bwAlpha09);
 }
 
 /* 页面小标题, 结果等页面单一信息页 */
 :global .text-SubHeading {
-	font-size: 32rpx;
-	font-weight: var(--fontWeightRegular);
-	color:var(--bwAlpha09);
+  font-size: 32rpx;
+  font-weight: var(--fontWeightRegular);
+  color: var(--bwAlpha09);
 }
 
 /* 正文 */
 :global .text-Body {
-	font-size: 28rpx;
-	font-weight: var(--fontWeightRegular);
-	color:var(--bwAlpha09);
+  font-size: 28rpx;
+  font-weight: var(--fontWeightRegular);
+  color: var(--bwAlpha09);
 }
 
 /* 辅助信息,次级信息 */
 :global .text-Support {
-	font-size: 24rpx;
-	font-weight: var(--fontWeightRegular);
-	color:var(--bwAlphaOpacity30);
+  font-size: 24rpx;
+  font-weight: var(--fontWeightRegular);
+  color: var(--bwAlphaOpacity30);
 }
 
 /* 说明文本,标签文字 */
 :global .text-Explain {
-	font-size: 20rpx;
-	font-weight: var(--fontWeightRegular);
-	color:var(--bwAlphaOpacity15);
+  font-size: 20rpx;
+  font-weight: var(--fontWeightRegular);
+  color: var(--bwAlphaOpacity15);
 }
-
 
 /* ==================
           背景
  ==================== */
 
 :global .bg-gradual-red {
-	background-image: var(--gradualRed);
-	color: var(--white);
+  background-image: var(--gradualRed);
+  color: var(--white);
 }
 :global .bg-gradual-peach {
-	background-image: var(--gradualPeach);
-	color: var(--white);
+  background-image: var(--gradualPeach);
+  color: var(--white);
 }
 
-
 :global .bg-gradual-orange {
-	background-image: var(--gradualOrange);
-	color: var(--white);
+  background-image: var(--gradualOrange);
+  color: var(--white);
 }
 
 :global .bg-gradual-green {
-	background-image: var(--gradualGreen);
-	color: var(--white);
+  background-image: var(--gradualGreen);
+  color: var(--white);
 }
 
 :global .bg-gradual-purple {
-	background-image: var(--gradualPurple);
-	color: var(--white);
+  background-image: var(--gradualPurple);
+  color: var(--white);
 }
 
 :global .bg-gradual-pink {
-	background-image: var(--gradualPink);
-	color: var(--white);
+  background-image: var(--gradualPink);
+  color: var(--white);
 }
 
-
 :global .bg-gradual-blue {
-	background-image: var(--gradualBlue);
-	color: var(--white);
+  background-image: var(--gradualBlue);
+  color: var(--white);
 }
 
 :global .bg-red {
-	background-color: var(--red);
-	color: var(--white);
+  background-color: var(--red);
+  color: var(--white);
 }
 
 :global .bg-orange {
-	background-color: var(--orange);
-	color: var(--white);
+  background-color: var(--orange);
+  color: var(--white);
 }
 
 :global .bg-yellow {
-	background-color: var(--yellow);
-	color: var(--black);
+  background-color: var(--yellow);
+  color: var(--black);
 }
 
 :global .bg-olive {
-	background-color: var(--olive);
-	color: var(--white);
+  background-color: var(--olive);
+  color: var(--white);
 }
 
 :global .bg-green {
-	background-color: var(--green);
-	color: var(--white);
+  background-color: var(--green);
+  color: var(--white);
 }
 
 :global .bg-cyan {
-	background-color: var(--cyan);
-	color: var(--white);
+  background-color: var(--cyan);
+  color: var(--white);
 }
 
 :global .bg-blue {
-	background-color: var(--blue);
-	color: var(--white);
+  background-color: var(--blue);
+  color: var(--white);
 }
 
 :global .bg-purple {
-	background-color: var(--purple);
-	color: var(--white);
+  background-color: var(--purple);
+  color: var(--white);
 }
 
 :global .bg-mauve {
-	background-color: var(--mauve);
-	color: var(--white);
+  background-color: var(--mauve);
+  color: var(--white);
 }
 
 :global .bg-pink {
-	background-color: var(--pink);
-	color: var(--white);
+  background-color: var(--pink);
+  color: var(--white);
 }
 
 :global .bg-brown {
-	background-color: var(--brown);
-	color: var(--white);
+  background-color: var(--brown);
+  color: var(--white);
 }
 
 :global .bg-grey {
-	background-color: var(--grey);
-	color: var(--white);
+  background-color: var(--grey);
+  color: var(--white);
 }
 
 :global .bg-gray {
-	background-color: #f0f0f0;
-	color: var(--black);
+  background-color: #f0f0f0;
+  color: var(--black);
 }
 
 :global .bg-black {
-	background-color: var(--black);
-	color: var(--white);
+  background-color: var(--black);
+  color: var(--white);
 }
 
 :global .bg-white {
-	background-color: var(--white);
-	color: var(--darkGray);
+  background-color: var(--white);
+  color: var(--darkGray);
 }
 
-
-:global .margin-right{
-	margin-right: 5rpx;
+:global .margin-right {
+  margin-right: 5rpx;
 }
