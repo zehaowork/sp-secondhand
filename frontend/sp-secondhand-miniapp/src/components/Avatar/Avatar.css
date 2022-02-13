@@ -17,6 +17,7 @@
   margin-right: 30px;
   width: 114px;
   height: 114px;
+  overflow: hidden;
 }
 
 .avatar_md {

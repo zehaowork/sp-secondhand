@@ -10,6 +10,7 @@ import SellerShopIcon from "../../images/shop1.png";
 import { addFavorite, deleteFavorite } from "../../actions/favorite";
 import { useDispatch, useSelector } from "react-redux";
 import { Utils } from "../../../utils/Utils";
+import Avatar from "../../components/Avatar/Avatar";
 
 enum Conditions {
   BrandNew = "全新",
@@ -117,14 +118,7 @@ const Index: React.FC = () => {
       <View className={showTopHeader ? s.header_top : s.header_hide}>
         <View className={s.content}>
           <View className={s.user}>
-            <Image
-              src={
-                item?.userProfileImgUrl != undefined
-                  ? item?.userProfileImgUrl
-                  : ""
-              }
-              className={s.avatar_lg}
-            />
+            <Avatar size="lg" imageUrl={item?.userProfileImgUrl} />
             <View className={s.infotag}>
               <View className={s.name}>{item?.userName}</View>
               <View>
@@ -191,14 +185,7 @@ const Index: React.FC = () => {
           <View className={s.header}>
             <View className={s.content}>
               <View className={s.user}>
-                <Image
-                  src={
-                    item?.userProfileImgUrl != undefined
-                      ? item?.userProfileImgUrl
-                      : ""
-                  }
-                  className={s.avatar_lg}
-                />
+                <Avatar size="lg" imageUrl={item?.userProfileImgUrl} />
                 <View className={s.name}>{item?.userName}</View>
               </View>
               <View className={s.btn}>
