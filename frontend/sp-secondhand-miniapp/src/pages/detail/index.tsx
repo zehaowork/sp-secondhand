@@ -20,7 +20,8 @@ enum Conditions {
 
 const Index: React.FC = () => {
   const $instance = Taro.getCurrentInstance(); //页面对象
-  const item = $instance.router?.params.item === undefined
+  const item =
+    $instance.router?.params.item === undefined
       ? ""
       : JSON.parse($instance.router?.params.item);
   const [showTopHeader, setShowTopHeader] = useState(true);
@@ -39,7 +40,8 @@ const Index: React.FC = () => {
     }
   }, []);
 
-  const isFav = item != undefined
+  const isFav =
+    item != undefined
       ? favorite.favorites.some((fav) => fav.id === item.id)
       : false;
 
@@ -63,7 +65,7 @@ const Index: React.FC = () => {
   const copyToClipboard = (contactDetail: string) => {
     Taro.setClipboardData({
       data: contactDetail,
-      success: function() {
+      success: function () {
         Taro.showToast({
           title: "复制成功",
           icon: "success",
@@ -202,7 +204,7 @@ const Index: React.FC = () => {
               <View className={s.btn}>
                 <View className={s.btn_with_icon} onClick={toChatroom}>
                   <Image src={MessageIcon} className={s.icon} />
-                  联系卖家
+                  <Text>联系卖家</Text>
                 </View>
                 <View className={s.btn_with_icon} onClick={toShopPage}>
                   <Image src={SellerShopIcon} className={s.icon} />
@@ -232,9 +234,9 @@ const Index: React.FC = () => {
                 className={s.contact_content}
                 onClick={() => copyToClipboard(item.weChatId)}
               >
-                <View>
+                <View className={s.contact_icon_container}>
                   <Image src={WeixinIcon} className={s.icon} />
-                  <Text> {hideNumbers(item.weChatId)} </Text>
+                  {hideNumbers(item.weChatId)}
                 </View>
                 <View className={s.copy}> 点击复制卖家微信</View>
               </View>
@@ -247,9 +249,9 @@ const Index: React.FC = () => {
                 className={s.contact_content}
                 onClick={() => copyToClipboard(item.telephone)}
               >
-                <View>
+                <View className={s.contact_icon_container}>
                   <Image src={MobileIcon} className={s.icon} />
-                  <Text> {hideNumbers(item.telephone)} </Text>
+                  {hideNumbers(item.telephone)}
                 </View>
                 <View className={s.copy}> 点击复制卖家电话</View>
               </View>
