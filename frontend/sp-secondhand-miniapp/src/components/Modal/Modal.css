@@ -1,0 +1,67 @@
+.mask {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0.5;
+    z-index: 900;
+  }
+  
+  .window {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    background-color: white;
+    z-index: 991;
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 10rpx;
+    width: 600px;
+    height: 400px;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .title {
+    composes: text-Headline from global;
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    text-align: center;
+    border-bottom: 1px solid #eeeeee;
+  }
+  
+  .button_set {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  .button {
+    width: 50%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    font-size: 28px;
+  }
+  
+  .input_set {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .input {
+    width: 250px;
+    border-radius: 16px;
+    border: 6px solid #c5c7cd;
+    padding: 10px;
+  }
+  .input:hover {
+    box-shadow: 0 0 10px #276dff;
+  }
+  

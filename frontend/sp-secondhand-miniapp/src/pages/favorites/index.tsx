@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react'
+import { getCurrentInstance } from "@tarojs/taro";
 import {useDispatch,useSelector} from 'react-redux'
 import {usePullDownRefresh} from '@tarojs/taro'
 import { View } from '@tarojs/components'
@@ -12,20 +13,21 @@ interface Props {
 }
 const Index: React.FC<Props> = () => {
     //定义状态、变量
+    let id:string | undefined;
     const dispatch = useDispatch();
     const favorite = useSelector(({favorite}) => favorite); // 储存着reducer里面的三个state
-    let testUser = 333; //userID 333, itemId 960, 963
 
     //这里使用action获取数据
     useEffect(() => {
-        if(favorite.favorites === [] && !favorite.isLoading) {
-            getFavList(testUser);
+        id = getCurrentInstance().router!.params.id;
+        if(favorite.favorites === [] && !favorite.isLoading && id) {
+            getFavList(id as unknown as number);
         }
 
     }, [])
 
     usePullDownRefresh(()=>{
-        getFavList( testUser);
+        getFavList(id as unknown as number);
     })
 
     const getFavList = (userId:number) => {

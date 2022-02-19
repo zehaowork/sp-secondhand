@@ -4,6 +4,7 @@ import {
   searchSecondHandParam,
   getSecondHandByUserParam,
   toggleFavoriteParam,
+  User,
 } from "src/typings/common";
 //服务器地址
 const BASE_URL: string = "http://test.smallpotatoestech.com:8087/api/";
@@ -108,7 +109,7 @@ const API = {
       });
     },
   },
-  //主页相关动态资源API
+  // 主页相关静态资源API
   StaticData: {
     getCategories: function () {
       return Taro.request({
@@ -139,6 +140,7 @@ const API = {
       });
     },
   },
+  // 地图相关API
   GoogleMaps: {
     getGeocoding: () => {
       return Taro.request({
@@ -175,6 +177,24 @@ const API = {
           GOOGLE_MAP_API_KEY,
         header: header,
         method: Method.GET,
+      });
+    },
+  },
+  // 用户相关API
+  User: {
+    getOpenId: function (code: string) {
+      return Taro.request({
+        url: BASE_URL + "user/openId/" + code,
+        header: header,
+        method: Method.GET,
+      });
+    },
+    signUp: function (data: User) {
+      return Taro.request({
+        url: BASE_URL + "user",
+        header: header,
+        method: Method.POST,
+        data: data,
       });
     },
   },
