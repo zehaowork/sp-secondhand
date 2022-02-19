@@ -10,11 +10,10 @@ const Index: React.FC<Props> = () => {
     const arr = [1, 2]
     const arr2 = [1, 2, 3]
     const chatItems = arr.map((value)=> {
-        console.log(value)
         return <ChatItem></ChatItem>
     })
     const chatItems2 = arr2.map((value) => {
-        console.log(value)
+
         return <ChatItem></ChatItem>
     })
     return (

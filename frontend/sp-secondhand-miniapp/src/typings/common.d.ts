@@ -1,5 +1,5 @@
 import { GoodType } from "src/pages/index";
-//物品接口
+// 物品接口
 declare interface Item {
   id: number;
   title: string;
@@ -24,7 +24,18 @@ declare interface Item {
   status: string;
 }
 
-//Banner图片
+// 用户接口
+declare interface User {
+  id: number;
+  openId: string;
+  userName: string;
+  city: string;
+  gender: number;
+  profileImgUrl: string;
+  joinTime: string;
+}
+
+// Banner图片
 interface Banner {
   id: number;
   imgUrl: string;
@@ -32,7 +43,7 @@ interface Banner {
   order: number;
 }
 
-//地址列表
+// 地址列表
 interface City {
   id: number;
   name: string;
@@ -42,7 +53,7 @@ interface City {
   englishName: string;
 }
 
-//API参数接口
+// API参数接口
 declare interface searchSecondHandParam {
   catId: number;
   cityId: number;

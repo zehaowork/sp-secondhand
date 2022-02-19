@@ -1,5 +1,6 @@
 import { View, Text } from "@tarojs/components";
 import React, { useState, useEffect } from "react";
+import { getCurrentInstance } from "@tarojs/taro";
 import s from "./index.css";
 import Tag from "../../components/Tag/Tag";
 import GoodsList from "../../components/GoodsList/GoodsList";
@@ -10,6 +11,7 @@ import { usePullDownRefresh } from "@tarojs/taro";
 
 interface Props {}
 const Index: React.FC<Props> = () => {
+  let id:string | undefined;
   const [itemList, setItemList] = useState<Item[]>([]);
   const [activeId, setActiveId] = useState(0);
   const [tagSize, setTagSize] = useState<number>();
@@ -18,9 +20,9 @@ const Index: React.FC<Props> = () => {
   const myItemList = useSelector(({ myItemList }) => myItemList); // 储存着reducer里面的三个state
 
   useEffect(() => {
-    if (myItemList.itemList.length === 0 && !myItemList.isLoading) {
-      getItemList(4); //testUser
-    }
+    
+    id = getCurrentInstance().router!.params.id;
+    if (id) dispatch(getMyItemList(id as unknown as number));
   }, []);
 
   useEffect(() => {
@@ -32,12 +34,10 @@ const Index: React.FC<Props> = () => {
   }, [myItemList.itemList]);
 
   usePullDownRefresh(() => {
-    getMyItemList(4);
+    if (id) dispatch(getMyItemList(id as unknown as number));
   });
-
-  const getItemList = (userId: number) => {
-    dispatch(getMyItemList(userId));
-  };
+  
+ 
 
   const handleFilter = (status: string) => {
     var itemList = [];

@@ -2,10 +2,13 @@ import "taro-ui/dist/style/components/icon.scss";
 import "taro-ui/dist/style/components/divider.scss";
 import "taro-ui/dist/style/components/fab.scss";
 import React, { Component } from "react";
+import Taro from "@tarojs/taro";
 import { Provider } from "react-redux";
 import configStore from "./store";
 
 import "./app.css";
+import { User } from "./typings/common";
+import { SAVE_USER_INFO } from "./actions/user";
 
 const store = configStore();
 
@@ -16,9 +19,11 @@ export interface AppData {
   userId: number | string;
   imgUrl: string;
   BASE_URL: string;
+  user: User | undefined;
 }
 class App extends Component {
   AppData: AppData;
+  store: any;
 
   constructor(props) {
     super(props);
@@ -29,10 +34,13 @@ class App extends Component {
       userId: 0,
       imgUrl: "http://120.79.59.51:8087/",
       BASE_URL: "https://www.smallpotatoestech.com/",
+      user: undefined,
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+
+  }
 
   componentDidShow() {}
 

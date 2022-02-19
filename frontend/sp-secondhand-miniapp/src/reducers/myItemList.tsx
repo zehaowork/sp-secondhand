@@ -13,7 +13,7 @@ const INITIAL_STATE: ITEMLIST_STATE = {
   errMsg: "", // 用于 储存错误信息
 };
 
-const myItemListReducer = (state = INITIAL_STATE, action) => {
+export default function myItemList(state = INITIAL_STATE, action) {
   switch (action.type) {
     case "GET_MYITEMLIST_REQUEST":
       return {
@@ -57,6 +57,4 @@ const myItemListReducer = (state = INITIAL_STATE, action) => {
     default:
       return state;
   }
-};
-
-export default myItemListReducer;
+}

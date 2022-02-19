@@ -13,8 +13,9 @@ import CitySelector from '../../components/CitySelector/CitySelector'
 import Fab from '../../components/Fab/Fab'
 import {AtDivider,AtActionSheet,AtActionSheetItem,AtIcon} from 'taro-ui'
 import API from '../../../utils/API'
-import { Banner, City, Item } from 'src/typings/common'
+import { Banner, City, Item, User } from 'src/typings/common'
 import { getFavoriteList } from '../../actions/favorite'
+import { SAVE_USER_INFO } from '../../actions/user'
 
 
 
@@ -42,7 +43,7 @@ const Index: React.FC<Props> = ()=>{
   const [itemList, setItemList] = useState<Array<Item>>([]);
   const [page, setPage] = useState(0);
   const [catId, setCatId] = useState(0);
-  const [city, setCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false});
+  const [city, setCity] = useState<City>({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false,englishName:'United Kingdom'});
   const [categoryList, setCategoryList] = useState([]);
   const [bannerList, setBannerList] = useState<Banner[]>([]);
   const [showLoading, setShowLoading] = useState(false);
@@ -63,7 +64,14 @@ const Index: React.FC<Props> = ()=>{
   useEffect(() => {
   getCategories();
   getBanners();
-  dispatch(getFavoriteList(333));
+
+  Taro.getStorage({key:'userInfo'}).then((data) => {
+    const user: User = JSON.parse(data.data);
+    dispatch(SAVE_USER_INFO(user));
+    dispatch(getFavoriteList(user.id));
+  })
+
+  
   }, []);
 
   useReachBottom(() => {
@@ -93,7 +101,7 @@ const Index: React.FC<Props> = ()=>{
         }
       }).catch(()=>{
         if(!itemList.length){
-          setCity({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false});
+          setCity({id:0,countryId:2,name:'英国',firstLetter:'A',isPopular:false,englishName:'United Kingdom'});
           getList(0,0,'TimeDesc',0);
         }
       })
@@ -188,7 +196,6 @@ const Index: React.FC<Props> = ()=>{
   const getBanners = ()=>{
     API.StaticData.getBanners().then(res =>{
       if(res.statusCode === 200){
-        console.log(res.data.data);
         setBannerList(res.data.data);
       }
       else{
