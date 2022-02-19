@@ -196,7 +196,6 @@ const Index: React.FC<Props> = ()=>{
   const getBanners = ()=>{
     API.StaticData.getBanners().then(res =>{
       if(res.statusCode === 200){
-        console.log(res.data.data);
         setBannerList(res.data.data);
       }
       else{

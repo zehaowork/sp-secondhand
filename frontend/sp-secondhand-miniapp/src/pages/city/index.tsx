@@ -63,7 +63,6 @@ const Index: React.FC<Props> = () => {
     API.StaticData.getCities()
       .then((res) => {
         if (res.statusCode === 200) {
-          console.log(res.data.data);
           (res.data.data as City[]).sort(
             (a, b) => a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
           );

@@ -1,6 +1,6 @@
 import { View, Text } from "@tarojs/components";
 import React, { useState, useEffect } from "react";
-import Taro, { getCurrentInstance } from "@tarojs/taro";
+import { getCurrentInstance } from "@tarojs/taro";
 import s from "./index.css";
 import Tag from "../../components/Tag/Tag";
 import GoodsList from "../../components/GoodsList/GoodsList";
@@ -22,7 +22,6 @@ const Index: React.FC<Props> = () => {
   useEffect(() => {
     
     id = getCurrentInstance().router!.params.id;
-    console.log(getCurrentInstance());
     if (id) dispatch(getMyItemList(id as unknown as number));
   }, []);
 
