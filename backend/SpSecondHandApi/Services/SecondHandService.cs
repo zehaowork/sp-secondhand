@@ -26,7 +26,7 @@ namespace SpSecondHandApi.Services
 
         #region Second Hand
 
-        public async Task<SecondHandDto> GetSecondHandById(long id)
+        public async Task<SecondHandDto> AddViews(long id)
         {
             var shItem = await _shRepo.Get(id);
 
@@ -49,7 +49,7 @@ namespace SpSecondHandApi.Services
                 match = match && (cityId == 0 || sh.City.Id == cityId);
                 match = match && (string.IsNullOrWhiteSpace(keyword) || sh.Title.Contains(keyword));
 
-                return match;
+                return match && (sh.Status == (int) Status.OnSale);
             };
 
             ProcessSorting(sort, out var orderBy, out var isDesc);
@@ -65,7 +65,7 @@ namespace SpSecondHandApi.Services
                 var match = sh.City.Id != cityId;
                 match = match && (string.IsNullOrWhiteSpace(keyword) || sh.Title.Contains(keyword));
 
-                return match;
+                return match && (sh.Status == (int)Status.OnSale);
             };
 
             ProcessSorting(sort, out var orderBy, out var isDesc);

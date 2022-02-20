@@ -27,17 +27,17 @@ namespace SpSecondHandApi.Controllers
         #region Second Hand
 
         [HttpGet]
-        [Route("id/{shId:long}")]
-        public async Task<ActionResult<RespondObject<SecondHandDto>>> GetSecondHand(long shId)
+        [Route("views/{shId:long}")]
+        public async Task<ActionResult<RespondObject<SecondHandDto>>> AddViews(long shId)
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetSecondHand)} called.");
+                _logger.LogInformation($"{nameof(AddViews)} called.");
 
                 return Ok(new RespondObject<SecondHandDto>()
                 {
                     Message = "Success",
-                    Data = await _shService.GetSecondHandById(shId)
+                    Data = await _shService.AddViews(shId)
                 });
             }
             catch (Exception e)
@@ -52,7 +52,7 @@ namespace SpSecondHandApi.Controllers
             }
             finally
             {
-                _logger.LogInformation($"{nameof(GetSecondHand)} complete");
+                _logger.LogInformation($"{nameof(AddViews)} complete");
             }
         }
 

@@ -8,7 +8,7 @@ namespace SpSecondHandApi.Interfaces
 {
     public interface ISecondHandService
     {
-        Task<SecondHandDto> GetSecondHandById(long id);
+        Task<SecondHandDto> AddViews(long id);
 
         Task<List<SecondHandDto>> GetSecondHand(int catId, int cityId, string keyword, int page, int size,
             SortType sort);

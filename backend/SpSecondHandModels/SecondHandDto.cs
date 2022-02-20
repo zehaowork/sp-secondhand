@@ -19,7 +19,7 @@ namespace SpSecondHandModels
         public DateTime? PublishTime { get; set; }
         public int CityId { get; set; }
         public Status Status { get; set; }
-        public long? View { get; set; }
+        public long View { get; set; }
         public int Popularity { get; set; }
 
         public string CityName { get; set; }
