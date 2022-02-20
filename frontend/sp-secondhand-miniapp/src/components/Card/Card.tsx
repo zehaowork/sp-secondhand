@@ -158,7 +158,6 @@ const Card: React.FC<Props> = (props) => {
           isOpened={isOpened}
           cancelText="取消"
           onCancel={() => setIsOpened(false)}
-          onClose={() => setIsOpened(!isOpened)}
         >
           {/* TODO: REDUX */}
           <AtActionSheetItem onClick={() => toPublish()}>
@@ -189,7 +188,7 @@ const Card: React.FC<Props> = (props) => {
               上架商品
             </AtActionSheetItem>
           )}
-          <AtActionSheetItem onClick={() => handleDelete()}>
+          <AtActionSheetItem onClick={handleDelete}>
             彻底删除
           </AtActionSheetItem>
         </AtActionSheet>
