@@ -7,7 +7,7 @@ import EmptyListIcon from "../../images/box3.png";
 
 interface Props {
   isFavouritesPage?: boolean;
-  isShopPage?: boolean;
+  isSelf?: boolean;
   itemList: Array<Item>;
   keyword?: string;
   showPlaceholder?: boolean;
@@ -23,7 +23,7 @@ const GoodsList: React.FC<Props> = (props) => {
         key={item.id}
         item={item}
         isFavouritesPage={props.isFavouritesPage}
-        isShopPage={props.isShopPage}
+        editable={props.isSelf}
       />
     );
   });
