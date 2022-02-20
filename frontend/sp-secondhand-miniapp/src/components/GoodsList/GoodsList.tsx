@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image } from "@tarojs/components";
+import { View, Image, ITouchEvent } from "@tarojs/components";
 import { Item } from "src/typings/common";
 import s from "./GoodsList.css";
 import Card from "../Card/Card";
@@ -7,7 +7,8 @@ import EmptyListIcon from "../../images/box3.png";
 
 interface Props {
   isFavouritesPage?: boolean;
-  isSelf?: boolean;
+  editable?: boolean;
+  onEdit: (event?: ITouchEvent<any>) => void;
   itemList: Array<Item>;
   keyword?: string;
   showPlaceholder?: boolean;
@@ -23,7 +24,8 @@ const GoodsList: React.FC<Props> = (props) => {
         key={item.id}
         item={item}
         isFavouritesPage={props.isFavouritesPage}
-        editable={props.isSelf}
+        editable={props.editable}
+        onEdit={props.onEdit}
       />
     );
   });

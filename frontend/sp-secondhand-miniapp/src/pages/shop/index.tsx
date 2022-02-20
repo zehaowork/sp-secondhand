@@ -9,51 +9,44 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMyItemList } from "../../actions/myItemList";
 import { usePullDownRefresh } from "@tarojs/taro";
 
+enum FILTER_TYPE {
+  ALL = "All", // 所有
+  UNPUBLISHED = "Unpublished", // 下架
+  ONSALE = "OnSale", // 在售
+  SOLD = "Sold", // 已售
+}
+
 interface Props {}
 const Index: React.FC<Props> = () => {
-  let id: number | undefined;
-  const [itemList, setItemList] = useState<Item[]>([]);
-  const [activeId, setActiveId] = useState(0);
-  const [tagSize, setTagSize] = useState<number>();
-  const [isSelf, setIsSelf] = useState(false);
-
   const dispatch = useDispatch();
-  const myItemList = useSelector(({ myItemList }) => myItemList); // 储存着reducer里面的三个state
+  let id: number | undefined;
+  const [activeFilter, setActiveFilter] = useState<FILTER_TYPE>(
+    FILTER_TYPE.ALL
+  );
+  const [editable, setEditable] = useState(false);
   const selfId: number = useSelector(({ user }) => user.user.id);
+
+  const isLoading = useSelector(({ myItemList }) => myItemList.isLoading);
+  const myItemList: Item[] = useSelector(
+    ({ myItemList }) => myItemList.itemList
+  ).filter((item) => {
+    if (activeFilter === FILTER_TYPE.ALL)
+      return item.status !== FILTER_TYPE.UNPUBLISHED;
+    return item.status === activeFilter;
+  });
 
   useEffect(() => {
     id = getCurrentInstance().router!.params.id as unknown as number;
 
     if (id) {
       dispatch(getMyItemList(id));
-      setIsSelf(id == selfId);
+      setEditable(id == selfId);
     }
   }, []);
-
-  useEffect(() => {
-    if (myItemList.itemList.length != 0) {
-      setItemList(
-        myItemList.itemList.filter((item) => item.status != "Unpublished")
-      );
-    }
-  }, [myItemList.itemList]);
 
   usePullDownRefresh(() => {
     if (id) dispatch(getMyItemList(id));
   });
-
-  const handleFilter = (status: string) => {
-    var itemList = [];
-    if (status == "All") {
-      itemList = myItemList.itemList.filter(
-        (item) => item.status != "Unpublished"
-      );
-    } else {
-      itemList = myItemList.itemList.filter((item) => item.status == status);
-    }
-    setItemList(itemList);
-    setTagSize(itemList.length);
-  };
 
   return (
     <View className={s.container}>
@@ -62,50 +55,47 @@ const Index: React.FC<Props> = () => {
           <Tag
             size="normal"
             onClick={() => {
-              handleFilter("All");
-              setActiveId(0);
+              setActiveFilter(FILTER_TYPE.ALL);
             }}
-            active={activeId == 0 ? true : false}
+            active={activeFilter === FILTER_TYPE.ALL}
           >
-            全部商品 {activeId == 0 ? tagSize : ""}
+            全部商品 {activeFilter === FILTER_TYPE.ALL && myItemList.length}
           </Tag>
           <Tag
             size="normal"
             onClick={() => {
-              handleFilter("OnSale");
-              setActiveId(1);
+              setActiveFilter(FILTER_TYPE.ONSALE);
             }}
-            active={activeId == 1 ? true : false}
+            active={activeFilter == FILTER_TYPE.ONSALE}
           >
-            在售 {activeId == 1 ? tagSize : ""}
+            在售 {activeFilter === FILTER_TYPE.ONSALE && myItemList.length}
           </Tag>
           <Tag
             size="normal"
             onClick={() => {
-              handleFilter("Sold");
-              setActiveId(2);
+              setActiveFilter(FILTER_TYPE.SOLD);
             }}
-            active={activeId == 2 ? true : false}
+            active={activeFilter === FILTER_TYPE.SOLD}
           >
-            已售 {activeId == 2 ? tagSize : ""}
+            已售 {activeFilter === FILTER_TYPE.SOLD && myItemList.length}
           </Tag>
         </View>
         <View
           className={s.archive}
           onClick={() => {
-            handleFilter("Unpublished");
-            setActiveId(4);
+            setActiveFilter(FILTER_TYPE.UNPUBLISHED);
           }}
         >
           <Text>下架商品</Text>
         </View>
       </View>
       <GoodsList
-        showLoading={myItemList.isLoading}
+        showLoading={isLoading}
         showPlaceholder
         isFavouritesPage={false}
-        itemList={itemList}
-        isSelf={isSelf}
+        itemList={myItemList}
+        editable={editable}
+        onEdit={() => {setActiveFilter(FILTER_TYPE.ALL)}}
       ></GoodsList>
     </View>
   );

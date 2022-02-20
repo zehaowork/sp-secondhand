@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { View, Image, RichText } from "@tarojs/components";
+import { View, Image, RichText, ITouchEvent } from "@tarojs/components";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,6 +21,7 @@ interface Props {
   item: Item;
   isFavouritesPage?: boolean;
   editable?: boolean;
+  onEdit: (event?: ITouchEvent<any>) => void;
   keyword?: string;
 }
 
@@ -77,6 +78,7 @@ const Card: React.FC<Props> = (props) => {
 
   const modifyStatus = (status: string) => {
     dispatch(updateItemStatus(props.item, status));
+    props.onEdit();
   };
 
   const handleDelete = () => {
