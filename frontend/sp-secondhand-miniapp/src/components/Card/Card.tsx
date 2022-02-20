@@ -20,7 +20,7 @@ import { updateItemStatus, deleteItem } from "../../actions/myItemList";
 interface Props {
   item: Item;
   isFavouritesPage?: boolean;
-  isShopPage?: boolean;
+  editable?: boolean;
   keyword?: string;
 }
 
@@ -92,20 +92,22 @@ const Card: React.FC<Props> = (props) => {
           className={s.image}
         ></Image>
         {props.item.status == "Sold" && <View className={s.sold}>已出售</View>}
-        <View className={s.icon}>
-          <AtIcon
-            className={isNewFav && s.heartBeat}
-            value={isFav ? "heart-2" : "heart"}
-            size="20"
-            color={isFav ? "#e54d42" : "white"}
-            onClick={onClick.bind(this)}
-          />
-        </View>
+        {!props.editable && (
+          <View className={s.icon}>
+            <AtIcon
+              className={isNewFav && s.heartBeat}
+              value={isFav ? "heart-2" : "heart"}
+              size="20"
+              color={isFav ? "#e54d42" : "white"}
+              onClick={onClick.bind(this)}
+            />
+          </View>
+        )}
       </View>
 
       <View className={s.info}>
         {/* 商品小标签 */}
-        {!props.isShopPage && (
+        {!props.editable && (
           <View className={s.tags}>
             <CityTag CityName={props.item.cityName} />
             <TypeTag GoodType={props.item.type} />
@@ -124,13 +126,13 @@ const Card: React.FC<Props> = (props) => {
               )}
             />
           </View>
-          {!props.isShopPage && (
+          {!props.editable && (
             <View className="price-yellow">£{props.item.price}</View>
           )}
         </View>
 
         {/* 编辑按钮 - 只在商品列表下显示 */}
-        {props.isShopPage && (
+        {props.editable && (
           <View className="flex flex-space-between">
             <View className="price-yellow">£{props.item.price}</View>
             <View onClick={handleDots.bind(this)}>
@@ -142,7 +144,7 @@ const Card: React.FC<Props> = (props) => {
         )}
 
         {/* 商家信息 */}
-        {(!props.isShopPage || !props.isFavouritesPage) && (
+        {(!props.editable || !props.isFavouritesPage) && (
           <View className="flex flex-space-between">
             <View className={s.user}>
               <Avatar size="sm" imageUrl={props.item.userProfileImgUrl} />
@@ -188,9 +190,7 @@ const Card: React.FC<Props> = (props) => {
               上架商品
             </AtActionSheetItem>
           )}
-          <AtActionSheetItem onClick={handleDelete}>
-            彻底删除
-          </AtActionSheetItem>
+          <AtActionSheetItem onClick={handleDelete}>彻底删除</AtActionSheetItem>
         </AtActionSheet>
       </View>
     </View>

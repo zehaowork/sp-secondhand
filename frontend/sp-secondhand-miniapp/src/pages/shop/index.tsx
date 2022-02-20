@@ -11,18 +11,23 @@ import { usePullDownRefresh } from "@tarojs/taro";
 
 interface Props {}
 const Index: React.FC<Props> = () => {
-  let id:string | undefined;
+  let id: number | undefined;
   const [itemList, setItemList] = useState<Item[]>([]);
   const [activeId, setActiveId] = useState(0);
   const [tagSize, setTagSize] = useState<number>();
+  const [isSelf, setIsSelf] = useState(false);
 
   const dispatch = useDispatch();
   const myItemList = useSelector(({ myItemList }) => myItemList); // 储存着reducer里面的三个state
+  const selfId: number = useSelector(({ user }) => user.user.id);
 
   useEffect(() => {
-    
-    id = getCurrentInstance().router!.params.id;
-    if (id) dispatch(getMyItemList(id as unknown as number));
+    id = getCurrentInstance().router!.params.id as unknown as number;
+
+    if (id) {
+      dispatch(getMyItemList(id));
+      setIsSelf(id == selfId);
+    }
   }, []);
 
   useEffect(() => {
@@ -34,10 +39,8 @@ const Index: React.FC<Props> = () => {
   }, [myItemList.itemList]);
 
   usePullDownRefresh(() => {
-    if (id) dispatch(getMyItemList(id as unknown as number));
+    if (id) dispatch(getMyItemList(id));
   });
-  
- 
 
   const handleFilter = (status: string) => {
     var itemList = [];
@@ -102,7 +105,7 @@ const Index: React.FC<Props> = () => {
         showPlaceholder
         isFavouritesPage={false}
         itemList={itemList}
-        isShopPage={true}
+        isSelf={isSelf}
       ></GoodsList>
     </View>
   );
