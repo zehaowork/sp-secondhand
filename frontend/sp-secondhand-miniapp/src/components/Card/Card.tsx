@@ -160,7 +160,6 @@ const Card: React.FC<Props> = (props) => {
           isOpened={isOpened}
           cancelText="取消"
           onCancel={() => setIsOpened(false)}
-          onClose={() => setIsOpened(!isOpened)}
         >
           {/* TODO: REDUX */}
           <AtActionSheetItem onClick={() => toPublish()}>
