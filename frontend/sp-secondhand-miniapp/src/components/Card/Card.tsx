@@ -166,7 +166,7 @@ const Card: React.FC<Props> = (props) => {
               <Avatar size="sm" imageUrl={props.item.userProfileImgUrl} />
               <View className={s.name}>{props.item.userName}</View>
             </View>
-            <View className={s.name}>{views}人看过</View>
+            <View className={s.name}>{views > 99 ? "99+" : views}人看过</View>
           </View>
         )}
       </View>
