@@ -44,9 +44,9 @@ const Card: React.FC<Props> = (props) => {
     if (selfId !== props.item.id) {
       API.SecondHand.addView(props.item.id).then((res) => {
         console.log(res);
-        console.log
+        console.log;
         if (res.statusCode === 200) {
-          setViews(views+1);
+          setViews(views + 1);
         }
       });
     }
@@ -76,7 +76,7 @@ const Card: React.FC<Props> = (props) => {
     setViews(props.item.view);
   }, []);
 
-  var onClick = (e) => {
+  const onClick = (e) => {
     e[0].stopPropagation();
     isFav ? del() : add();
   };
