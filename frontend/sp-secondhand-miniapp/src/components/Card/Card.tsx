@@ -43,8 +43,6 @@ const Card: React.FC<Props> = (props) => {
     });
     if (selfId !== props.item.id) {
       API.SecondHand.addView(props.item.id).then((res) => {
-        console.log(res);
-        console.log;
         if (res.statusCode === 200) {
           setViews(views + 1);
         }
