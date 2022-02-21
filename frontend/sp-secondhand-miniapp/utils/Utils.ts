@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import { GOOD_CONDITION } from "../src/typings/enum";
 export const Utils = {
   /**
    *
@@ -30,5 +31,18 @@ export const Utils = {
     var format = "YYYY-MM-DD";
     const formatted_time = moment(time).format(format);
     return formatted_time;
+  },
+
+  convertGoodConditionToChinese: function (condition: string) {
+    switch (condition) {
+      case GOOD_CONDITION.BRAND_NEW:
+        return "全新";
+      case GOOD_CONDITION.LIKE_NEW:
+        return "近乎全新";
+      case GOOD_CONDITION.MINOR_FLAW:
+        return "轻微瑕疵";
+      case GOOD_CONDITION.OBVIOUS_FLAW:
+        return "明显瑕疵";
+    }
   },
 };
