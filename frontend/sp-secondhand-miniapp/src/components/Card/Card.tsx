@@ -16,6 +16,7 @@ import { Utils } from "../../../utils/Utils";
 
 import { addFavorite, deleteFavorite } from "../../actions/favorite";
 import { updateItemStatus, deleteItem } from "../../actions/myItemList";
+import API from "../../../utils/API";
 
 interface Props {
   item: Item;
@@ -30,14 +31,25 @@ const Card: React.FC<Props> = (props) => {
   //定义状态
   const [isOpened, setIsOpened] = useState(false);
   const [isNewFav, setIsNewFav] = useState(false);
+  const [views, setViews] = useState(0);
   const dispatch = useDispatch();
   const favorite = useSelector(({ favorite }) => favorite);
+  const selfId: number = useSelector(({ user }) => user.user.id);
 
   // 打开商品详情
   const toDetail = () => {
     Taro.navigateTo({
       url: "../detail/index?item=" + JSON.stringify(props.item),
     });
+    if (selfId !== props.item.id) {
+      API.SecondHand.addView(props.item.id).then((res) => {
+        console.log(res);
+        console.log
+        if (res.statusCode === 200) {
+          setViews(views+1);
+        }
+      });
+    }
   };
 
   //加入收藏
@@ -59,6 +71,10 @@ const Card: React.FC<Props> = (props) => {
       setIsNewFav(false);
     }
   }, [isFav]);
+
+  useEffect(() => {
+    setViews(props.item.view);
+  }, []);
 
   var onClick = (e) => {
     e[0].stopPropagation();
@@ -152,7 +168,7 @@ const Card: React.FC<Props> = (props) => {
               <Avatar size="sm" imageUrl={props.item.userProfileImgUrl} />
               <View className={s.name}>{props.item.userName}</View>
             </View>
-            <View className={s.name}>{props.item.popularity}人看过</View>
+            <View className={s.name}>{views}人看过</View>
           </View>
         )}
       </View>

@@ -22,6 +22,7 @@ declare interface Item {
   description: string;
   condition: string;
   status: string;
+  view: number;
 }
 
 // 用户接口

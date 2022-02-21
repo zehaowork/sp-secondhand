@@ -31,7 +31,7 @@ const API = {
       });
     },
 
-    getSecondHand: function (itemId) {
+    getSecondHand: function (itemId: number) {
       return Taro.request({
         url: BASE_URL + "secondHand/id/" + itemId,
         header: header,
@@ -70,6 +70,14 @@ const API = {
       return Taro.request({
         url: BASE_URL + "secondHand/excludeCity",
         data: data,
+        header: header,
+        method: Method.GET,
+      });
+    },
+
+    addView: (itemId: number) => {
+      return Taro.request({
+        url: BASE_URL + "secondHand/views/" + itemId,
         header: header,
         method: Method.GET,
       });
