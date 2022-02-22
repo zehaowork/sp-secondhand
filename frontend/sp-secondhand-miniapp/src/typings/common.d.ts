@@ -1,4 +1,4 @@
-import { GoodType } from "src/pages/index";
+export
 // 物品接口
 declare interface Item {
   id: number;
@@ -7,7 +7,6 @@ declare interface Item {
   weChatId: string;
   telephone: string;
   price: number;
-  type: number;
   address: string;
   userId: number;
   userName: string;

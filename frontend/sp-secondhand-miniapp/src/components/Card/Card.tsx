@@ -17,6 +17,7 @@ import { Utils } from "../../../utils/Utils";
 import { addFavorite, deleteFavorite } from "../../actions/favorite";
 import { updateItemStatus, deleteItem } from "../../actions/myItemList";
 import API from "../../../utils/API";
+import { GOOD_CONDITION } from "../../typings/enum";
 
 interface Props {
   item: Item;
@@ -126,7 +127,7 @@ const Card: React.FC<Props> = (props) => {
         {!props.editable && (
           <View className={s.tags}>
             <CityTag CityName={props.item.cityName} />
-            <TypeTag GoodType={props.item.type} />
+            <TypeTag condition={props.item.condition} />
             <CategoryTag CategoryName={props.item.categoryName} />
           </View>
         )}
