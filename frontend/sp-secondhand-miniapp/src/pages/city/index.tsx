@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Taro from "@tarojs/taro";
-import { ScrollView, View } from "@tarojs/components";
+import { RichText, ScrollView, View } from "@tarojs/components";
 import Tag from "../../components/Tag/Tag";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import s from "./index.css";
@@ -10,10 +10,12 @@ import Indexes from "../../components/Indexes/Indexes";
 import API from "../../../utils/API";
 import { City } from "src/typings/common";
 import InlineLoader from "../../components/InlineLoader/InlineLoader";
+import { Utils } from "../../../utils/Utils";
 
 interface Props {}
 const Index: React.FC<Props> = () => {
   const [cityList, setCityList] = useState<City[]>([]);
+  const [filteredCityList, setFilteredCityList] = useState<City[]>([]);
   const [scrollAnchor, setScrollAnchor] = useState<string>("A");
   const [currentCity, setCurrentCity] = useState<City>({
     id: 0,
@@ -67,6 +69,7 @@ const Index: React.FC<Props> = () => {
             (a, b) => a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
           );
           setCityList(res.data.data);
+          setFilteredCityList(res.data.data);
         } else {
           //TODO:添加错误信息
         }
@@ -93,7 +96,7 @@ const Index: React.FC<Props> = () => {
   //渲染函数
   const renderCityList = () => {
     let initialFirstLetter: string;
-    return cityList.map((city) => {
+    return filteredCityList.map((city) => {
       let isNewSection = initialFirstLetter !== city.firstLetter;
       initialFirstLetter = city.firstLetter;
       return (
@@ -109,14 +112,20 @@ const Index: React.FC<Props> = () => {
             }}
             className={s.item}
           >
-            {city.name}
+            <RichText
+              nodes={Utils.highlightKeyword(
+                keyword,
+                city.name,
+                "#ff8601"
+              )}
+            />
           </View>
         </React.Fragment>
       );
     });
   };
 
-  const renderPopularCity = cityList
+  const renderPopularCity = filteredCityList
     .filter((city) => city.isPopular)
     .map((city) => (
       <Tag
@@ -131,7 +140,7 @@ const Index: React.FC<Props> = () => {
     ));
   const distinctChars = () => {
     let chars: string[] = [];
-    cityList.forEach((city) => {
+    filteredCityList.forEach((city) => {
       if (!chars.includes(city.firstLetter)) {
         chars.push(city.firstLetter);
       }
@@ -147,15 +156,20 @@ const Index: React.FC<Props> = () => {
     setKeyword(input);
   };
 
+  const onSearch = () => {
+    if (!keyword) setFilteredCityList(cityList);
+    setFilteredCityList(cityList.filter((city) => city.name.includes(keyword)));
+  };
+
   return (
     <ScrollView scrollIntoView={scrollAnchor} scrollY className={s.page}>
       <Indexes onSelectChar={onSelectChar} chars={distinctChars()} />
       <SearchBar
         keyword={keyword}
         onInput={onInput}
-        placeholder="搜索城市名或Postcode (请输入英文)"
-        onConfirm={undefined}
-        onClick={undefined}
+        placeholder="搜索城市名"
+        onConfirm={onSearch}
+        onClick={onSearch}
       />
       <View className={s.container}>
         <View className={s.title}>当前城市定位</View>
