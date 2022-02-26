@@ -25,7 +25,6 @@
 }
 .title {
   composes: text-Body from global;
-  width: 230px;
   overflow: hidden;
   white-space: nowrap;
   word-break: keep-all;

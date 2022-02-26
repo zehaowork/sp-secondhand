@@ -17,7 +17,6 @@ import { Utils } from "../../../utils/Utils";
 import { addFavorite, deleteFavorite } from "../../actions/favorite";
 import { updateItemStatus, deleteItem } from "../../actions/myItemList";
 import API from "../../../utils/API";
-import { GOOD_CONDITION } from "../../typings/enum";
 
 interface Props {
   item: Item;
@@ -142,7 +141,7 @@ const Card: React.FC<Props> = (props) => {
             <RichText
               nodes={Utils.highlightKeyword(
                 props.keyword,
-                props.item.title,
+                Utils.ellipsis(props.item.title, 10),
                 "#ff8601"
               )}
             />
@@ -169,7 +168,9 @@ const Card: React.FC<Props> = (props) => {
           <View className="flex flex-space-between">
             <View className={s.user}>
               <Avatar size="sm" imageUrl={props.item.userProfileImgUrl} />
-              <View className={s.name}>{props.item.userName}</View>
+              <View className={s.name}>
+                {Utils.ellipsis(props.item.userName,7)}
+              </View>
             </View>
             <View className={s.name}>{views > 99 ? "99+" : views}人看过</View>
           </View>

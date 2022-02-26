@@ -45,4 +45,10 @@ export const Utils = {
         return "明显瑕疵";
     }
   },
+  ellipsis: function (str: string, limit: number) {
+    if (str.length > limit) {
+      return str.slice(0, limit) + "...";
+    }
+    return str;
+  },
 };
