@@ -35,7 +35,7 @@ const Card: React.FC<Props> = (props) => {
   const [views, setViews] = useState(0);
   const dispatch = useDispatch();
   const favorite = useSelector(({ favorite }) => favorite);
-  const selfId: number = useSelector(({ user }) => user.user.id);
+  const selfId: number | undefined = useSelector(({ user }) => user.user?.id);
 
   // 打开商品详情
   const toDetail = () => {
@@ -53,14 +53,18 @@ const Card: React.FC<Props> = (props) => {
 
   //加入收藏
   const add = () => {
-    dispatch(addFavorite({ userId: 4, item: props.item }));
-    setIsNewFav(true);
+    if (selfId) {
+      dispatch(addFavorite({ userId: selfId, item: props.item }));
+      setIsNewFav(true);
+    }
   };
 
   //删除收藏
   const del = () => {
-    dispatch(deleteFavorite({ userId: 4, item: props.item }));
-    setIsNewFav(false);
+    if (selfId) {
+      dispatch(deleteFavorite({ userId: selfId, item: props.item }));
+      setIsNewFav(false);
+    }
   };
 
   const isFav = favorite.favorites.some((fav) => fav.id === props.item.id);

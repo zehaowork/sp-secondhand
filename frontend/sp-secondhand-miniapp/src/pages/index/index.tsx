@@ -21,7 +21,6 @@ import { Banner, City, Item, User } from "../../typings/common";
 import { getFavoriteList } from "../../actions/favorite";
 import { SAVE_USER_INFO } from "../../actions/user";
 
-
 interface Props {}
 const Index: React.FC<Props> = () => {
   //定义状态
@@ -61,11 +60,17 @@ const Index: React.FC<Props> = () => {
     getCategories();
     getBanners();
 
-    Taro.getStorage({ key: "userInfo" }).then((data) => {
-      const user: User = JSON.parse(data.data);
-      dispatch(SAVE_USER_INFO(user));
-      dispatch(getFavoriteList(user.id));
-    });
+    Taro.getStorage({ key: "userInfo" })
+      .then((data) => {
+        const user = JSON.parse(data.data);
+        if (user.errMsg !== "getStorage:fail data not found") {
+          dispatch(SAVE_USER_INFO(user));
+          dispatch(getFavoriteList(user.id));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useReachBottom(() => {
