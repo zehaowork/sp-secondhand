@@ -24,6 +24,14 @@ declare interface Item {
   view: number;
 }
 
+
+ declare interface Category {
+  id: number;
+  name: string;
+  logoUrl: string;
+  order: 1;
+}
+
 // 用户接口
 declare interface User {
   id: number;

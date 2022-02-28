@@ -8,7 +8,7 @@ import EmptyListIcon from "../../images/box3.png";
 interface Props {
   isFavouritesPage?: boolean;
   editable?: boolean;
-  onEdit: (event?: ITouchEvent<any>) => void;
+  onEdit?: (event?: ITouchEvent<any>) => void;
   itemList: Array<Item>;
   keyword?: string;
   showPlaceholder?: boolean;
@@ -25,7 +25,7 @@ const GoodsList: React.FC<Props> = (props) => {
         item={item}
         isFavouritesPage={props.isFavouritesPage}
         editable={props.editable}
-        onEdit={props.onEdit}
+        onEdit={props.onEdit ? props.onEdit : undefined}
       />
     );
   });

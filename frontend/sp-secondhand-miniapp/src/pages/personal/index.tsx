@@ -1,7 +1,7 @@
 import { OpenData, View, Image } from "@tarojs/components";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import Taro from "@tarojs/taro";
+import { useSelector, useDispatch } from "react-redux";
+import Taro,{useDidShow} from "@tarojs/taro";
 import s from "./index.css";
 
 //组件资源
@@ -18,12 +18,19 @@ import CustomerServiceIcon from "../../images/customer_service.png";
 import FavoritesIcon from "../../images/favorites_folder.svg";
 import LoginModal from "../../components/Modal/LoginModal/LoginModal";
 import { User } from "src/typings/common";
+import { changeIndex } from "../../actions/tab-bar";
 
 interface Props {}
 
 const Index: React.FC<Props> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const user: User | undefined = useSelector(({ user }) => user.user);
+
+
+
+  useDidShow(() => dispatch(changeIndex(2)));
+  
 
   const onModalCancel = () => {
     setIsModalOpen(false);
@@ -34,32 +41,27 @@ const Index: React.FC<Props> = () => {
     setIsModalOpen(true);
   };
 
-
-  const toShop = ()=> {
-    if(!user) {
+  const toShop = () => {
+    if (!user) {
       openModal();
       return;
-    }
-    else{
+    } else {
       Taro.navigateTo({
-        url: "/pages/shop/index?id="+user.id,
+        url: "/pages/shop/index?id=" + user.id,
       });
     }
-  }
+  };
 
-  const toFavorites = ()=> {
-    if(!user) {
+  const toFavorites = () => {
+    if (!user) {
       openModal();
       return;
-    }
-    else{
+    } else {
       Taro.navigateTo({
-        url: "/pages/favorites/index?id="+user.id,
+        url: "/pages/favorites/index?id=" + user.id,
       });
     }
-  }
-
-
+  };
 
   return (
     <View className={s.container}>
@@ -84,10 +86,7 @@ const Index: React.FC<Props> = () => {
 
       {/* 用户子界面列表 */}
       <View className={s.list}>
-        <View
-          className={s.item}
-          onClick={toShop}
-        >
+        <View className={s.item} onClick={toShop}>
           <Image src={ShopIcon} className={s.icon} />
           我的店铺
           <View className={s.redirect}>
@@ -99,10 +98,7 @@ const Index: React.FC<Props> = () => {
             ></AtIcon>{" "}
           </View>
         </View>
-        <View
-          className={s.item}
-          onClick={toFavorites}
-        >
+        <View className={s.item} onClick={toFavorites}>
           <Image src={FavoritesIcon} className={s.icon} />
           收藏夹
           <View className={s.redirect}>

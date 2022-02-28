@@ -22,7 +22,7 @@ interface Props {
   item: Item;
   isFavouritesPage?: boolean;
   editable?: boolean;
-  onEdit: (event?: ITouchEvent<any>) => void;
+  onEdit?: (event?: ITouchEvent<any>) => void;
   keyword?: string;
 }
 
@@ -96,7 +96,9 @@ const Card: React.FC<Props> = (props) => {
 
   const modifyStatus = (status: string) => {
     dispatch(updateItemStatus(props.item, status));
-    props.onEdit();
+    if (props.onEdit) {
+      props.onEdit();
+    }
   };
 
   const handleDelete = () => {
@@ -169,7 +171,7 @@ const Card: React.FC<Props> = (props) => {
             <View className={s.user}>
               <Avatar size="sm" imageUrl={props.item.userProfileImgUrl} />
               <View className={s.name}>
-                {Utils.ellipsis(props.item.userName,7)}
+                {Utils.ellipsis(props.item.userName, 7)}
               </View>
             </View>
             <View className={s.name}>{views > 99 ? "99+" : views}人看过</View>

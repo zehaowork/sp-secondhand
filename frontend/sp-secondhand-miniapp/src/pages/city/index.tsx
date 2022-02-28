@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Taro from "@tarojs/taro";
 import { RichText, ScrollView, View } from "@tarojs/components";
 import Tag from "../../components/Tag/Tag";
@@ -11,10 +12,12 @@ import API from "../../../utils/API";
 import { City } from "src/typings/common";
 import InlineLoader from "../../components/InlineLoader/InlineLoader";
 import { Utils } from "../../../utils/Utils";
+import { getCityList } from "../../actions/city";
 
 interface Props {}
 const Index: React.FC<Props> = () => {
-  const [cityList, setCityList] = useState<City[]>([]);
+  const dispatch = useDispatch();
+  const city = useSelector(({ city }) => city);
   const [filteredCityList, setFilteredCityList] = useState<City[]>([]);
   const [scrollAnchor, setScrollAnchor] = useState<string>("A");
   const [currentCity, setCurrentCity] = useState<City>({
@@ -25,14 +28,14 @@ const Index: React.FC<Props> = () => {
     isPopular: false,
     englishName: "United Kingdom",
   });
-  const [showLoading, setShowLoading] = useState(false);
   const [locateSuccess, setLocateSuccess] = useState(false);
   const [locateFail, setLocateFail] = useState(false);
   const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
-    getCities();
-  }, []);
+    if (!city.cityList.length) dispatch(getCityList());
+    setFilteredCityList(city.cityList);
+  }, [city.cityList]);
 
   const getLocationPermission = () => {
     Taro.getLocation({
@@ -44,7 +47,7 @@ const Index: React.FC<Props> = () => {
         ).then((res) => {
           const locateCity =
             res.data.results[0].address_components[2].short_name;
-          const foundCity = cityList.find(
+          const foundCity = city.cityList.find(
             (city) => city.englishName == locateCity
           );
           if (foundCity != undefined) {
@@ -60,25 +63,25 @@ const Index: React.FC<Props> = () => {
       });
   };
 
-  const getCities = () => {
-    setShowLoading(true);
-    API.StaticData.getCities()
-      .then((res) => {
-        if (res.statusCode === 200) {
-          (res.data.data as City[]).sort(
-            (a, b) => a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
-          );
-          setCityList(res.data.data);
-          setFilteredCityList(res.data.data);
-        } else {
-          //TODO:添加错误信息
-        }
-      })
-      .catch((err) => {
-        //TODO:添加错误信息
-      })
-      .finally(() => setShowLoading(false));
-  };
+  // const getCities = () => {
+  //   setShowLoading(true);
+  //   API.StaticData.getCities()
+  //     .then((res) => {
+  //       if (res.statusCode === 200) {
+  //         (res.data.data as City[]).sort(
+  //           (a, b) => a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
+  //         );
+  //         setCityList(res.data.data);
+  //         setFilteredCityList(res.data.data);
+  //       } else {
+  //         //TODO:添加错误信息
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       //TODO:添加错误信息
+  //     })
+  //     .finally(() => setShowLoading(false));
+  // };
 
   const onSelectCity = (city: City) => {
     Taro.setStorage({
@@ -113,11 +116,7 @@ const Index: React.FC<Props> = () => {
             className={s.item}
           >
             <RichText
-              nodes={Utils.highlightKeyword(
-                keyword,
-                city.name,
-                "#ff8601"
-              )}
+              nodes={Utils.highlightKeyword(keyword, city.name, "#ff8601")}
             />
           </View>
         </React.Fragment>
@@ -157,8 +156,8 @@ const Index: React.FC<Props> = () => {
   };
 
   const onSearch = () => {
-    if (!keyword) setFilteredCityList(cityList);
-    setFilteredCityList(cityList.filter((city) => city.name.includes(keyword)));
+    if (!keyword) setFilteredCityList(city.cityList);
+    setFilteredCityList(city.cityList.filter((city) => city.name.includes(keyword)));
   };
 
   return (
@@ -200,8 +199,8 @@ const Index: React.FC<Props> = () => {
         <View className={s.tagGroup}>{renderPopularCity}</View>
         <View className={s.list}>{renderCityList()}</View>
       </View>
-      {showLoading && (
-        <InlineLoader showLoading={showLoading} message="加载城市列表中..." />
+      {city.isLoading && (
+        <InlineLoader showLoading={city.isLoading} message="加载城市列表中..." />
       )}
       <AtToast
         status="success"

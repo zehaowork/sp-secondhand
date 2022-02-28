@@ -26,10 +26,15 @@ export default {
   },
 
   tabBar: {
+    custom: true,
     list: [
       {
         pagePath: "pages/index/index",
         text: "首页",
+      },
+      {
+        pagePath: "pages/publish/index",
+        text: "发布",
       },
       {
         pagePath: "pages/personal/index",

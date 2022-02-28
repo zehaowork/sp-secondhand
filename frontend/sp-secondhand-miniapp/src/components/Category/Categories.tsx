@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { ScrollView, View, Image } from "@tarojs/components";
 import s from "./Categories.css";
+import CategoryIcon from "./CategoryIcon";
+import { Category } from "src/typings/common";
 
 interface Props {
   //事件
@@ -9,13 +11,6 @@ interface Props {
   //参数
   categoryList: Array<Category>;
   current: number;
-}
-
-interface Category {
-  id: number;
-  name: string;
-  logoUrl: string;
-  order: 1;
 }
 
 //容器组件
@@ -43,21 +38,13 @@ const Categories: React.FC<Props> = (props) => {
   //渲染函数
   const categoryList = props.categoryList.slice(1).map((category) => {
     return (
-      <View key={category.id} className={s.item}>
-        <View
-          id={category.id.toString()}
-          onClick={onClick}
-          className={` ${s.category} ${
-            category.id === props.current && s.active
-          } `}
-        >
-          <Image
-            className={s.icon}
-            src={"http://120.79.59.51:8087" + category.logoUrl}
-          />
-          {category.name}
-        </View>
-      </View>
+      <CategoryIcon
+        id={category.id}
+        imgUrl={"http://120.79.59.51:8087" + category.logoUrl}
+        onClick={onClick}
+        isActive={category.id === props.current && s.active}
+        name={category.name}
+      />
     );
   });
 

@@ -10,10 +10,13 @@ import {
   Image,
 } from "@tarojs/components";
 import s from "./index.css";
-import { AtImagePicker, AtTag } from "taro-ui";
+import Taro, { useDidShow } from "@tarojs/taro";
+import { AtImagePicker } from "taro-ui";
 import { useDispatch, useSelector } from "react-redux";
 import { City } from "src/typings/common";
-import { getCityList } from "../../actions/cities";
+import { getCityList } from "../../actions/city";
+import { getCategoryList } from "../../actions/category";
+import { changeIndex } from "../../actions/tab-bar";
 import API from "../../../utils/API";
 
 import PriceSymbol from "../../images/price-symbol.png";
@@ -25,6 +28,7 @@ import ContactSymbol from "../../images/contacts.png";
 import WechatIcon from "../../images/weixin.png";
 import TelIcon from "../../images/phone.png";
 import Tag from "../../components/Tag/Tag";
+
 
 enum Conditions {
   BrandNew = "全新",
@@ -67,15 +71,20 @@ const Index: React.FC<Props> = () => {
 
   const [images, setImages] = useState([]);
 
-  const categories = useSelector(({ categoryList }) => categoryList);
-  const catList = categories.categoryList.filter((cat) => cat.name != "全部");
-  const cities = useSelector(({ cityList }) => cityList).cityList;
+  const categories = useSelector(({ category }) => category.categoryList);
+  const catList = categories.filter((cat) => cat.name != "全部");
+  const cities: City[] = useSelector(({ city }) => city.cityList);
 
   useEffect(() => {
-    if ((cities as City[]).length === 0) {
+    if (cities.length === 0) {
       dispatch(getCityList());
     }
+    if (categories.length === 0) {
+      dispatch(getCategoryList());
+    }
   }, []);
+
+  useDidShow(()=> dispatch(changeIndex(1)));
 
   const handleDescription = (e) => {
     setState({ ...state, description: e.detail.value });
@@ -244,7 +253,7 @@ const Index: React.FC<Props> = () => {
             <Image src={StatusSymbol} className={s.icon} />
             商品状态
           </View>
-          <View className={s.status_container} >
+          <View className={s.status_container}>
             {Object.values(Conditions).map((c) => (
               <Tag
                 size="normal"
@@ -276,7 +285,7 @@ const Index: React.FC<Props> = () => {
             <View style={"color:#666"}>
               {state.cityId == undefined
                 ? "请选择城市"
-                : cities.find((c) => c.id === state.cityId).name}
+                : cities.find((c) => c.id === state.cityId)?.name}
             </View>
           </Picker>
         </View>

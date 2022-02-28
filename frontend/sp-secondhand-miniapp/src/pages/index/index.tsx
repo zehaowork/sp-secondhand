@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import Taro, {
   useReachBottom,
   usePullDownRefresh,
@@ -20,6 +20,8 @@ import API from "../../../utils/API";
 import { Banner, City, Item, User } from "../../typings/common";
 import { getFavoriteList } from "../../actions/favorite";
 import { SAVE_USER_INFO } from "../../actions/user";
+import { changeIndex } from "../../actions/tab-bar";
+import { getCategoryList } from "../../actions/category";
 
 interface Props {}
 const Index: React.FC<Props> = () => {
@@ -36,7 +38,7 @@ const Index: React.FC<Props> = () => {
     isPopular: false,
     englishName: "United Kingdom",
   });
-  const [categoryList, setCategoryList] = useState([]);
+  
   const [bannerList, setBannerList] = useState<Banner[]>([]);
   const [showLoading, setShowLoading] = useState(false);
   const [loadingText, setLoadingText] =
@@ -53,6 +55,8 @@ const Index: React.FC<Props> = () => {
     ["PriceDesc", "价格:高-低"],
     ["PriceAsc", "价格:低-高"],
   ];
+
+  const categoryList = useSelector(({ category }) => category.categoryList);
 
   /*页面行为*/
   // 初始抓取数据
@@ -113,6 +117,8 @@ const Index: React.FC<Props> = () => {
           getList(0, 0, "TimeDesc", 0);
         }
       });
+      
+      dispatch(changeIndex(0));
   });
 
   //回到顶部
@@ -187,17 +193,7 @@ const Index: React.FC<Props> = () => {
 
   //获取类别列表
   const getCategories = () => {
-    API.StaticData.getCategories()
-      .then((res) => {
-        if (res.statusCode === 200) {
-          setCategoryList(res.data.data);
-        } else {
-          //TODO:添加错误信息
-        }
-      })
-      .catch((err) => {
-        //TODO:添加错误信息
-      });
+    if (!categoryList.length) dispatch(getCategoryList());
   };
 
   //获取Banner图片
@@ -272,7 +268,6 @@ const Index: React.FC<Props> = () => {
         showLoading={showLoading}
         itemList={itemList}
         isFavouritesPage={false}
-        isShopPage={false}
       />
       {/* 加载组件 */}
       <View className={s.loader}>
