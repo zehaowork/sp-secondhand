@@ -3,14 +3,18 @@ import { useSelector } from "react-redux";
 import Taro from "@tarojs/taro";
 import { CoverView, CoverImage, View, Image } from "@tarojs/components";
 import s from "./index.css";
-import PERSONAL_UNCHECKED from "../../src/images/user.png";
-import PERSONAL_CHECKED from "../../src/images/user_hover.png";
+
+import PERSONAL_UNCHECKED from "../../src/images/personal_uncheck.png";
+import PERSONAL_CHECKED from "../../src/images/personal_check.png";
 
 import ADD_UNCHECKED from "../../src/images/add.png";
 import ADD_CHECKED from "../../src/images/add_hover.png";
 
-import INDEX_UNCHECKED from "../../src/images/first.png";
-import INDEX_CHECKED from "../../src/images/first_hover.png";
+import INDEX_UNCHECKED from "../../src/images/index_uncheck.png";
+import INDEX_CHECKED from "../../src/images/index_check.png";
+
+import MESSAGE_UNCHECKED from "../../src/images/message_uncheck.png";
+import MESSAGE_CHECKED from "../../src/images/message_check.png";
 
 import SECOND_HAND from "../../src/images/secondhandpub.svg";
 import HOUSE_RENT from "../../src/images/houserentpub.svg";
@@ -31,6 +35,12 @@ const customTabBar: React.FC = () => {
       text: "发布",
       iconPath: ADD_UNCHECKED,
       selectedIconPath: ADD_CHECKED,
+    },
+    {
+      pagePath: "pages/chatboard/index",
+      text: "消息",
+      iconPath: MESSAGE_UNCHECKED,
+      selectedIconPath: MESSAGE_CHECKED,
     },
     {
       pagePath: "pages/personal/index",

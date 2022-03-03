@@ -37,6 +37,10 @@ export default {
         text: "发布",
       },
       {
+        pagePath: "pages/chatboard/index",
+        text: "消息",
+      },
+      {
         pagePath: "pages/personal/index",
         text: "个人",
       },

@@ -29,7 +29,7 @@ const Index: React.FC<Props> = () => {
 
 
 
-  useDidShow(() => dispatch(changeIndex(2)));
+  useDidShow(() => dispatch(changeIndex(3)));
   
 
   const onModalCancel = () => {
@@ -113,25 +113,6 @@ const Index: React.FC<Props> = () => {
         <View className={s.item}>
           <Image src={AboutIcon} className={s.icon} />
           关于我们
-          <View className={s.redirect}>
-            {" "}
-            <AtIcon
-              value="chevron-right"
-              size="25"
-              color="#D2D2D2"
-            ></AtIcon>{" "}
-          </View>
-        </View>
-        <View
-          className={s.item}
-          onClick={() => {
-            Taro.navigateTo({
-              url: "/pages/chatboard/index",
-            });
-          }}
-        >
-          <Image src={MessageIcon} className={s.icon} />
-          我的私信
           <View className={s.redirect}>
             {" "}
             <AtIcon
