@@ -4,7 +4,6 @@ import {
   Text,
   Picker,
   Input,
-  Form,
   Textarea,
   Button,
   Image,
@@ -28,7 +27,6 @@ import ContactSymbol from "../../images/contacts.png";
 import WechatIcon from "../../images/weixin.png";
 import TelIcon from "../../images/phone.png";
 import Tag from "../../components/Tag/Tag";
-
 
 enum Conditions {
   BrandNew = "全新",
@@ -84,7 +82,7 @@ const Index: React.FC<Props> = () => {
     }
   }, []);
 
-  useDidShow(()=> dispatch(changeIndex(1)));
+  useDidShow(() => dispatch(changeIndex(1)));
 
   const handleDescription = (e) => {
     setState({ ...state, description: e.detail.value });
@@ -105,7 +103,6 @@ const Index: React.FC<Props> = () => {
     console.log(mes);
   };
 
-  // need fixing
   const setImage = (imagePath, operationType, index) => {
     if (operationType === "add") {
       // find images added by comparing arrays
@@ -176,185 +173,184 @@ const Index: React.FC<Props> = () => {
 
   return (
     <View className={s.container}>
-      <Form className={s.form_style}>
-        <View style={"padding: 20rpx;"}>
-          <Text style={"font-size:32rpx"}>商品标题</Text>
-          <Input
-            className={s.input_text}
-            type="text"
-            placeholder="标题"
-            maxlength={20}
-            onInput={handleTitle.bind(this)}
-          />
-        </View>
-
-        <View style={"border-top: 1rpx solid #e8e8e8;"}></View>
-
-        <View style={"padding: 20rpx;"}>
-          <Text style={"font-size:32rpx"}>商品描述</Text>
-          <Textarea
-            style="min-height:80px; width:100%"
-            className={s.input_text}
-            autoHeight
-            showConfirmBar={false}
-            placeholder="商品型号等"
-            maxlength={200}
-            onInput={handleDescription.bind(this)}
-          />
-          <View className={s.counter}>
-            {state.description == undefined ? 0 : state.description.length}/200
-          </View>
-        </View>
-
-        <AtImagePicker
-          multiple
-          count={8}
-          sizeType={["compressed"]}
-          files={images}
-          onFail={onFail}
-          onChange={setImage}
+      {/* <Form className={s.form_style}> */}
+      <View className={s.section_padding}>
+        <Text style={"font-size:16px"}>商品标题</Text>
+        <Input
+          className={s.input_style}
+          type="text"
+          placeholder="标题"
+          maxlength={20}
+          onInput={handleTitle.bind(this)}
         />
+      </View>
 
-        <View className={s.input_item}>
-          <View style={"width: 100%; font-size:32rpx"}>
-            <Image src={PriceSymbol} className={s.icon} />
-            价格
-          </View>
-          <Input
-            className={s.input_style}
-            type="digit"
-            placeholder="请输入价格, 最多保留一位小数点"
-            onInput={handlePrice.bind(this)}
-          />
+      <View className={s.separator}></View>
+
+      <View className={s.section_padding}>
+        <Text style={"font-size:16px"}>商品描述</Text>
+        <Textarea
+          className={s.input_style}
+          style="min-height:80px; width:100%"
+          autoHeight
+          showConfirmBar={false}
+          placeholder="商品型号等"
+          maxlength={200}
+          onInput={handleDescription.bind(this)}
+        />
+        <View className={s.counter}>
+          {state.description == undefined ? 0 : state.description.length}/200
         </View>
+      </View>
 
-        <View className={s.input_item}>
-          <View style={"width: 100%; font-size:32rpx"}>
-            <Image src={CategorySymbol} className={s.icon} />
-            商品类型
-          </View>
-          <Picker
-            className={s.input_style}
-            mode="selector"
-            range={catList}
-            rangeKey={"name"}
-            onChange={handleCategory.bind(this)}
-          >
-            <View style={"color:#666"}>
-              {state.categoryId == undefined
-                ? "请选择类型"
-                : catList.find((c) => c.id == state.categoryId).name}
-            </View>
-          </Picker>
+      <AtImagePicker
+        multiple
+        count={8}
+        sizeType={["compressed"]}
+        files={images}
+        onFail={onFail}
+        onChange={setImage}
+      />
+
+      <View className={s.input_item}>
+        <View className={s.input_index}>
+          <Image src={PriceSymbol} className={s.icon} />
+          价格
         </View>
+        <Input
+          className={s.input_style}
+          type="digit"
+          placeholder="请输入价格, 最多保留一位小数点"
+          onInput={handlePrice.bind(this)}
+        />
+      </View>
 
-        <View className={s.input_item}>
-          <View style={"width: 100%; font-size:32rpx"}>
-            <Image src={StatusSymbol} className={s.icon} />
-            商品状态
-          </View>
-          <View className={s.status_container}>
-            {Object.values(Conditions).map((c) => (
-              <Tag
-                size="normal"
-                circle
-                name={c}
-                onClick={() => handleCondition(c)}
-                active={
-                  state.condition == getEnumKeyByEnumValue(Conditions, c)
-                    ? true
-                    : false
-                }
-              />
-            ))}
-          </View>
+      <View className={s.input_item}>
+        <View className={s.input_index}>
+          <Image src={CategorySymbol} className={s.icon} />
+          商品类型
         </View>
-
-        <View className={s.input_item}>
-          <View style={"width: 100%; font-size:32rpx"}>
-            <Image src={CitySymbol} className={s.icon} />
-            城市
-          </View>
-          <Picker
-            className={s.input_style}
-            mode="selector"
-            range={cities}
-            rangeKey={"name"}
-            onChange={handleCity.bind(this)}
-          >
-            <View style={"color:#666"}>
-              {state.cityId == undefined
-                ? "请选择城市"
-                : cities.find((c) => c.id === state.cityId)?.name}
-            </View>
-          </Picker>
-        </View>
-
-        <View className={s.input_item}>
-          <View style={"width: 100%; font-size:32rpx"}>
-            <Image src={AddressSymbol} className={s.icon} />
-            地址
-          </View>
-          <Input
-            className={s.input_style}
-            type="text"
-            placeholder="请输入交易地址"
-            onInput={handleAddress.bind(this)}
-          />
-        </View>
-
-        <View className={s.input_item}>
-          <View style={"font-size:32rpx"}>
-            <Image src={ContactSymbol} className={s.icon} />
-            联系方式 （手机和微信至少填写一个）
-          </View>
-        </View>
-
-        <View style={"border-top: 1rpx solid #e8e8e8;"}></View>
-
-        <View style={"padding: 20rpx; display: inline-flex;"}>
-          <Image src={WechatIcon} className={s.icon_inline} />
-          <Input
-            style="width:100%;"
-            className={s.input_text}
-            type="number"
-            placeholder="你的手机号"
-            onInput={handleWechat.bind(this)}
-          />
-        </View>
-
-        <View style={"border-top: 1rpx solid #e8e8e8;"}></View>
-        <View style={"padding: 20rpx; display: inline-flex;"}>
-          <Image src={TelIcon} className={s.icon_inline} />
-          <Input
-            style="width:100%;"
-            className={s.input_text}
-            type="text"
-            placeholder="你的微信号"
-            onInput={handleTelephone.bind(this)}
-          />
-        </View>
-
-        <View style={"border-top: 1rpx solid #e8e8e8;"}></View>
-
-        <View style={"margin:10rpx"}>
-          <Text style={"color:red"}>
-            点击发布等于统一条款，如违规发布商品，会由管理员封号，风险自负
-          </Text>
-          <Text>详情请阅读《小土豆闲置条款》</Text>
-        </View>
-        <View style={"border-top: 1rpx solid #e8e8e8; padding: 20rpx"}></View>
-
-        <Button
-          style={
-            "margin: 0 20%;background: #F99852;border-radius: 46rpx;color: white;"
-          }
-          onClick={onSubmit.bind(this)}
+        <Picker
+          className={s.input_style}
+          mode="selector"
+          range={catList}
+          rangeKey={"name"}
+          onChange={handleCategory.bind(this)}
         >
+          <View style={"color:#666"}>
+            {state.categoryId == undefined
+              ? "请选择类型"
+              : catList.find((c) => c.id == state.categoryId).name}
+          </View>
+        </Picker>
+      </View>
+
+      <View className={s.input_item}>
+        <View className={s.input_index}>
+          <Image src={StatusSymbol} className={s.icon} />
+          商品状态
+        </View>
+        <View className={s.status_container}>
+          {Object.values(Conditions).map((c) => (
+            <Tag
+              size="normal"
+              circle
+              name={c}
+              onClick={() => handleCondition(c)}
+              active={
+                state.condition == getEnumKeyByEnumValue(Conditions, c)
+                  ? true
+                  : false
+              }
+            />
+          ))}
+        </View>
+      </View>
+
+      <View className={s.input_item}>
+        <View className={s.input_index}>
+          <Image src={CitySymbol} className={s.icon} />
+          城市
+        </View>
+        <Picker
+          className={s.input_style}
+          mode="selector"
+          range={cities}
+          rangeKey={"name"}
+          onChange={handleCity.bind(this)}
+        >
+          <View style={"color:#666"}>
+            {state.cityId == undefined
+              ? "请选择城市"
+              : cities.find((c) => c.id === state.cityId)?.name}
+          </View>
+        </Picker>
+      </View>
+
+      <View className={s.input_item}>
+        <View className={s.input_index}>
+          <Image src={AddressSymbol} className={s.icon} />
+          地址
+        </View>
+        <Input
+          className={s.input_style}
+          type="text"
+          placeholder="请输入交易地址"
+          onInput={handleAddress.bind(this)}
+        />
+      </View>
+
+      <View className={s.input_item}>
+        <View className={s.input_index}>
+          <Image src={ContactSymbol} className={s.icon} />
+          联系方式 （手机和微信至少填写一个）
+        </View>
+      </View>
+
+      <View className={s.separator}></View>
+
+      <View className={s.input_inline}>
+        <Image src={WechatIcon} className={s.icon_inline} />
+        <Input
+          style="width:100%;"
+          className={s.input_style}
+          type="number"
+          placeholder="你的手机号"
+          onInput={handleWechat.bind(this)}
+        />
+      </View>
+
+      <View className={s.separator}></View>
+
+      <View className={s.input_inline}>
+        <Image src={TelIcon} className={s.icon_inline} />
+        <Input
+          style="width:100%;"
+          className={s.input_style}
+          type="text"
+          placeholder="你的微信号"
+          onInput={handleTelephone.bind(this)}
+        />
+      </View>
+
+      <View className={s.separator}></View>
+
+      <View style={"margin:5px;"}>
+        <Text style={"color:red"}>
+          点击发布等于统一条款，如违规发布商品，会由管理员封号，风险自负
+        </Text>
+        <Text>详情请阅读《小土豆闲置条款》</Text>
+      </View>
+
+      <View className={s.separator}></View>
+
+      {/* to have enough space for buttom display */}
+      <View style={"padding: 10px 0 100px 0"}>
+        <Button className={s.buttom_style} onClick={onSubmit.bind(this)}>
           提交
         </Button>
-      </Form>
-      <View style={"padding: 70rpx"}></View>
+      </View>
+      {/* </Form> */}
     </View>
   );
 };

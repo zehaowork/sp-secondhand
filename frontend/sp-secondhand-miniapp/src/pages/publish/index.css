@@ -1,28 +1,14 @@
 .container{
   position: flex;
   background: #fff;
-  /* background: beige; */
-  padding:10px;
-}
-
-/* margin-left: 32rpx */
-/* font-size */
-.form_style{
-  width: 100vw;
-  height: 100vh;
+  padding: 10px 10px 100px 10px;
 }
 
 .input_style{
   font-size: 30rpx;
   color: #666;
-  padding: 10rpx 0;
+  padding: 5px 0;
   width: 100vh;
-}
-
-.input_text{
-  font-size: 30rpx;
-  color: #666;
-  padding: 10rpx 0;
 }
 
 .counter{
@@ -36,7 +22,7 @@
 
 .input_item{
   align-items: center;
-	padding: 20rpx;
+	padding: 20px;
 	line-height: 2;
 	display: flex;
 	font-size: 30rpx;
@@ -62,4 +48,29 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: 100vh
+}
+
+.separator{
+  border-top: 1rpx solid #e8e8e8;
+}
+
+.section_padding{
+  padding: 20px;
+}
+
+.input_index{
+  width: 100%; 
+  font-size:32px;
+}
+
+.input_inline{
+  padding: 20rpx; 
+  display: inline-flex;
+}
+
+.buttom_style{
+  margin: 0 20%;
+  background: #F99852;
+  border-radius: 46px;
+  color: #fff;
 }

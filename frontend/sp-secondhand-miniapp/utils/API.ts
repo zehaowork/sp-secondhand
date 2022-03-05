@@ -121,6 +121,18 @@ const API = {
         method: Method.DELETE,
       });
     },
+
+    uploadImage: function(imageUrl, formData) {
+      return Taro.uploadFile({
+          url: BASE_URL + 'secondHand/uploadImage',
+          filePath: imageUrl,
+          header: {
+              'content-type': 'multipart/form-data'
+          },
+            name: 'image',  
+            formData: formData
+      })
+  }
   },
   // 主页相关静态资源API
   StaticData: {
