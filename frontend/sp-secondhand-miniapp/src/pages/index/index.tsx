@@ -233,6 +233,12 @@ const Index: React.FC<Props> = () => {
     });
   };
 
+  const toPublishHousing = () => {
+    Taro.navigateTo({
+      url: "../publishHousing/index",
+    });
+  };
+
   return (
     <View className={s.container}>
       <View className={s.header}>

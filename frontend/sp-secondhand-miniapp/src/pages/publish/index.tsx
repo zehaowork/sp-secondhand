@@ -105,7 +105,6 @@ const Index: React.FC<Props> = () => {
     console.log(mes);
   };
 
-  // need fixing
   const setImage = (imagePath, operationType, index) => {
     if (operationType === "add") {
       // find images added by comparing arrays

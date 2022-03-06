@@ -31,7 +31,7 @@ const customTabBar: React.FC = () => {
       selectedIconPath: INDEX_CHECKED,
     },
     {
-      pagePath: "pages/publish/index",
+      pagePath: "pages/publishHousing/index",
       text: "发布",
       iconPath: ADD_UNCHECKED,
       selectedIconPath: ADD_CHECKED,

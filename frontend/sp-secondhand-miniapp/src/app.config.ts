@@ -11,6 +11,7 @@ export default {
     'pages/detail/index',
     'pages/webview/index',
     'pages/publish/index',
+    'pages/publishHousing/index',
   ],
   permission: {
     "scope.userLocation": {
@@ -33,7 +34,7 @@ export default {
         text: "首页",
       },
       {
-        pagePath: "pages/publish/index",
+        pagePath: "pages/publishHousing/index",
         text: "发布",
       },
       {
