@@ -29,7 +29,6 @@ import WechatIcon from "../../images/weixin.png";
 import TelIcon from "../../images/phone.png";
 import Tag from "../../components/Tag/Tag";
 
-
 enum Conditions {
   BrandNew = "全新",
   LikeNew = "几乎全新",
@@ -84,7 +83,7 @@ const Index: React.FC<Props> = () => {
     }
   }, []);
 
-  useDidShow(()=> dispatch(changeIndex(1)));
+  useDidShow(() => dispatch(changeIndex(1)));
 
   const handleDescription = (e) => {
     setState({ ...state, description: e.detail.value });
@@ -163,15 +162,7 @@ const Index: React.FC<Props> = () => {
   };
 
   const onSubmit = () => {
-    console.log("SUBMITTING");
-    console.log(state);
-    // API.SecondHand.postSecondHand(state)
-    //   .then((res) => {
-    //     if (res.statusCode === 200) {
-    //       console.log(res.data.data);
-    //     }
-    //   })
-    //   .catch((err) => {});
+    
   };
 
   return (

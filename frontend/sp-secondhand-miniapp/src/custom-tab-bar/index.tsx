@@ -16,8 +16,8 @@ import INDEX_CHECKED from "../../src/images/index_check.png";
 import MESSAGE_UNCHECKED from "../../src/images/message_uncheck.png";
 import MESSAGE_CHECKED from "../../src/images/message_check.png";
 
-import SECOND_HAND from "../../src/images/secondhandpub.svg";
-import HOUSE_RENT from "../../src/images/houserentpub.svg";
+import SECOND_HAND from "../../src/images/SECOND_HAND.png";
+import HOUSE_RENT from "../../src/images/HOUSE_RENT.png";
 import Mask from "../../src/components/Mask/Mask";
 
 const customTabBar: React.FC = () => {
@@ -150,11 +150,11 @@ const customTabBar: React.FC = () => {
             className={s.category}
           >
             <CoverImage className={s.icon} src={SECOND_HAND} />
-            闲置
+            发布二手信息
           </CoverView>
-          <CoverView className={s.category}>
+          <CoverView className={s.category_white}>
             <CoverImage className={s.icon} src={HOUSE_RENT} />
-            租房
+            发布转租信息
           </CoverView>
         </CoverView>
       )}
